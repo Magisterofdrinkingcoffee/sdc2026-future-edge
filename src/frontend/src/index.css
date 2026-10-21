@@ -2,11 +2,35 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer components {
-  .card { @apply min-w-0 bg-white rounded-2xl border border-slate-200 p-5 shadow-sm; }
-  .btn { @apply inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition disabled:opacity-50; }
-  .btn-primary { @apply btn bg-edge-600 text-white hover:bg-edge-700; }
-  .btn-ghost { @apply btn border border-slate-300 bg-white hover:bg-slate-100; }
-  .chip { @apply inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium; }
-  .label { @apply text-xs font-semibold uppercase tracking-wide text-slate-500; }
+@layer base {
+  h1, h2, h3 { @apply font-display text-ink; }
+  :focus-visible { @apply outline-none ring-4 ring-violet-300 ring-offset-2 ring-offset-canvas; }
 }
+
+@layer components {
+  .panel { @apply min-w-0 bg-white rounded-3xl border-2 border-line p-5 sm:p-6; }
+  .btn3d {
+    @apply inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3 font-display text-base font-semibold
+           border-b-4 transition-transform select-none
+           active:translate-y-[2px] active:border-b-2
+           disabled:cursor-not-allowed disabled:opacity-40 disabled:active:translate-y-0 disabled:active:border-b-4;
+  }
+  .btn-violet { @apply btn3d bg-violet-500 border-violet-700 text-white hover:bg-violet-600; }
+  .btn-green  { @apply btn3d bg-sprout-500 border-sprout-700 text-white hover:bg-sprout-600; }
+  .btn-white  { @apply btn3d bg-white border-2 border-b-4 border-line text-ink hover:bg-canvas; }
+  .chip { @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-bold; }
+  .option {
+    @apply w-full text-left rounded-2xl border-2 border-b-4 border-line bg-white px-4 py-3 font-semibold
+           hover:bg-canvas transition-colors;
+  }
+  .option-on { @apply border-violet-500 bg-violet-50 text-violet-700 hover:bg-violet-50; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+@keyframes pop { 0% { transform: scale(.6); opacity: 0 } 70% { transform: scale(1.08) } 100% { transform: scale(1); opacity: 1 } }
+.animate-pop { animation: pop .45s ease-out both; }
+@keyframes bob { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-6px) } }
+.animate-bob { animation: bob 1.6s ease-in-out infinite; }
