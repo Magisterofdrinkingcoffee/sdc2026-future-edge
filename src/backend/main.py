@@ -15,7 +15,8 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 from . import scoring, trends
-from .cv_parser import extract_text, parse_skills
+from .cv_extract import extract_cv, phrases_for_matching
+from .cv_parser import parse_skills
 from .data_store import DATA_DIR, load
 
 SAMPLE_CVS = DATA_DIR / "sample_cvs"
@@ -95,15 +96,18 @@ def meta():
     }
 
 
-def _parsed(text, source):
+def _parsed(text, source, reader=None):
     d = load()
     found = parse_skills(text, d["skills"])
     for sid, f in found.items():
         f["name"] = d["skills"][sid]["name"]
         f["category"] = d["skills"][sid]["category"]
-    return {"skills": found, "source": source, "chars": len(text),
-            "method": "Keyword + context rules against our skill catalog (skills.json). The parser can only return catalog skills.",
-            "note": "Levels are a first guess from the wording of your CV – adjust them if they're wrong."}
+    out = {"skills": found, "source": source, "chars": len(text),
+           "method": "Keyword + context rules against our skill catalog (skills.json). The parser can only return catalog skills.",
+           "note": "Levels are a first guess from the wording of your CV – adjust them if they're wrong."}
+    if reader:
+        out["reader"] = reader
+    return out
 
 
 @app.post("/api/profile/parse")
@@ -114,17 +118,29 @@ def parse_profile(body: ParseIn):
 
 @app.post("/api/profile/upload")
 async def upload_cv(file: UploadFile = File(...)):
-    """Parse an uploaded PDF CV. Nothing is stored – the file is read in memory and discarded."""
+    """Parse an uploaded CV (PDF, Word .docx, photo/scan, .txt). Nothing is stored: the file is read
+    in memory, personal data is removed, and the file is discarded."""
     raw = await file.read()
     if len(raw) > 5 * 1024 * 1024:
-        raise HTTPException(413, "PDF too large (max 5 MB)")
+        raise HTTPException(413, "File too large (max 5 MB)")
     try:
-        text = extract_text(raw)
+        result = extract_cv(raw, file.filename or "upload")
     except Exception:
-        raise HTTPException(400, "Could not read this PDF. Try another file or paste the text instead.")
+        raise HTTPException(400, "Could not read this file. Try a PDF or Word file, or paste the text instead.")
+    if result["format"] == "unsupported":
+        raise HTTPException(400, " ".join(result["warnings"]) or "Unsupported file type.")
+    # Skills are matched on the CV text without personal data, plus Gemini's verified phrases (if used)
+    text = result["raw_text"]
+    if result["method"].startswith("gemini"):
+        # blank lines keep each verified phrase a separate sentence (= its own evidence)
+        text = "\n\n".join([text, *phrases_for_matching(result)])
     if len(text.strip()) < 20:
-        raise HTTPException(400, "This PDF has no readable text (maybe it's a scanned image). Paste the text instead.")
-    return _parsed(text, file.filename or "uploaded PDF")
+        raise HTTPException(400, "We couldn't read any text in this file (maybe it's a scan or photo). "
+                                 "Paste the text instead, or ask your team to set GEMINI_API_KEY so scans can be read.")
+    reader = {"method": result["method"], "format": result["format"],
+              "removed_personal_data": result["removed_personal_data"], "warnings": result["warnings"],
+              "rejected_phrases": len(result.get("rejected_phrases", []))}
+    return _parsed(text, file.filename or "uploaded CV", reader)
 
 
 @app.get("/api/sample-cvs/{profile_id}.pdf")

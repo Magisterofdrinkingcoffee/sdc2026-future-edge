@@ -4,7 +4,7 @@ Only skills that exist in data/skills.json can be returned, so the parser can
 never invent a skill. Every skill comes with the sentence it was found in, so
 the user (and judges) can see WHY it was detected.
 
-TODO(team): swap pypdf for PyMuPDF in `extract_text` – nothing else needs to change.
+File reading and personal-data removal live in cv_extract.py (Alibek's module); this file turns text into skills.
 """
 import io
 import re
