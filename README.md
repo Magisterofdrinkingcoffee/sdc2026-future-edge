@@ -1,79 +1,196 @@
-# Future Edge
+# Project Name
 
-**SDC Hackathon 2026 · Domain 1 – Aiversecity Future-Ready Workforce**
-SDG focus: 4.3, 4.4, 8.2, 8.5
+> A one-sentence description of what your project does and who it is for.
 
-Future Edge is a career forecast. It shows how AI will change the value of *your* skills over the next 3 years, and the **one move** that keeps you hard to replace. It combines your CV skills with your human strengths (judgment and responsibility) and live AI-trend data, then turns the result into a pathway of courses (knowledge), projects (proof) and experiences (personal skills). You can track that pathway over time.
+---
 
-> All scores are estimates to support the user's own decisions. They are never used for hiring decisions. The demo uses synthetic profiles only.
+## Team Information
 
-## User journey
-1. **Profile:** pick a sample person or paste a CV. Skills are extracted against our catalog, and the user adjusts their levels.
-2. **Edge Assessment:** 5 work scenarios estimate judgment and responsibility.
-3. **Career forecast:** Future Edge Score per role for now through +3 years, in two scenarios (moderate vs fast AI disruption). Skills are labelled fading, holding or rising, with trend source and date.
-4. **Pathway & progress:** One Move, then ordered steps with time estimates, sources and SDG tags. Ticking a step re-calculates the score.
+| Field                  | Details                                     |
+| ---------------------- | ------------------------------------------- |
+| **Team Name**          | Your Team Name                              |
+| **Team Domain**        | Domain 1 / Domain 2 *(choose one)*          |
+| **SDG Track (1–17)**   | e.g. SDG 11 — Sustainable Cities and Communities |
+| **Team Leader**        | Leader Name                                 |
+| **University**         | University Name(s)                          |
+| **Number of Members**  | e.g. 4                                      |
 
-## How this meets the 6 must-haves
-| # | Must-have | Where |
-|---|---|---|
-| 1 | Skills profile intake | `ProfileStep.jsx`, `POST /api/profile/parse` |
-| 2 | AI-trend signal layer (updatable, source + date shown) | `src/backend/trends.py` (arXiv API) → `data/trends.json`; *Refresh trend data* button; what-if sliders |
-| 3 | Explainable role matching + skills gap | `scoring.edge_for_role` → `explain` texts, `gap` list |
-| 4 | Personalised pathway (ordered, time, free/low-cost) | `scoring.one_move_and_pathway`; only items from `data/pathway_catalog.json` |
-| 5 | SDG mapping per role and skill | `sdgs` in `roles.json` / `skills.json`, official targets in `sdgs.json` |
-| 6 | Uncertainty (>1 scenario, labelled estimates) | `scoring.SCENARIOS` (moderate ×1, fast ×2) |
+## Links
 
-## How the Future Edge Score works
+| Resource          | Link                                           |
+| ----------------- | ---------------------------------------------- |
+| GitHub Repository | https://github.com/your-username/your-project  |
+| Replit Project    | https://replit.com/@your-username/your-project |
+| Live Demo         | https://your-project.replit.app                |
+| RunPod Endpoint   | https://api.runpod.ai/v2/your-endpoint-id      |
+| Slide Deck        | https://example.com/slides                     |
+| Demo Video        | https://example.com/demo-video                 |
+
+---
+
+## Overview
+
+### Problem
+
+Describe the real-world problem you are solving in 2–4 sentences. Who is affected, and why does it matter?
+
+### Solution
+
+Explain how your project uses AI to solve the problem and what makes it valuable.
+
+### Key Features
+
+- **Feature 1** — Short description.
+- **Feature 2** — Short description.
+- **Feature 3** — Short description.
+
+### Tech Stack
+
+| Layer         | Technology                   |
+| ------------- | ---------------------------- |
+| Frontend      | e.g. HTML, React             |
+| Backend       | e.g. Python, Flask / FastAPI |
+| Database      | e.g. PostgreSQL, SQLite      |
+| AI / Compute  | RunPod (GPU)                 |
+| Hosting / Dev | Replit                       |
+
+---
+
+## Project Structure
+
 ```
-exposure(skill, t) = base + (1 − base) × rate × t
-rate               = clamp(0.15 × arXiv research growth × scenario multiplier × AI sensitivity, 0, 0.30)
-AI-adjusted fit(t) = Σ weight × skill credit × (1 − exposure(t)) / Σ weight      (credit: level 0.7 = job-ready = full)
-Edge(t)            = 100 × fit(t) / best possible fit × (0.60 + 0.25 × human skills + 0.15 × rarity)
+.
+├── docs/                    # Screenshots, diagrams
+├── runpod/
+│   └── handler.py           # RunPod serverless handler (GPU workload)
+├── src/
+│   ├── main.py              # Application entry point
+│   └── utils.py             # Helper functions
+├── submission/              # Required submission documents
+│   ├── REPLIT PROOF OF USE.pdf
+│   ├── RUNPOD PROOF OF USE.pdf
+│   └── Submission Template SDC Hackathon.pdf
+├── tests/
+│   └── test_utils.py        # Unit tests
+├── .env.example             # Example environment variables
+├── .gitignore
+├── .replit                  # Replit run configuration
+├── LICENSE
+├── requirements.txt         # Python dependencies
+└── README.md
 ```
-The arithmetic is explained in plain English in `src/backend/scoring.py`. Change the trend data and the forecast changes; `tests/test_scoring.py` checks this.
 
-## Run locally
+### Architecture
+
+```
+User ──► Replit (App / API) ──► RunPod Endpoint (GPU model)
+                │
+                └──► Response returned to user
+```
+
+---
+
+## How to Run
+
+### Option 1 — Run on Replit (Recommended)
+
+1. Open the [Replit Project](https://replit.com/@your-username/your-project), or import this repository via **Create Repl → Import from GitHub**.
+2. Open the **Secrets** tab (🔒) and add the variables listed in `.env.example`:
+   - `RUNPOD_API_KEY`
+   - `RUNPOD_ENDPOINT_ID`
+3. Click **Run**. Replit uses the `.replit` file to start `python src/main.py`.
+
+### Option 2 — Run Locally
+
 ```bash
+# 1. Clone the repository
+git clone https://github.com/your-username/your-project.git
+cd your-project
+
+# 2. Create and activate a virtual environment
+python -m venv venv
+source venv/bin/activate        # Windows: venv\Scripts\activate
+
+# 3. Install dependencies
 pip install -r requirements.txt
-uvicorn src.backend.main:app --reload --port 8000          # API on :8000
-cd src/frontend && npm install && npm run dev               # UI on :5173 (proxies /api)
-python -m pytest -q                                         # tests
-python -m src.backend.trends                                # fetch live arXiv trend data
-python -m tests.check_links                                 # check every course URL
+
+# 4. Configure environment variables
+cp .env.example .env            # then fill in your values
+
+# 5. Run the app
+python src/main.py
 ```
 
-## Deploy on Replit (mandatory for the hackathon)
-Import this GitHub repo into Replit and press **Run**. `start.sh` builds the frontend and serves everything on one port. For the public link, use **Deploy** (build: `bash build.sh`, run: `bash start.sh`). Put any API keys in **Replit Secrets**, never in the code.
+### Run Tests
 
-## Repository layout
-```
-src/backend/       FastAPI app, scoring engine, trend fetcher, JSON data catalogs
-src/frontend/      React + Vite + Tailwind + Recharts UI
-tests/             pytest suite + link checker
-runpod/            RunPod handler (unused – no GPU work)
-submission/        PRD, Tech Declaration, proof-of-use PDFs
+```bash
+python -m unittest discover tests
 ```
 
-## Data sources
-| Data | Source | Status |
-|---|---|---|
-| AI-trend signals | arXiv API paper counts (last 12 months vs previous 12) | Ships with **sample** values; press *Refresh* on Replit to fetch real data |
-| Skill AI-exposure (today) | Team estimate | **Placeholder:** replace with a cited source (e.g. ILO generative-AI exposure study) |
-| Roles & skills | Team-curated from ESCO / O*NET | Add ESCO/O*NET URI per role |
-| Courses | Public provider pages (Kaggle Learn, freeCodeCamp, Coursera audit, MIT OCW…) | Verify each link (`tests/check_links.py`) |
-| SDG targets | United Nations, sdgs.un.org | Check wording before citing |
-| Profiles | Synthetic | No real personal data |
+---
 
-## Team TODO before submission
-- [ ] Replace placeholder exposure values with a cited source
-- [ ] Verify every course link and set `verified: true`
-- [ ] Run the arXiv refresh on Replit so `trends.json` holds real data
-- [ ] Review and rewrite the assessment scenarios; add field-specific versions
-- [ ] Optional: LLM-based CV extraction (restricted to catalog skill ids); declare the model
-- [ ] Add the committee GitHub accounts as collaborators; make the repo public before submitting
+## How We Use Replit *(Required)*
 
-## AI usage declaration
-This starter code was scaffolded with the help of an AI assistant (Claude, Anthropic) on 21 Oct 2026, and the team reviewed and extended it. The idea, product decisions and the Edge Score concept come from the team. All AI tools used must be listed in the Technical & Tools Declaration.
+Describe how your team used Replit. For example:
+
+- **Development:** Collaborative coding in a shared Repl using Multiplayer.
+- **Hosting:** The app is deployed with Replit Deployments at the Live Demo link above.
+- **Secrets:** API keys are stored in Replit Secrets, never in the code.
+
+📄 Proof of use: [`submission/REPLIT PROOF OF USE.pdf`](submission/REPLIT%20PROOF%20OF%20USE.pdf)
+
+## How We Use RunPod *(Required)*
+
+Describe how your team used RunPod. For example:
+
+- **Workload:** Model inference (e.g. text generation, image processing) runs on a RunPod GPU.
+- **Setup:** `runpod/handler.py` is deployed as a **RunPod Serverless Endpoint**.
+- **Integration:** The Replit app sends requests to the endpoint using `RUNPOD_API_KEY` and `RUNPOD_ENDPOINT_ID`.
+
+Example request:
+
+```bash
+curl -X POST https://api.runpod.ai/v2/$RUNPOD_ENDPOINT_ID/runsync \
+  -H "Authorization: Bearer $RUNPOD_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"input": {"prompt": "Hello"}}'
+```
+
+📄 Proof of use: [`submission/RUNPOD PROOF OF USE.pdf`](submission/RUNPOD%20PROOF%20OF%20USE.pdf)
+
+---
+
+## Challenges & Learnings
+
+- What challenges did you face, and how did you overcome them?
+- What did your team learn?
+
+## Future Improvements
+
+- [ ] Improvement 1
+- [ ] Improvement 2
+
+## Team
+
+| Name        | Role                | GitHub                                   |
+| ----------- | ------------------- | ---------------------------------------- |
+| Member Name | Team Lead / Backend | [@username](https://github.com/username) |
+| Member Name | Frontend            | [@username](https://github.com/username) |
+| Member Name | AI / RunPod         | [@username](https://github.com/username) |
+
+---
+
+## Submission Checklist
+
+- [ ] Team name, domain (Domain 1 / Domain 2) and SDG track filled in
+- [ ] Slide deck link added
+- [ ] Demo video link added
+- [ ] Replit used, with proof of use in `submission/`
+- [ ] RunPod used, with proof of use in `submission/`
+- [ ] Submission template completed in `submission/`
+- [ ] "How to Run" steps verified
+- [ ] No API keys or secrets committed to the repository
 
 ## License
-Apache License 2.0. See [LICENSE](LICENSE).
+
+This project is licensed under the [Apache License 2.0](LICENSE).
