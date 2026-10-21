@@ -7,6 +7,7 @@ Edge Score (0-100) for a person and a role, at year t and scenario s:
 
     Edge = 100 * (ai_adjusted_fit(t, s) / BEST_FIT)
                * (W_BASE + W_HUMAN * human_skills + W_RARITY * rarity)
+               * job_market(t) * core_gate                      (capped at 100)
 
 * ai_adjusted_fit – the role's skills you have, weighted by importance, where
                     each skill only counts for the part AI CANNOT do at year t.
@@ -19,6 +20,14 @@ Edge Score (0-100) for a person and a role, at year t and scenario s:
 * rarity          – how unusual the person's skill mix is (0-1)
   Human skills and rarity act as a multiplier (0.6x to 1.0x): they make every
   role's fit count for more, which is the "what makes you unique" layer.
+* core_gate       – 0.5 + 0.5 * your level in the role's CORE specialist skills
+                    (weight 3, not human skills). Soft skills alone can't make
+                    you a doctor: no core skills -> score halved.
+* job_market(t)   – REAL demand data: WEF Future of Jobs 2025 projected net
+                    job growth 2025-2030 for the role (Malaysia figure when WEF
+                    has one, else global), spread evenly over 5 years:
+                    1 + growth% / 100 * t / 5, capped to 0.75x-1.25x.
+                    Roles WEF only lists as growing/declining get 1.0x (neutral).
 
 We also show the plain skill match (no AI adjustment) for the skills gap.
 
@@ -43,7 +52,8 @@ DEFAULT_HUMAN = 0.3      # used when the assessment has not been taken
 STEP_BOOST = 0.3         # proficiency gained by completing one pathway step
 HAVE_THRESHOLD = 0.3     # proficiency at which a skill counts as "have"
 JOB_READY = 0.7
-AT_RISK_EXPOSURE = 0.5   # a role is "at risk" if AI can do half of its weighted work by year 3          # proficiency at which a skill gets full credit (and leaves the gap list)
+AT_RISK_EXPOSURE = 0.5
+MARKET_CAP = (0.75, 1.25)   # a role is "at risk" if AI can do half of its weighted work by year 3          # proficiency at which a skill gets full credit (and leaves the gap list)
 CATEGORIES = ("technical", "data", "domain", "human")
 
 
@@ -137,6 +147,27 @@ def ai_adjusted_fit(role, skills, catalog_skills, year, scenario, trends):
     return got / total if total else 0.0
 
 
+def market_growth(role):
+    """WEF net growth 2025-2030 in % (Malaysia first), or None if WEF gives only a direction."""
+    o = role.get("outlook") or {}
+    return o.get("malaysia_net_growth_2030", o.get("net_growth_2030"))
+
+
+def job_market(role, year):
+    g = market_growth(role)
+    if g is None:
+        return 1.0
+    return clamp(1 + g / 100 * year / 5, *MARKET_CAP)
+
+
+def core_gate(role, skills, catalog_skills):
+    core = [s for s, w in role["skills"].items() if w == 3 and catalog_skills[s]["category"] != "human"]
+    if not core:
+        return 1.0, []
+    have = sum(credit(skills.get(s, 0.0)) for s in core) / len(core)
+    return 0.5 + 0.5 * have, core
+
+
 def best_fit(data):
     """Fit of a perfect candidate (all skills at level 1) for the most AI-proof role, at year 0."""
     full = {s: 1.0 for s in data["skills"]}
@@ -169,11 +200,13 @@ def edge_for_role(role, skills, data, scenario, assessed):
     human = human_score(skills, assessed)
     best = best_fit(data)
     multiplier = W_BASE + W_HUMAN * human + W_RARITY * rarity
+    gate, core = core_gate(role, skills, cat)
     timeline = []
     for t in YEARS:
         fit = ai_adjusted_fit(role, skills, cat, t, scenario, trends)
-        edge = 100 * (fit / best) * multiplier
-        timeline.append({"year": t, "edge": round(edge, 1), "fit": round(fit, 3)})
+        market = job_market(role, t)
+        edge = min(100.0, 100 * (fit / best) * multiplier * market * gate)
+        timeline.append({"year": t, "edge": round(edge, 1), "fit": round(fit, 3), "market": round(market, 3)})
 
     gap = []
     for s, w in sorted(role["skills"].items(), key=lambda kv: -kv[1]):
@@ -197,16 +230,48 @@ def edge_for_role(role, skills, data, scenario, assessed):
         "gap": gap,
         "sdgs": role["sdgs"],
         "role_ai_exposure_y3": round(role_exposure_y3, 2),
-        "at_risk": role_exposure_y3 >= AT_RISK_EXPOSURE,
+        "at_risk": _at_risk(role, role_exposure_y3),
+        "core_gate": round(gate, 2),
+        "description": role.get("description"),
+        "status": role.get("status"),
+        "ai_tools": role.get("ai_tools", []),
+        "outlook": role.get("outlook"),
+        "wage": role.get("wage"),
+        "mycol": role.get("mycol"),
         "explain": {
             "match": f"You have {have_n} of {len(role['skills'])} skills this role needs (weighted by importance): {round(match * 100)}%.",
             "fit": f"Counting only the part of your skills AI can't do, you cover {round(timeline[0]['fit'] * 100)}% of this role today and {round(timeline[-1]['fit'] * 100)}% in year 3 ({SCENARIOS[scenario]['label'].lower()}).",
             "rarity": f"Your skills cover {len(cats)} of 4 skill types ({', '.join(cats) or 'none'}), which makes your mix {'rare' if rarity >= 0.6 else 'fairly common' if rarity >= 0.4 else 'common'}.",
             "human": "Judgment & responsibility from your Edge Assessment." if assessed else "Assessment not taken yet – using a default estimate.",
             "multiplier": f"Your human skills and rare mix multiply your fit by {multiplier:.2f}x (range 0.60x-1.00x).",
-            "formula": "Edge = AI-adjusted fit (vs. best possible) x uniqueness multiplier (human skills + rarity).",
+            "market": _market_text(role, timeline[-1]["market"]),
+            "core": (f"Core specialist skills for this role: {', '.join(cat[c]['name'] for c in core)}. Your level there gives x{gate:.2f}."
+                     if core else "This role has no single core specialist skill."),
+            "formula": "Edge = AI-adjusted fit (vs. best possible) x uniqueness multiplier (human skills + rarity) x job market.",
         },
     }
+
+
+def _at_risk(role, exposure_y3):
+    """Real WEF data wins over our exposure estimate."""
+    o = role.get("outlook") or {}
+    g = market_growth(role)
+    if g is not None:
+        return g <= -10
+    if o.get("direction"):
+        return o["direction"] == "declining"
+    return exposure_y3 >= AT_RISK_EXPOSURE
+
+
+def _market_text(role, m3):
+    o = role.get("outlook") or {}
+    g = market_growth(role)
+    if g is not None:
+        where = "in Malaysia" if "malaysia_net_growth_2030" in o else "worldwide"
+        return f"Job market: employers expect {'+' if g >= 0 else ''}{g}% net jobs for {o['wef_role']} {where} by 2030 ({o.get('malaysia_source') or o['source']}), so x{m3:.2f} by year 3."
+    if o.get("direction"):
+        return f"Job market: WEF lists {o['wef_role']} among the fastest-{'growing' if o['direction'] == 'growing' else 'declining'} jobs ({o['source']}), but gives no exact figure, so we keep it neutral (x1.00)."
+    return "Job market: no WEF figure for this role, so we keep it neutral (x1.00)."
 
 
 def forecast(profile_skills, data, scenario="moderate", assessment=None, goal_role=None, completed=()):

@@ -82,7 +82,10 @@ def meta():
     d = load()
     return {
         "profiles": d["profiles"],
-        "roles": [{"id": r["id"], "title": r["title"], "field": r["field"]} for r in d["roles"].values()],
+        "roles": [{"id": r["id"], "title": r["title"], "field": r["field"], "outlook": r.get("outlook"),
+                   "mycol": r.get("mycol"), "wage": r.get("wage")} for r in d["roles"].values()],
+        "facts": d["facts"],
+        "roles_sources": d["roles_meta"].get("sources"),
         "skills": [{"id": s["id"], "name": s["name"], "category": s["category"]} for s in d["skills"].values()],
         "scenarios": scoring.SCENARIOS,
         "sdgs": d["sdgs"],
