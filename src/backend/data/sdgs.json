@@ -1,7 +1,12 @@
 {
   "_meta": {
-    "source": "United Nations, Sustainable Development Goals – targets (https://sdgs.un.org/goals). Target texts shortened; check wording against the source before citing in the PRD.",
-    "domain_focus": ["4.3", "4.4", "8.2", "8.5"]
+    "source": "United Nations, Global indicator framework for the SDGs (src/database/Global-Indicator-Framework-after-2026-refinement_Eng.pdf) and https://sdgs.un.org/goals. Target texts shortened.",
+    "domain_focus": [
+      "4.3",
+      "4.4",
+      "8.2",
+      "8.5"
+    ]
   },
   "goals": {
     "4": "Quality Education",
@@ -11,7 +16,11 @@
     "9": "Industry, Innovation and Infrastructure",
     "10": "Reduced Inequalities",
     "11": "Sustainable Cities and Communities",
-    "13": "Climate Action"
+    "13": "Climate Action",
+    "2": "Zero Hunger",
+    "3": "Good Health and Well-being",
+    "6": "Clean Water and Sanitation",
+    "12": "Responsible Consumption and Production"
   },
   "targets": {
     "4.3": "Equal access to affordable, quality technical, vocational and tertiary education",
@@ -30,6 +39,18 @@
     "9.c": "Significantly increase access to information and communications technology",
     "10.2": "Empower and promote the social and economic inclusion of all",
     "11.6": "Reduce the adverse per-capita environmental impact of cities",
-    "13.2": "Integrate climate change measures into policies and planning"
+    "13.2": "Integrate climate change measures into policies and planning",
+    "2.4": "Sustainable food production systems and resilient agricultural practices",
+    "3.8": "Achieve universal health coverage, including access to quality essential health-care services",
+    "3.9": "Substantially reduce deaths and illnesses from hazardous chemicals and pollution",
+    "6.3": "Improve water quality by reducing pollution and halving untreated wastewater",
+    "8.3": "Promote policies that support decent job creation, entrepreneurship, creativity and innovation",
+    "8.10": "Strengthen domestic financial institutions to expand access to banking and financial services",
+    "9.1": "Develop quality, reliable, sustainable and resilient infrastructure",
+    "9.2": "Promote inclusive and sustainable industrialization and raise industry's share of employment",
+    "11.2": "Provide access to safe, affordable, accessible and sustainable transport systems",
+    "12.2": "Achieve the sustainable management and efficient use of natural resources",
+    "12.6": "Encourage companies to adopt sustainable practices and integrate sustainability information into reporting",
+    "9.3": "Increase the access of small-scale enterprises to financial services, including affordable credit"
   }
 }

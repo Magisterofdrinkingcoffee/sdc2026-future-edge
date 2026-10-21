@@ -6,44 +6,798 @@
     "hrd_corp_note": "HRD Corp-claimable status depends on the training provider and employer. Check https://hrdcorp.gov.my before marking an item as claimable."
   },
   "items": [
-    {"id": "c_kaggle_python", "type": "course", "title": "Python", "provider": "Kaggle Learn", "url": "https://www.kaggle.com/learn/python", "cost": "free", "hours": 5, "skills": ["python"], "verified": false, "checked_on": null},
-    {"id": "c_fcc_python", "type": "course", "title": "Scientific Computing with Python", "provider": "freeCodeCamp", "url": "https://www.freecodecamp.org/learn/scientific-computing-with-python/", "cost": "free", "hours": 300, "skills": ["python", "basic_coding"], "verified": false, "checked_on": null},
-    {"id": "c_kaggle_pandas", "type": "course", "title": "Pandas", "provider": "Kaggle Learn", "url": "https://www.kaggle.com/learn/pandas", "cost": "free", "hours": 4, "skills": ["python", "data_analysis"], "verified": false, "checked_on": null},
-    {"id": "c_kaggle_sql", "type": "course", "title": "Intro to SQL", "provider": "Kaggle Learn", "url": "https://www.kaggle.com/learn/intro-to-sql", "cost": "free", "hours": 3, "skills": ["sql"], "verified": false, "checked_on": null},
-    {"id": "c_fcc_relational_db", "type": "course", "title": "Relational Database", "provider": "freeCodeCamp", "url": "https://www.freecodecamp.org/learn/relational-database/", "cost": "free", "hours": 300, "skills": ["sql"], "verified": false, "checked_on": null},
-    {"id": "c_kaggle_dataviz", "type": "course", "title": "Data Visualization", "provider": "Kaggle Learn", "url": "https://www.kaggle.com/learn/data-visualization", "cost": "free", "hours": 4, "skills": ["data_viz"], "verified": false, "checked_on": null},
-    {"id": "c_kaggle_intro_ml", "type": "course", "title": "Intro to Machine Learning", "provider": "Kaggle Learn", "url": "https://www.kaggle.com/learn/intro-to-machine-learning", "cost": "free", "hours": 3, "skills": ["ml"], "verified": false, "checked_on": null},
-    {"id": "c_coursera_ml_spec", "type": "course", "title": "Machine Learning Specialization", "provider": "DeepLearning.AI & Stanford (Coursera)", "url": "https://www.coursera.org/specializations/machine-learning-introduction", "cost": "free to audit", "hours": 90, "skills": ["ml", "statistics"], "verified": false, "checked_on": null},
-    {"id": "c_fastai", "type": "course", "title": "Practical Deep Learning for Coders", "provider": "fast.ai", "url": "https://course.fast.ai/", "cost": "free", "hours": 60, "skills": ["deep_learning", "python"], "verified": false, "checked_on": null},
-    {"id": "c_dlai_prompt_eng", "type": "course", "title": "ChatGPT Prompt Engineering for Developers", "provider": "DeepLearning.AI", "url": "https://www.deeplearning.ai/short-courses/chatgpt-prompt-engineering-for-developers/", "cost": "free", "hours": 2, "skills": ["llm_apps"], "verified": false, "checked_on": null},
-    {"id": "c_genai_everyone", "type": "course", "title": "Generative AI for Everyone", "provider": "DeepLearning.AI (Coursera)", "url": "https://www.coursera.org/learn/generative-ai-for-everyone", "cost": "free to audit", "hours": 6, "skills": ["llm_apps", "ai_ethics"], "verified": false, "checked_on": null},
-    {"id": "c_ai_for_everyone", "type": "course", "title": "AI For Everyone", "provider": "DeepLearning.AI (Coursera)", "url": "https://www.coursera.org/learn/ai-for-everyone", "cost": "free to audit", "hours": 6, "skills": ["ai_ethics", "problem_framing"], "verified": false, "checked_on": null},
-    {"id": "c_elements_ai", "type": "course", "title": "Elements of AI", "provider": "University of Helsinki & MinnaLearn", "url": "https://www.elementsofai.com/", "cost": "free", "hours": 30, "skills": ["ai_ethics", "ml"], "verified": false, "checked_on": null},
-    {"id": "c_ml_production", "type": "course", "title": "Introduction to Machine Learning in Production", "provider": "DeepLearning.AI (Coursera)", "url": "https://www.coursera.org/learn/introduction-to-machine-learning-in-production", "cost": "free to audit", "hours": 10, "skills": ["mlops"], "verified": false, "checked_on": null},
-    {"id": "c_docker_start", "type": "course", "title": "Docker – Get started", "provider": "Docker Docs", "url": "https://docs.docker.com/get-started/", "cost": "free", "hours": 4, "skills": ["mlops", "cloud"], "verified": false, "checked_on": null},
-    {"id": "c_pro_git", "type": "course", "title": "Pro Git (book)", "provider": "git-scm.com", "url": "https://git-scm.com/book/en/v2", "cost": "free", "hours": 10, "skills": ["git"], "verified": false, "checked_on": null},
-    {"id": "c_fcc_web", "type": "course", "title": "Responsive Web Design", "provider": "freeCodeCamp", "url": "https://www.freecodecamp.org/learn/2022/responsive-web-design/", "cost": "free", "hours": 300, "skills": ["web_dev", "basic_coding"], "verified": false, "checked_on": null},
-    {"id": "c_google_cyber", "type": "course", "title": "Google Cybersecurity Professional Certificate", "provider": "Google (Coursera)", "url": "https://www.coursera.org/professional-certificates/google-cybersecurity", "cost": "free to audit (certificate paid)", "hours": 170, "skills": ["cybersecurity"], "verified": false, "checked_on": null},
-    {"id": "c_mit_power", "type": "course", "title": "Introduction to Electric Power Systems (6.061)", "provider": "MIT OpenCourseWare", "url": "https://ocw.mit.edu/courses/6-061-introduction-to-electric-power-systems-spring-2011/", "cost": "free", "hours": 40, "skills": ["power_systems"], "verified": false, "checked_on": null},
-    {"id": "c_coursera_iot", "type": "course", "title": "Introduction to the Internet of Things and Embedded Systems", "provider": "UC Irvine (Coursera)", "url": "https://www.coursera.org/learn/iot", "cost": "free to audit", "hours": 12, "skills": ["iot", "embedded"], "verified": false, "checked_on": null},
-    {"id": "c_mindware", "type": "course", "title": "Mindware: Critical Thinking for the Information Age", "provider": "University of Michigan (Coursera)", "url": "https://www.coursera.org/learn/mindware", "cost": "free to audit", "hours": 12, "skills": ["critical_thinking"], "verified": false, "checked_on": null},
-    {"id": "c_wharton_comm", "type": "course", "title": "Improving Communication Skills", "provider": "University of Pennsylvania (Coursera)", "url": "https://www.coursera.org/learn/wharton-communication-skills", "cost": "free to audit", "hours": 8, "skills": ["communication"], "verified": false, "checked_on": null},
-    {"id": "c_digital_pm", "type": "course", "title": "Digital Product Management", "provider": "University of Virginia (Coursera)", "url": "https://www.coursera.org/learn/uva-darden-digital-product-management", "cost": "free to audit", "hours": 12, "skills": ["product_management"], "verified": false, "checked_on": null},
-
-    {"id": "p_ai_assistant_field", "type": "project", "title": "Build a small AI assistant for a task in your own field (e.g. fault-log summariser for technicians)", "provider": "Future Edge project idea", "url": null, "cost": "free", "hours": 15, "skills": ["llm_apps", "python", "problem_framing"], "verified": true, "checked_on": null},
-    {"id": "p_dashboard_open_data", "type": "project", "title": "Publish a dashboard on a Malaysian open dataset (data.gov.my)", "provider": "Future Edge project idea", "url": "https://data.gov.my/", "cost": "free", "hours": 12, "skills": ["data_viz", "data_analysis", "sql"], "verified": false, "checked_on": null},
-    {"id": "p_load_forecast", "type": "project", "title": "Electricity load-forecasting model in Python with public data", "provider": "Future Edge project idea", "url": null, "cost": "free", "hours": 20, "skills": ["power_systems", "ml", "python"], "verified": true, "checked_on": null},
-    {"id": "p_solar_sizing", "type": "project", "title": "Rooftop solar sizing calculator for a Malaysian home", "provider": "Future Edge project idea", "url": null, "cost": "free", "hours": 10, "skills": ["renewable_energy", "python"], "verified": true, "checked_on": null},
-    {"id": "p_iot_sensor", "type": "project", "title": "IoT energy monitor with a microcontroller + cloud dashboard", "provider": "Future Edge project idea", "url": null, "cost": "low (hardware ~RM50–100)", "hours": 20, "skills": ["iot", "embedded", "cloud"], "verified": true, "checked_on": null},
-    {"id": "p_deploy_model", "type": "project", "title": "Containerise and deploy one of your ML models with a public demo URL", "provider": "Future Edge project idea", "url": null, "cost": "free", "hours": 10, "skills": ["mlops", "cloud", "git"], "verified": true, "checked_on": null},
-    {"id": "p_ai_audit", "type": "project", "title": "Audit an AI tool's output for errors in your field and write up what you caught", "provider": "Future Edge project idea", "url": null, "cost": "free", "hours": 6, "skills": ["critical_thinking", "ai_ethics"], "verified": true, "checked_on": null},
-    {"id": "p_automate_admin", "type": "project", "title": "Automate one repetitive admin report with Python or a no-code tool", "provider": "Future Edge project idea", "url": null, "cost": "free", "hours": 8, "skills": ["python", "problem_framing", "data_analysis"], "verified": true, "checked_on": null},
-
-    {"id": "e_lead_club_event", "type": "experience", "title": "Lead the planning of one university club event end-to-end", "provider": "Future Edge experience idea", "url": null, "cost": "free", "hours": 20, "skills": ["leadership", "ownership", "communication"], "verified": true, "checked_on": null},
-    {"id": "e_hackathon", "type": "experience", "title": "Join a hackathon and take one clear responsibility in the team", "provider": "Future Edge experience idea", "url": null, "cost": "free", "hours": 24, "skills": ["ownership", "problem_framing", "leadership"], "verified": true, "checked_on": null},
-    {"id": "e_mentor_juniors", "type": "experience", "title": "Mentor 2–3 junior students for a month", "provider": "Future Edge experience idea", "url": null, "cost": "free", "hours": 12, "skills": ["mentoring", "communication", "leadership"], "verified": true, "checked_on": null},
-    {"id": "e_present_meetup", "type": "experience", "title": "Give a 10-minute talk at a student or tech meetup", "provider": "Future Edge experience idea", "url": null, "cost": "free", "hours": 8, "skills": ["communication"], "verified": true, "checked_on": null},
-    {"id": "e_decision_journal", "type": "experience", "title": "Keep a 4-week decision journal: log each AI suggestion you accepted or rejected and why", "provider": "Future Edge experience idea", "url": null, "cost": "free", "hours": 4, "skills": ["critical_thinking", "ownership"], "verified": true, "checked_on": null},
-    {"id": "e_volunteer_digital", "type": "experience", "title": "Volunteer to teach basic digital/AI skills in a community programme", "provider": "Future Edge experience idea", "url": null, "cost": "free", "hours": 16, "skills": ["mentoring", "communication", "ownership"], "verified": true, "checked_on": null}
+    {
+      "id": "c_kaggle_python",
+      "type": "course",
+      "title": "Python",
+      "provider": "Kaggle Learn",
+      "url": "https://www.kaggle.com/learn/python",
+      "cost": "free",
+      "hours": 5,
+      "skills": [
+        "python"
+      ],
+      "verified": false,
+      "checked_on": null
+    },
+    {
+      "id": "c_fcc_python",
+      "type": "course",
+      "title": "Scientific Computing with Python",
+      "provider": "freeCodeCamp",
+      "url": "https://www.freecodecamp.org/learn/scientific-computing-with-python/",
+      "cost": "free",
+      "hours": 300,
+      "skills": [
+        "python",
+        "basic_coding"
+      ],
+      "verified": false,
+      "checked_on": null
+    },
+    {
+      "id": "c_kaggle_pandas",
+      "type": "course",
+      "title": "Pandas",
+      "provider": "Kaggle Learn",
+      "url": "https://www.kaggle.com/learn/pandas",
+      "cost": "free",
+      "hours": 4,
+      "skills": [
+        "python",
+        "data_analysis"
+      ],
+      "verified": false,
+      "checked_on": null
+    },
+    {
+      "id": "c_kaggle_sql",
+      "type": "course",
+      "title": "Intro to SQL",
+      "provider": "Kaggle Learn",
+      "url": "https://www.kaggle.com/learn/intro-to-sql",
+      "cost": "free",
+      "hours": 3,
+      "skills": [
+        "sql"
+      ],
+      "verified": false,
+      "checked_on": null
+    },
+    {
+      "id": "c_fcc_relational_db",
+      "type": "course",
+      "title": "Relational Database",
+      "provider": "freeCodeCamp",
+      "url": "https://www.freecodecamp.org/learn/relational-database/",
+      "cost": "free",
+      "hours": 300,
+      "skills": [
+        "sql"
+      ],
+      "verified": false,
+      "checked_on": null
+    },
+    {
+      "id": "c_kaggle_dataviz",
+      "type": "course",
+      "title": "Data Visualization",
+      "provider": "Kaggle Learn",
+      "url": "https://www.kaggle.com/learn/data-visualization",
+      "cost": "free",
+      "hours": 4,
+      "skills": [
+        "data_viz"
+      ],
+      "verified": false,
+      "checked_on": null
+    },
+    {
+      "id": "c_kaggle_intro_ml",
+      "type": "course",
+      "title": "Intro to Machine Learning",
+      "provider": "Kaggle Learn",
+      "url": "https://www.kaggle.com/learn/intro-to-machine-learning",
+      "cost": "free",
+      "hours": 3,
+      "skills": [
+        "ml"
+      ],
+      "verified": false,
+      "checked_on": null
+    },
+    {
+      "id": "c_coursera_ml_spec",
+      "type": "course",
+      "title": "Machine Learning Specialization",
+      "provider": "DeepLearning.AI & Stanford (Coursera)",
+      "url": "https://www.coursera.org/specializations/machine-learning-introduction",
+      "cost": "free to audit",
+      "hours": 90,
+      "skills": [
+        "ml",
+        "statistics"
+      ],
+      "verified": false,
+      "checked_on": null
+    },
+    {
+      "id": "c_fastai",
+      "type": "course",
+      "title": "Practical Deep Learning for Coders",
+      "provider": "fast.ai",
+      "url": "https://course.fast.ai/",
+      "cost": "free",
+      "hours": 60,
+      "skills": [
+        "deep_learning",
+        "python"
+      ],
+      "verified": false,
+      "checked_on": null
+    },
+    {
+      "id": "c_dlai_prompt_eng",
+      "type": "course",
+      "title": "ChatGPT Prompt Engineering for Developers",
+      "provider": "DeepLearning.AI",
+      "url": "https://www.deeplearning.ai/short-courses/chatgpt-prompt-engineering-for-developers/",
+      "cost": "free",
+      "hours": 2,
+      "skills": [
+        "llm_apps"
+      ],
+      "verified": false,
+      "checked_on": null
+    },
+    {
+      "id": "c_genai_everyone",
+      "type": "course",
+      "title": "Generative AI for Everyone",
+      "provider": "DeepLearning.AI (Coursera)",
+      "url": "https://www.coursera.org/learn/generative-ai-for-everyone",
+      "cost": "free to audit",
+      "hours": 6,
+      "skills": [
+        "llm_apps",
+        "ai_ethics"
+      ],
+      "verified": false,
+      "checked_on": null
+    },
+    {
+      "id": "c_ai_for_everyone",
+      "type": "course",
+      "title": "AI For Everyone",
+      "provider": "DeepLearning.AI (Coursera)",
+      "url": "https://www.coursera.org/learn/ai-for-everyone",
+      "cost": "free to audit",
+      "hours": 6,
+      "skills": [
+        "ai_ethics",
+        "problem_framing"
+      ],
+      "verified": false,
+      "checked_on": null
+    },
+    {
+      "id": "c_elements_ai",
+      "type": "course",
+      "title": "Elements of AI",
+      "provider": "University of Helsinki & MinnaLearn",
+      "url": "https://www.elementsofai.com/",
+      "cost": "free",
+      "hours": 30,
+      "skills": [
+        "ai_ethics",
+        "ml"
+      ],
+      "verified": false,
+      "checked_on": null
+    },
+    {
+      "id": "c_ml_production",
+      "type": "course",
+      "title": "Introduction to Machine Learning in Production",
+      "provider": "DeepLearning.AI (Coursera)",
+      "url": "https://www.coursera.org/learn/introduction-to-machine-learning-in-production",
+      "cost": "free to audit",
+      "hours": 10,
+      "skills": [
+        "mlops"
+      ],
+      "verified": false,
+      "checked_on": null
+    },
+    {
+      "id": "c_docker_start",
+      "type": "course",
+      "title": "Docker – Get started",
+      "provider": "Docker Docs",
+      "url": "https://docs.docker.com/get-started/",
+      "cost": "free",
+      "hours": 4,
+      "skills": [
+        "mlops",
+        "cloud"
+      ],
+      "verified": false,
+      "checked_on": null
+    },
+    {
+      "id": "c_pro_git",
+      "type": "course",
+      "title": "Pro Git (book)",
+      "provider": "git-scm.com",
+      "url": "https://git-scm.com/book/en/v2",
+      "cost": "free",
+      "hours": 10,
+      "skills": [
+        "git"
+      ],
+      "verified": false,
+      "checked_on": null
+    },
+    {
+      "id": "c_fcc_web",
+      "type": "course",
+      "title": "Responsive Web Design",
+      "provider": "freeCodeCamp",
+      "url": "https://www.freecodecamp.org/learn/2022/responsive-web-design/",
+      "cost": "free",
+      "hours": 300,
+      "skills": [
+        "web_dev",
+        "basic_coding"
+      ],
+      "verified": false,
+      "checked_on": null
+    },
+    {
+      "id": "c_google_cyber",
+      "type": "course",
+      "title": "Google Cybersecurity Professional Certificate",
+      "provider": "Google (Coursera)",
+      "url": "https://www.coursera.org/professional-certificates/google-cybersecurity",
+      "cost": "free to audit (certificate paid)",
+      "hours": 170,
+      "skills": [
+        "cybersecurity"
+      ],
+      "verified": false,
+      "checked_on": null
+    },
+    {
+      "id": "c_mit_power",
+      "type": "course",
+      "title": "Introduction to Electric Power Systems (6.061)",
+      "provider": "MIT OpenCourseWare",
+      "url": "https://ocw.mit.edu/courses/6-061-introduction-to-electric-power-systems-spring-2011/",
+      "cost": "free",
+      "hours": 40,
+      "skills": [
+        "power_systems"
+      ],
+      "verified": false,
+      "checked_on": null
+    },
+    {
+      "id": "c_coursera_iot",
+      "type": "course",
+      "title": "Introduction to the Internet of Things and Embedded Systems",
+      "provider": "UC Irvine (Coursera)",
+      "url": "https://www.coursera.org/learn/iot",
+      "cost": "free to audit",
+      "hours": 12,
+      "skills": [
+        "iot",
+        "embedded"
+      ],
+      "verified": false,
+      "checked_on": null
+    },
+    {
+      "id": "c_mindware",
+      "type": "course",
+      "title": "Mindware: Critical Thinking for the Information Age",
+      "provider": "University of Michigan (Coursera)",
+      "url": "https://www.coursera.org/learn/mindware",
+      "cost": "free to audit",
+      "hours": 12,
+      "skills": [
+        "critical_thinking"
+      ],
+      "verified": false,
+      "checked_on": null
+    },
+    {
+      "id": "c_wharton_comm",
+      "type": "course",
+      "title": "Improving Communication Skills",
+      "provider": "University of Pennsylvania (Coursera)",
+      "url": "https://www.coursera.org/learn/wharton-communication-skills",
+      "cost": "free to audit",
+      "hours": 8,
+      "skills": [
+        "communication"
+      ],
+      "verified": false,
+      "checked_on": null
+    },
+    {
+      "id": "c_digital_pm",
+      "type": "course",
+      "title": "Digital Product Management",
+      "provider": "University of Virginia (Coursera)",
+      "url": "https://www.coursera.org/learn/uva-darden-digital-product-management",
+      "cost": "free to audit",
+      "hours": 12,
+      "skills": [
+        "product_management"
+      ],
+      "verified": false,
+      "checked_on": null
+    },
+    {
+      "id": "p_ai_assistant_field",
+      "type": "project",
+      "title": "Build a small AI assistant for a task in your own field (e.g. fault-log summariser for technicians)",
+      "provider": "Future Edge project idea",
+      "url": null,
+      "cost": "free",
+      "hours": 15,
+      "skills": [
+        "llm_apps",
+        "python",
+        "problem_framing"
+      ],
+      "verified": true,
+      "checked_on": null
+    },
+    {
+      "id": "p_dashboard_open_data",
+      "type": "project",
+      "title": "Publish a dashboard on a Malaysian open dataset (data.gov.my)",
+      "provider": "Future Edge project idea",
+      "url": "https://data.gov.my/",
+      "cost": "free",
+      "hours": 12,
+      "skills": [
+        "data_viz",
+        "data_analysis",
+        "sql"
+      ],
+      "verified": false,
+      "checked_on": null
+    },
+    {
+      "id": "p_load_forecast",
+      "type": "project",
+      "title": "Electricity load-forecasting model in Python with public data",
+      "provider": "Future Edge project idea",
+      "url": null,
+      "cost": "free",
+      "hours": 20,
+      "skills": [
+        "power_systems",
+        "ml",
+        "python"
+      ],
+      "verified": true,
+      "checked_on": null
+    },
+    {
+      "id": "p_solar_sizing",
+      "type": "project",
+      "title": "Rooftop solar sizing calculator for a Malaysian home",
+      "provider": "Future Edge project idea",
+      "url": null,
+      "cost": "free",
+      "hours": 10,
+      "skills": [
+        "renewable_energy",
+        "python"
+      ],
+      "verified": true,
+      "checked_on": null
+    },
+    {
+      "id": "p_iot_sensor",
+      "type": "project",
+      "title": "IoT energy monitor with a microcontroller + cloud dashboard",
+      "provider": "Future Edge project idea",
+      "url": null,
+      "cost": "low (hardware ~RM50–100)",
+      "hours": 20,
+      "skills": [
+        "iot",
+        "embedded",
+        "cloud"
+      ],
+      "verified": true,
+      "checked_on": null
+    },
+    {
+      "id": "p_deploy_model",
+      "type": "project",
+      "title": "Containerise and deploy one of your ML models with a public demo URL",
+      "provider": "Future Edge project idea",
+      "url": null,
+      "cost": "free",
+      "hours": 10,
+      "skills": [
+        "mlops",
+        "cloud",
+        "git"
+      ],
+      "verified": true,
+      "checked_on": null
+    },
+    {
+      "id": "p_ai_audit",
+      "type": "project",
+      "title": "Audit an AI tool's output for errors in your field and write up what you caught",
+      "provider": "Future Edge project idea",
+      "url": null,
+      "cost": "free",
+      "hours": 6,
+      "skills": [
+        "critical_thinking",
+        "ai_ethics"
+      ],
+      "verified": true,
+      "checked_on": null
+    },
+    {
+      "id": "p_automate_admin",
+      "type": "project",
+      "title": "Automate one repetitive admin report with Python or a no-code tool",
+      "provider": "Future Edge project idea",
+      "url": null,
+      "cost": "free",
+      "hours": 8,
+      "skills": [
+        "python",
+        "problem_framing",
+        "data_analysis"
+      ],
+      "verified": true,
+      "checked_on": null
+    },
+    {
+      "id": "e_lead_club_event",
+      "type": "experience",
+      "title": "Lead the planning of one university club event end-to-end",
+      "provider": "Future Edge experience idea",
+      "url": null,
+      "cost": "free",
+      "hours": 20,
+      "skills": [
+        "leadership",
+        "ownership",
+        "communication"
+      ],
+      "verified": true,
+      "checked_on": null
+    },
+    {
+      "id": "e_hackathon",
+      "type": "experience",
+      "title": "Join a hackathon and take one clear responsibility in the team",
+      "provider": "Future Edge experience idea",
+      "url": null,
+      "cost": "free",
+      "hours": 24,
+      "skills": [
+        "ownership",
+        "problem_framing",
+        "leadership"
+      ],
+      "verified": true,
+      "checked_on": null
+    },
+    {
+      "id": "e_mentor_juniors",
+      "type": "experience",
+      "title": "Mentor 2–3 junior students for a month",
+      "provider": "Future Edge experience idea",
+      "url": null,
+      "cost": "free",
+      "hours": 12,
+      "skills": [
+        "mentoring",
+        "communication",
+        "leadership"
+      ],
+      "verified": true,
+      "checked_on": null
+    },
+    {
+      "id": "e_present_meetup",
+      "type": "experience",
+      "title": "Give a 10-minute talk at a student or tech meetup",
+      "provider": "Future Edge experience idea",
+      "url": null,
+      "cost": "free",
+      "hours": 8,
+      "skills": [
+        "communication"
+      ],
+      "verified": true,
+      "checked_on": null
+    },
+    {
+      "id": "e_decision_journal",
+      "type": "experience",
+      "title": "Keep a 4-week decision journal: log each AI suggestion you accepted or rejected and why",
+      "provider": "Future Edge experience idea",
+      "url": null,
+      "cost": "free",
+      "hours": 4,
+      "skills": [
+        "critical_thinking",
+        "ownership"
+      ],
+      "verified": true,
+      "checked_on": null
+    },
+    {
+      "id": "e_volunteer_digital",
+      "type": "experience",
+      "title": "Volunteer to teach basic digital/AI skills in a community programme",
+      "provider": "Future Edge experience idea",
+      "url": null,
+      "cost": "free",
+      "hours": 16,
+      "skills": [
+        "mentoring",
+        "communication",
+        "ownership"
+      ],
+      "verified": true,
+      "checked_on": null
+    },
+    {
+      "id": "c_google_pm",
+      "type": "course",
+      "title": "Google Project Management Professional Certificate",
+      "provider": "Google (Coursera)",
+      "url": "https://www.coursera.org/professional-certificates/google-project-management",
+      "cost": "free to audit (certificate paid)",
+      "hours": 140,
+      "skills": [
+        "project_management"
+      ],
+      "verified": false,
+      "checked_on": null
+    },
+    {
+      "id": "c_google_it_support",
+      "type": "course",
+      "title": "Google IT Support Professional Certificate",
+      "provider": "Google (Coursera)",
+      "url": "https://www.coursera.org/professional-certificates/google-it-support",
+      "cost": "free to audit (certificate paid)",
+      "hours": 120,
+      "skills": [
+        "networking",
+        "cybersecurity"
+      ],
+      "verified": false,
+      "checked_on": null
+    },
+    {
+      "id": "c_netacad_networking",
+      "type": "course",
+      "title": "Networking Basics",
+      "provider": "Cisco Networking Academy",
+      "url": "https://www.netacad.com/courses/networking-basics",
+      "cost": "free",
+      "hours": 22,
+      "skills": [
+        "networking"
+      ],
+      "verified": false,
+      "checked_on": null
+    },
+    {
+      "id": "c_ibm_data_eng",
+      "type": "course",
+      "title": "IBM Data Engineering Professional Certificate",
+      "provider": "IBM (Coursera)",
+      "url": "https://www.coursera.org/professional-certificates/ibm-data-engineer",
+      "cost": "free to audit (certificate paid)",
+      "hours": 150,
+      "skills": [
+        "data_engineering",
+        "sql"
+      ],
+      "verified": false,
+      "checked_on": null
+    },
+    {
+      "id": "c_sustainability",
+      "type": "course",
+      "title": "Introduction to Sustainability",
+      "provider": "University of Illinois (Coursera)",
+      "url": "https://www.coursera.org/learn/sustainability",
+      "cost": "free to audit",
+      "hours": 30,
+      "skills": [
+        "sustainability_esg"
+      ],
+      "verified": false,
+      "checked_on": null
+    },
+    {
+      "id": "c_supply_chain",
+      "type": "course",
+      "title": "Supply Chain Management Specialization",
+      "provider": "Rutgers (Coursera)",
+      "url": "https://www.coursera.org/specializations/supply-chain-management",
+      "cost": "free to audit",
+      "hours": 60,
+      "skills": [
+        "supply_chain"
+      ],
+      "verified": false,
+      "checked_on": null
+    },
+    {
+      "id": "c_financial_markets",
+      "type": "course",
+      "title": "Financial Markets",
+      "provider": "Yale University (Coursera)",
+      "url": "https://www.coursera.org/learn/financial-markets-global",
+      "cost": "free to audit",
+      "hours": 33,
+      "skills": [
+        "financial_analysis"
+      ],
+      "verified": false,
+      "checked_on": null
+    },
+    {
+      "id": "c_hrd_corp",
+      "type": "course",
+      "title": "Find an HRD Corp-claimable training course for this skill",
+      "provider": "HRD Corp",
+      "url": "https://hrdcorp.gov.my/",
+      "cost": "claimable via employer (HRD Corp levy)",
+      "hours": 16,
+      "skills": [
+        "ohs",
+        "quality_control",
+        "mechanical_maintenance",
+        "cad",
+        "regulatory_compliance",
+        "operations_mgmt"
+      ],
+      "verified": false,
+      "checked_on": null
+    },
+    {
+      "id": "p_project_plan",
+      "type": "project",
+      "title": "Plan and run a small real project (a club event, a process change at work) with a written plan, timeline and risk list",
+      "provider": "Future Edge project idea",
+      "url": null,
+      "cost": "free",
+      "hours": 15,
+      "skills": [
+        "project_management",
+        "ownership",
+        "leadership"
+      ],
+      "verified": true,
+      "checked_on": null
+    },
+    {
+      "id": "p_esg_report",
+      "type": "project",
+      "title": "Write a 2-page carbon-footprint estimate for your faculty, club or workplace using public emission factors",
+      "provider": "Future Edge project idea",
+      "url": null,
+      "cost": "free",
+      "hours": 10,
+      "skills": [
+        "sustainability_esg",
+        "data_analysis"
+      ],
+      "verified": true,
+      "checked_on": null
+    },
+    {
+      "id": "p_pipeline",
+      "type": "project",
+      "title": "Build a small data pipeline: pull a public Malaysian dataset (data.gov.my), clean it with Python and load it into a database",
+      "provider": "Future Edge project idea",
+      "url": null,
+      "cost": "free",
+      "hours": 15,
+      "skills": [
+        "data_engineering",
+        "python",
+        "sql"
+      ],
+      "verified": true,
+      "checked_on": null
+    },
+    {
+      "id": "p_inventory_dashboard",
+      "type": "project",
+      "title": "Build an inventory or delivery dashboard from sample logistics data",
+      "provider": "Future Edge project idea",
+      "url": null,
+      "cost": "free",
+      "hours": 10,
+      "skills": [
+        "supply_chain",
+        "data_viz",
+        "excel_reporting"
+      ],
+      "verified": true,
+      "checked_on": null
+    },
+    {
+      "id": "p_home_network",
+      "type": "project",
+      "title": "Set up and secure a small home or lab network and document it",
+      "provider": "Future Edge project idea",
+      "url": null,
+      "cost": "low (old router)",
+      "hours": 8,
+      "skills": [
+        "networking",
+        "cybersecurity"
+      ],
+      "verified": true,
+      "checked_on": null
+    },
+    {
+      "id": "p_budget_model",
+      "type": "project",
+      "title": "Build a 12-month budget and cash-flow model for a small business or club",
+      "provider": "Future Edge project idea",
+      "url": null,
+      "cost": "free",
+      "hours": 8,
+      "skills": [
+        "financial_analysis",
+        "excel_reporting"
+      ],
+      "verified": true,
+      "checked_on": null
+    },
+    {
+      "id": "e_safety_walk",
+      "type": "experience",
+      "title": "Join a workplace or lab safety walk-through and write up the hazards you found",
+      "provider": "Future Edge experience idea",
+      "url": null,
+      "cost": "free",
+      "hours": 4,
+      "skills": [
+        "ohs",
+        "critical_thinking"
+      ],
+      "verified": true,
+      "checked_on": null
+    },
+    {
+      "id": "e_ops_shadow",
+      "type": "experience",
+      "title": "Shadow an operations or production supervisor for a week",
+      "provider": "Future Edge experience idea",
+      "url": null,
+      "cost": "free",
+      "hours": 20,
+      "skills": [
+        "operations_mgmt",
+        "leadership"
+      ],
+      "verified": true,
+      "checked_on": null
+    }
   ]
 }

@@ -1,0 +1,49 @@
+{
+  "_meta": {
+    "description": "Real, cited facts shown in the app. Built by tools/build_roles.py."
+  },
+  "facts": [
+    {
+      "id": "analytical",
+      "value": "71%",
+      "text": "of employers in Malaysia say analytical thinking is a core skill today (joint first on their list)",
+      "source": "WEF Future of Jobs Report 2025, Malaysia economy profile, p. 168"
+    },
+    {
+      "id": "ai_skills",
+      "value": "96%",
+      "text": "of employers in Malaysia expect AI and big data skills to be used more by 2030",
+      "source": "WEF Future of Jobs Report 2025, Malaysia economy profile, p. 168"
+    },
+    {
+      "id": "data_entry",
+      "value": "−28%",
+      "text": "net change expected in data entry clerk jobs in Malaysia by 2030",
+      "source": "WEF Future of Jobs Report 2025, Malaysia economy profile, p. 168"
+    },
+    {
+      "id": "ai_jobs",
+      "value": "+29%",
+      "text": "net growth expected in AI and machine learning specialist jobs in Malaysia by 2030",
+      "source": "WEF Future of Jobs Report 2025, Malaysia economy profile, p. 168"
+    },
+    {
+      "id": "human_tasks",
+      "value": "47% → 33%",
+      "text": "share of work tasks done mainly by people in Malaysia, today vs 2030",
+      "source": "WEF Future of Jobs Report 2025, Malaysia economy profile, p. 169"
+    },
+    {
+      "id": "unemployment",
+      "value": "2.9%",
+      "text": "unemployment rate in Malaysia (2026-08)",
+      "source": "DOSM Labour Force Survey, monthly (2026-08)"
+    },
+    {
+      "id": "wage",
+      "value": "RM 2,940",
+      "text": "median monthly wage in Malaysia (2025)",
+      "source": "DOSM Salaries & Wages Survey (2025)"
+    }
+  ]
+}

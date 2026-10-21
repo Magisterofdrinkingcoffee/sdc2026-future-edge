@@ -25,4 +25,5 @@ def load():
         "sdgs": _read("sdgs.json"),
         "signals": _read("signals.json"),
         "trends": _read("trends.json"),
+        "facts": _read("malaysia_facts.json")["facts"],
     }

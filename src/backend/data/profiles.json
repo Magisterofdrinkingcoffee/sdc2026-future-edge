@@ -1,8 +1,14 @@
 {
-  "_meta": {"note": "SYNTHETIC sample people with invented CVs. No real personal data (hackathon rule). The PDFs in data/sample_cvs/ are generated from this file by: python -m tools.make_sample_cvs"},
+  "_meta": {
+    "note": "SYNTHETIC sample people with invented CVs. No real personal data (hackathon rule). The PDFs in data/sample_cvs/ are generated from this file by: python -m tools.make_sample_cvs"
+  },
   "profiles": [
     {
-      "id": "aiman", "name": "Aiman Hakim", "headline": "Final-year Electrical Engineering student", "goal_role": "smart_grid_engineer", "avatar": "⚡",
+      "id": "aiman",
+      "name": "Aiman Hakim",
+      "headline": "Final-year Electrical Engineering student",
+      "goal_role": "renewable_energy_engineer",
+      "avatar": "⚡",
       "cv": {
         "Summary": "Final-year BEng Electrical & Electronic Engineering student interested in power systems and clean energy.",
         "Education": "BEng Electrical & Electronic Engineering (Hons), final year. Coursework: power systems, protection, circuit design, electronics.",
@@ -12,7 +18,11 @@
       }
     },
     {
-      "id": "meiling", "name": "Mei Ling Tan", "headline": "Admin executive, 6 years, wants a future-proof role", "goal_role": "data_analyst", "avatar": "📊",
+      "id": "meiling",
+      "name": "Mei Ling Tan",
+      "headline": "Admin executive, 6 years, wants a future-proof role",
+      "goal_role": "project_manager",
+      "avatar": "📊",
       "cv": {
         "Summary": "Administrative executive with 6 years of experience in a logistics SME, looking to move into data work.",
         "Experience": "Administrative executive, 6 years. Manages scheduling and office administration for a team of 15. Responsible for data entry of all shipment records. Prepares weekly Excel reports for management. Trained two new staff members on our reporting process.",
@@ -21,7 +31,11 @@
       }
     },
     {
-      "id": "ravi", "name": "Ravi Kumar", "headline": "Fresh Computer Science graduate", "goal_role": "ai_engineer", "avatar": "🤖",
+      "id": "ravi",
+      "name": "Ravi Kumar",
+      "headline": "Fresh Computer Science graduate",
+      "goal_role": "ai_ml_specialist",
+      "avatar": "🤖",
       "cv": {
         "Summary": "Fresh BSc Computer Science graduate who wants to work on AI products.",
         "Education": "BSc Computer Science. Completed one machine learning elective (regression, classification).",
