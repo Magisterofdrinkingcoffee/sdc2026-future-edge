@@ -4,11 +4,13 @@ import copy
 from fastapi.testclient import TestClient
 
 from src.backend import scoring
-from src.backend.data_store import load
+from src.backend.cv_parser import extract_text, parse_skills
+from src.backend.data_store import DATA_DIR, load
 from src.backend.main import app
 
 DATA = load()
-RAVI = next(p for p in DATA["profiles"] if p["id"] == "ravi")
+_pdf = (DATA_DIR / "sample_cvs" / "ravi.pdf").read_bytes()
+RAVI = {"skills": {k: v["level"] for k, v in parse_skills(extract_text(_pdf), DATA["skills"]).items()}}
 
 
 def test_fast_scenario_is_never_better_than_moderate():
@@ -74,10 +76,22 @@ def test_assessment_scoring():
 def test_api_end_to_end():
     c = TestClient(app)
     assert c.get("/api/health").json()["ok"]
-    parsed = c.post("/api/profile/parse", json={"text": RAVI["cv_text"]}).json()["skills"]
-    assert "python" in parsed
+    parsed = c.post("/api/profile/upload", files={"file": ("ravi.pdf", _pdf, "application/pdf")}).json()["skills"]
+    assert "python" in parsed and parsed["python"]["evidence"]
+    assert c.get("/api/sample-cvs/ravi.pdf").status_code == 200
+    assert c.get("/api/sample-cvs/nobody.pdf").status_code == 404
+    assert c.get("/api/does-not-exist").status_code == 404
+    assert c.post("/api/profile/upload", files={"file": ("x.pdf", b"not a pdf", "application/pdf")}).status_code == 400
     f = c.post("/api/forecast", json={"skills": RAVI["skills"], "scenario": "fast"}).json()
     assert f["is_estimate"] and f["trend_source"]["source"]
     p = c.post("/api/pathway", json={"skills": RAVI["skills"], "role_id": "ai_engineer"}).json()
     assert p["steps"]
     assert c.post("/api/forecast", json={"skills": {"nope": 1}}).status_code == 400
+
+
+def test_parser_only_returns_catalog_skills_with_evidence():
+    text = "I built a quantum teleporter in Python and led a team. I know basic SQL."
+    found = parse_skills(text, DATA["skills"])
+    assert set(found) <= set(DATA["skills"])
+    assert found["python"]["level"] > found["sql"]["level"]
+    assert all(f["evidence"] for f in found.values())

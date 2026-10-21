@@ -1,23 +1,34 @@
 {
-  "_meta": {"note": "SYNTHETIC sample profiles. These are invented people – no real personal data is used (hackathon rule)."},
+  "_meta": {"note": "SYNTHETIC sample people with invented CVs. No real personal data (hackathon rule). The PDFs in data/sample_cvs/ are generated from this file by: python -m tools.make_sample_cvs"},
   "profiles": [
     {
-      "id": "aiman", "name": "Aiman (sample)", "headline": "Final-year Electrical Engineering student",
-      "goal_role": "smart_grid_engineer",
-      "skills": {"power_systems": 0.7, "circuit_design": 0.6, "electrical_maintenance": 0.4, "python": 0.3, "communication": 0.5, "ownership": 0.6},
-      "cv_text": "Final-year BEng Electrical & Electronic Engineering. Coursework in power systems, protection and circuit design. Internship: 3 months at a utility contractor doing wiring inspections. Basic Python for lab data. Secretary of the engineering society."
+      "id": "aiman", "name": "Aiman Hakim", "headline": "Final-year Electrical Engineering student", "goal_role": "smart_grid_engineer", "avatar": "⚡",
+      "cv": {
+        "Summary": "Final-year BEng Electrical & Electronic Engineering student interested in power systems and clean energy.",
+        "Education": "BEng Electrical & Electronic Engineering (Hons), final year. Coursework: power systems, protection, circuit design, electronics.",
+        "Experience": "Internship (3 months) at an electrical contractor: assisted wiring inspections and electrical installation checks. Prepared site reports for the supervisor.",
+        "Projects": "Final-year project: designed a small solar charge controller circuit. Used basic Python to plot lab data.",
+        "Activities": "Secretary of the Engineering Society. Organised a 2-day workshop and handled communication with 4 sponsors."
+      }
     },
     {
-      "id": "meiling", "name": "Mei Ling (sample)", "headline": "Admin executive, 6 years, wants a future-proof role",
-      "goal_role": "data_analyst",
-      "skills": {"scheduling_admin": 0.8, "excel_reporting": 0.7, "data_entry": 0.8, "communication": 0.6, "ownership": 0.7},
-      "cv_text": "Administrative executive for 6 years at a logistics SME. Prepares weekly Excel reports, manages schedules and data entry for shipments. Trained two new staff."
+      "id": "meiling", "name": "Mei Ling Tan", "headline": "Admin executive, 6 years, wants a future-proof role", "goal_role": "data_analyst", "avatar": "📊",
+      "cv": {
+        "Summary": "Administrative executive with 6 years of experience in a logistics SME, looking to move into data work.",
+        "Experience": "Administrative executive, 6 years. Manages scheduling and office administration for a team of 15. Responsible for data entry of all shipment records. Prepares weekly Excel reports for management. Trained two new staff members on our reporting process.",
+        "Skills": "Excel, data entry, scheduling, communication. Currently learning basic SQL online.",
+        "Activities": "Volunteer at a community food bank, coordinating weekend schedules."
+      }
     },
     {
-      "id": "ravi", "name": "Ravi (sample)", "headline": "Fresh Computer Science graduate",
-      "goal_role": "ai_engineer",
-      "skills": {"python": 0.6, "basic_coding": 0.7, "web_dev": 0.5, "sql": 0.5, "git": 0.5, "ml": 0.3},
-      "cv_text": "BSc Computer Science. Final-year project: web app with React and Flask. Comfortable with Python, SQL and Git. Completed one machine learning elective."
+      "id": "ravi", "name": "Ravi Kumar", "headline": "Fresh Computer Science graduate", "goal_role": "ai_engineer", "avatar": "🤖",
+      "cv": {
+        "Summary": "Fresh BSc Computer Science graduate who wants to work on AI products.",
+        "Education": "BSc Computer Science. Completed one machine learning elective (regression, classification).",
+        "Projects": "Final-year project: built a web app with React and a Flask backend, deployed with Docker. Developed REST APIs in Python with a PostgreSQL database. Hackathon: built a chatbot prototype with an LLM API and prompt engineering.",
+        "Skills": "Python, JavaScript, SQL, Git and GitHub, HTML/CSS.",
+        "Activities": "Member of the university coding club."
+      }
     }
   ]
 }
