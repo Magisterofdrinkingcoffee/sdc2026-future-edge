@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .card { @apply min-w-0 bg-white rounded-2xl border border-slate-200 p-5 shadow-sm; }
+  .btn { @apply inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition disabled:opacity-50; }
+  .btn-primary { @apply btn bg-edge-600 text-white hover:bg-edge-700; }
+  .btn-ghost { @apply btn border border-slate-300 bg-white hover:bg-slate-100; }
+  .chip { @apply inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium; }
+  .label { @apply text-xs font-semibold uppercase tracking-wide text-slate-500; }
+}
