@@ -1,0 +1,23 @@
+{
+  "_meta": {"note": "SYNTHETIC sample profiles. These are invented people – no real personal data is used (hackathon rule)."},
+  "profiles": [
+    {
+      "id": "aiman", "name": "Aiman (sample)", "headline": "Final-year Electrical Engineering student",
+      "goal_role": "smart_grid_engineer",
+      "skills": {"power_systems": 0.7, "circuit_design": 0.6, "electrical_maintenance": 0.4, "python": 0.3, "communication": 0.5, "ownership": 0.6},
+      "cv_text": "Final-year BEng Electrical & Electronic Engineering. Coursework in power systems, protection and circuit design. Internship: 3 months at a utility contractor doing wiring inspections. Basic Python for lab data. Secretary of the engineering society."
+    },
+    {
+      "id": "meiling", "name": "Mei Ling (sample)", "headline": "Admin executive, 6 years, wants a future-proof role",
+      "goal_role": "data_analyst",
+      "skills": {"scheduling_admin": 0.8, "excel_reporting": 0.7, "data_entry": 0.8, "communication": 0.6, "ownership": 0.7},
+      "cv_text": "Administrative executive for 6 years at a logistics SME. Prepares weekly Excel reports, manages schedules and data entry for shipments. Trained two new staff."
+    },
+    {
+      "id": "ravi", "name": "Ravi (sample)", "headline": "Fresh Computer Science graduate",
+      "goal_role": "ai_engineer",
+      "skills": {"python": 0.6, "basic_coding": 0.7, "web_dev": 0.5, "sql": 0.5, "git": 0.5, "ml": 0.3},
+      "cv_text": "BSc Computer Science. Final-year project: web app with React and Flask. Comfortable with Python, SQL and Git. Completed one machine learning elective."
+    }
+  ]
+}

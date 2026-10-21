@@ -1,0 +1,58 @@
+{
+  "_meta": {
+    "description": "Edge Assessment – short work scenarios that estimate judgment (critical_thinking) and responsibility (ownership). Each option gives preset points 0-3. Results are ESTIMATES, shown to the user as such, never used to make hiring decisions.",
+    "status": "DRAFT – the team should review/rewrite every scenario and add field-specific versions (Electrical / IT / Business)."
+  },
+  "questions": [
+    {
+      "id": "q1",
+      "text": "An AI tool gives you a design (code, wiring layout or report) that looks correct. The deadline is tomorrow. What do you do?",
+      "options": [
+        {"text": "Submit it as is – the AI is usually right.", "judgment": 0, "responsibility": 0},
+        {"text": "Skim it quickly and submit.", "judgment": 1, "responsibility": 1},
+        {"text": "Check the parts that would cause the most damage if wrong, then submit.", "judgment": 3, "responsibility": 2},
+        {"text": "Check the critical parts and tell your lead which parts were AI-generated.", "judgment": 3, "responsibility": 3}
+      ]
+    },
+    {
+      "id": "q2",
+      "text": "You notice a mistake in work your team already delivered to a client. Nobody else has noticed.",
+      "options": [
+        {"text": "Stay quiet – it's already delivered.", "judgment": 0, "responsibility": 0},
+        {"text": "Fix it silently in the next version.", "judgment": 1, "responsibility": 1},
+        {"text": "Tell your lead and suggest a fix.", "judgment": 2, "responsibility": 3},
+        {"text": "Tell your lead, estimate the impact on the client, and propose a fix.", "judgment": 3, "responsibility": 3}
+      ]
+    },
+    {
+      "id": "q3",
+      "text": "Two data sources give you different numbers for the same thing.",
+      "options": [
+        {"text": "Use the one that supports your conclusion.", "judgment": 0, "responsibility": 0},
+        {"text": "Average them.", "judgment": 1, "responsibility": 1},
+        {"text": "Find out why they differ before using either.", "judgment": 3, "responsibility": 2},
+        {"text": "Ask a colleague which one they normally use.", "judgment": 1, "responsibility": 1}
+      ]
+    },
+    {
+      "id": "q4",
+      "text": "Your manager asks you to take on a third project while you are already behind on two.",
+      "options": [
+        {"text": "Say yes and work late every night.", "judgment": 0, "responsibility": 1},
+        {"text": "Say no.", "judgment": 1, "responsibility": 0},
+        {"text": "Explain your current workload and ask which project should be prioritised.", "judgment": 3, "responsibility": 3},
+        {"text": "Accept, then quietly lower quality on all three.", "judgment": 0, "responsibility": 0}
+      ]
+    },
+    {
+      "id": "q5",
+      "text": "You are given a vague task: 'make our process better with AI'.",
+      "options": [
+        {"text": "Pick the newest AI tool and start using it.", "judgment": 0, "responsibility": 1},
+        {"text": "Wait until someone gives clearer instructions.", "judgment": 0, "responsibility": 0},
+        {"text": "Find where the process wastes the most time, then test one small AI fix there.", "judgment": 3, "responsibility": 3},
+        {"text": "Write a long report of every possible AI tool.", "judgment": 1, "responsibility": 2}
+      ]
+    }
+  ]
+}

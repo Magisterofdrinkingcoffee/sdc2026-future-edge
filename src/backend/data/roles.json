@@ -1,0 +1,86 @@
+{
+  "_meta": {
+    "description": "Future-role catalog. weight = importance of the skill for the role (1 = nice to have, 3 = core).",
+    "source": "Team-curated from ESCO occupation profiles (https://esco.ec.europa.eu) and O*NET (https://www.onetcenter.org). TODO before submission: add the ESCO/O*NET URI for each role in 'reference'."
+  },
+  "roles": [
+    {
+      "id": "ai_engineer", "title": "AI Engineer", "field": "IT",
+      "skills": {"python": 3, "ml": 3, "deep_learning": 2, "llm_apps": 3, "mlops": 2, "git": 1, "problem_framing": 2, "ai_ethics": 1, "critical_thinking": 2},
+      "sdgs": {"9.5": "Builds AI capability in local industry", "8.2": "Raises productivity through automation"},
+      "reference": null
+    },
+    {
+      "id": "data_analyst", "title": "Data Analyst", "field": "IT",
+      "skills": {"sql": 3, "data_analysis": 3, "data_viz": 2, "statistics": 2, "python": 2, "excel_reporting": 1, "communication": 2, "critical_thinking": 2},
+      "sdgs": {"8.2": "Data-driven decisions raise productivity"},
+      "reference": null
+    },
+    {
+      "id": "mlops_engineer", "title": "MLOps Engineer", "field": "IT",
+      "skills": {"mlops": 3, "cloud": 3, "python": 2, "git": 2, "ml": 2, "cybersecurity": 1, "ownership": 2},
+      "sdgs": {"9.5": "Keeps AI systems reliable in production", "9.c": "Scales digital infrastructure"},
+      "reference": null
+    },
+    {
+      "id": "software_developer", "title": "Software Developer", "field": "IT",
+      "skills": {"web_dev": 3, "basic_coding": 2, "git": 2, "python": 1, "sql": 2, "cloud": 1, "problem_framing": 2},
+      "sdgs": {"9.c": "Builds digital services", "8.2": "Technological upgrading"},
+      "reference": null
+    },
+    {
+      "id": "cybersecurity_analyst", "title": "Cybersecurity Analyst", "field": "IT",
+      "skills": {"cybersecurity": 3, "cloud": 2, "python": 1, "critical_thinking": 3, "ownership": 2, "communication": 1},
+      "sdgs": {"9.c": "Protects digital infrastructure and users"},
+      "reference": null
+    },
+    {
+      "id": "ai_product_manager", "title": "AI Product Manager", "field": "Business",
+      "skills": {"product_management": 3, "llm_apps": 2, "data_analysis": 2, "communication": 3, "leadership": 2, "ai_ethics": 2, "problem_framing": 3},
+      "sdgs": {"9.b": "Drives local technology innovation", "8.2": "Turns AI into productive products"},
+      "reference": null
+    },
+    {
+      "id": "smart_grid_engineer", "title": "Smart Grid Engineer", "field": "Electrical",
+      "skills": {"power_systems": 3, "iot": 2, "python": 2, "data_analysis": 2, "ml": 1, "critical_thinking": 2, "ownership": 2},
+      "sdgs": {"7.1": "Reliable, modern electricity supply", "9.4": "Upgrades energy infrastructure", "13.2": "Enables low-carbon grids"},
+      "reference": null
+    },
+    {
+      "id": "renewable_energy_engineer", "title": "Renewable Energy Engineer", "field": "Electrical",
+      "skills": {"renewable_energy": 3, "power_systems": 2, "circuit_design": 1, "data_analysis": 2, "python": 1, "problem_framing": 2, "communication": 1},
+      "sdgs": {"7.2": "Increases renewable share of the energy mix", "13.2": "Climate mitigation"},
+      "reference": null
+    },
+    {
+      "id": "iot_embedded_engineer", "title": "IoT / Embedded Systems Engineer", "field": "Electrical",
+      "skills": {"embedded": 3, "iot": 3, "circuit_design": 2, "python": 1, "cloud": 1, "problem_framing": 2},
+      "sdgs": {"9.4": "Smart, efficient industrial systems", "11.6": "Sensing for cleaner cities"},
+      "reference": null
+    },
+    {
+      "id": "electrical_technician", "title": "Electrical Maintenance Technician", "field": "Electrical",
+      "skills": {"electrical_maintenance": 3, "plc": 2, "circuit_design": 1, "ownership": 2, "communication": 1},
+      "sdgs": {"7.1": "Keeps energy services running", "8.8": "Safe working environments"},
+      "reference": null
+    },
+    {
+      "id": "admin_assistant", "title": "Administrative Assistant", "field": "Business",
+      "skills": {"scheduling_admin": 3, "excel_reporting": 2, "data_entry": 2, "communication": 2, "ownership": 2},
+      "sdgs": {"8.5": "Decent work – role at risk, reskilling protects employment"},
+      "reference": null
+    },
+    {
+      "id": "customer_support", "title": "Customer Support Agent", "field": "Business",
+      "skills": {"customer_service": 3, "communication": 2, "data_entry": 1, "ownership": 1},
+      "sdgs": {"8.5": "Decent work – role at risk, reskilling protects employment"},
+      "reference": null
+    },
+    {
+      "id": "data_entry_clerk", "title": "Data Entry Clerk", "field": "Business",
+      "skills": {"data_entry": 3, "excel_reporting": 2, "bookkeeping": 1, "ownership": 1},
+      "sdgs": {"8.5": "Decent work – role at risk, reskilling protects employment"},
+      "reference": null
+    }
+  ]
+}

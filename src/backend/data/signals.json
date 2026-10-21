@@ -1,0 +1,18 @@
+{
+  "_meta": {
+    "description": "AI-trend signals. Each signal is an arXiv search query; growth = papers in the last 12 months vs the 12 months before. Faster research growth in an area = AI capability in that area is moving faster.",
+    "source": "arXiv API (https://info.arxiv.org/help/api/) – export.arxiv.org/api/query"
+  },
+  "signals": [
+    {"id": "llm_codegen", "label": "LLM code generation", "query": "all:\"code generation\" AND all:\"language model\""},
+    {"id": "llm_data_analysis", "label": "LLMs for data analysis", "query": "all:\"data analysis\" AND all:\"large language model\""},
+    {"id": "automl", "label": "Automated machine learning", "query": "all:\"automated machine learning\""},
+    {"id": "llm_agents", "label": "LLM agents & task automation", "query": "all:\"agent\" AND all:\"large language model\""},
+    {"id": "document_ai", "label": "Document understanding / extraction", "query": "all:\"document understanding\""},
+    {"id": "conversational_ai", "label": "Conversational AI & chatbots", "query": "all:\"dialogue system\" OR all:\"conversational agent\""},
+    {"id": "visual_inspection", "label": "AI visual inspection", "query": "all:\"defect detection\""},
+    {"id": "smart_grid_ai", "label": "AI for smart grids & energy", "query": "all:\"smart grid\" AND all:\"machine learning\""},
+    {"id": "ai_security", "label": "AI for cybersecurity", "query": "all:\"intrusion detection\" AND all:\"deep learning\""},
+    {"id": "human_ai_collab", "label": "Human-AI collaboration", "query": "all:\"human-AI collaboration\""}
+  ]
+}

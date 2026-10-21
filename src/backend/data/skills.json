@@ -1,0 +1,49 @@
+{
+  "_meta": {
+    "description": "Skill catalog used for matching and forecasting.",
+    "fields": {
+      "category": "technical | data | domain | human",
+      "base_exposure": "0-1, share of this skill's typical tasks that AI can already do today.",
+      "ai_sensitivity": "0-1, how strongly AI research progress in the linked signal turns into automation of this skill.",
+      "signal": "id of the trend signal in signals.json that drives this skill's forecast."
+    },
+    "status": "PLACEHOLDER ESTIMATES by the team. Before submission replace base_exposure with values derived from a cited source (e.g. ILO generative-AI occupational exposure study, or O*NET task data) and record the source in 'exposure_source'.",
+    "exposure_source": "Team estimate (placeholder)"
+  },
+  "skills": [
+    {"id": "python", "name": "Python programming", "category": "technical", "aliases": ["python", "pandas", "numpy"], "base_exposure": 0.35, "ai_sensitivity": 0.8, "signal": "llm_codegen", "sdgs": ["8.2"]},
+    {"id": "basic_coding", "name": "Routine coding (CRUD, boilerplate)", "category": "technical", "aliases": ["html", "css", "php", "crud", "boilerplate"], "base_exposure": 0.55, "ai_sensitivity": 1.0, "signal": "llm_codegen", "sdgs": ["8.2"]},
+    {"id": "web_dev", "name": "Web application development", "category": "technical", "aliases": ["react", "javascript", "typescript", "web development", "frontend", "backend"], "base_exposure": 0.4, "ai_sensitivity": 0.8, "signal": "llm_codegen", "sdgs": ["8.2", "9.c"]},
+    {"id": "git", "name": "Version control (Git)", "category": "technical", "aliases": ["git", "github", "version control"], "base_exposure": 0.25, "ai_sensitivity": 0.5, "signal": "llm_codegen", "sdgs": ["8.2"]},
+    {"id": "sql", "name": "SQL & databases", "category": "data", "aliases": ["sql", "mysql", "postgresql", "database"], "base_exposure": 0.4, "ai_sensitivity": 0.8, "signal": "llm_data_analysis", "sdgs": ["8.2"]},
+    {"id": "ml", "name": "Machine learning", "category": "technical", "aliases": ["machine learning", "scikit-learn", "ml", "regression", "classification"], "base_exposure": 0.25, "ai_sensitivity": 0.6, "signal": "automl", "sdgs": ["9.5", "8.2"]},
+    {"id": "deep_learning", "name": "Deep learning", "category": "technical", "aliases": ["deep learning", "pytorch", "tensorflow", "neural network", "cnn"], "base_exposure": 0.2, "ai_sensitivity": 0.5, "signal": "automl", "sdgs": ["9.5"]},
+    {"id": "llm_apps", "name": "Building LLM / GenAI applications", "category": "technical", "aliases": ["llm", "genai", "generative ai", "prompt engineering", "rag", "langchain"], "base_exposure": 0.15, "ai_sensitivity": 0.4, "signal": "llm_agents", "sdgs": ["9.5", "8.2"]},
+    {"id": "mlops", "name": "MLOps & model deployment", "category": "technical", "aliases": ["mlops", "docker", "kubernetes", "model deployment", "ci/cd"], "base_exposure": 0.2, "ai_sensitivity": 0.5, "signal": "llm_agents", "sdgs": ["9.5"]},
+    {"id": "cloud", "name": "Cloud platforms", "category": "technical", "aliases": ["aws", "azure", "gcp", "cloud"], "base_exposure": 0.25, "ai_sensitivity": 0.5, "signal": "llm_agents", "sdgs": ["9.c"]},
+    {"id": "cybersecurity", "name": "Cybersecurity & threat analysis", "category": "technical", "aliases": ["cybersecurity", "security", "soc", "penetration testing", "siem"], "base_exposure": 0.25, "ai_sensitivity": 0.6, "signal": "ai_security", "sdgs": ["9.c"]},
+    {"id": "embedded", "name": "Embedded systems & microcontrollers", "category": "technical", "aliases": ["embedded", "arduino", "microcontroller", "stm32", "c programming"], "base_exposure": 0.2, "ai_sensitivity": 0.5, "signal": "llm_codegen", "sdgs": ["9.4"]},
+    {"id": "iot", "name": "IoT & sensor networks", "category": "technical", "aliases": ["iot", "sensors", "mqtt", "internet of things"], "base_exposure": 0.2, "ai_sensitivity": 0.5, "signal": "smart_grid_ai", "sdgs": ["9.4", "11.6"]},
+    {"id": "plc", "name": "PLC & industrial automation", "category": "technical", "aliases": ["plc", "scada", "industrial automation"], "base_exposure": 0.25, "ai_sensitivity": 0.5, "signal": "visual_inspection", "sdgs": ["9.4"]},
+    {"id": "data_analysis", "name": "Data analysis", "category": "data", "aliases": ["data analysis", "analytics", "excel analysis"], "base_exposure": 0.45, "ai_sensitivity": 0.9, "signal": "llm_data_analysis", "sdgs": ["8.2"]},
+    {"id": "data_viz", "name": "Data visualisation & dashboards", "category": "data", "aliases": ["power bi", "tableau", "dashboard", "visualisation", "visualization"], "base_exposure": 0.4, "ai_sensitivity": 0.8, "signal": "llm_data_analysis", "sdgs": ["8.2"]},
+    {"id": "statistics", "name": "Statistics", "category": "data", "aliases": ["statistics", "probability", "hypothesis testing"], "base_exposure": 0.3, "ai_sensitivity": 0.6, "signal": "llm_data_analysis", "sdgs": ["4.4"]},
+    {"id": "data_entry", "name": "Data entry", "category": "data", "aliases": ["data entry", "typing", "record keeping"], "base_exposure": 0.75, "ai_sensitivity": 1.0, "signal": "document_ai", "sdgs": ["8.5"]},
+    {"id": "excel_reporting", "name": "Spreadsheet reporting", "category": "data", "aliases": ["excel", "spreadsheet", "reporting"], "base_exposure": 0.6, "ai_sensitivity": 0.9, "signal": "llm_data_analysis", "sdgs": ["8.2"]},
+    {"id": "power_systems", "name": "Power systems engineering", "category": "domain", "aliases": ["power systems", "power system", "load flow", "protection"], "base_exposure": 0.15, "ai_sensitivity": 0.5, "signal": "smart_grid_ai", "sdgs": ["7.1", "9.4"]},
+    {"id": "renewable_energy", "name": "Renewable energy systems (solar, storage)", "category": "domain", "aliases": ["solar", "pv", "renewable", "battery storage", "wind"], "base_exposure": 0.1, "ai_sensitivity": 0.4, "signal": "smart_grid_ai", "sdgs": ["7.2", "13.2"]},
+    {"id": "circuit_design", "name": "Circuit design", "category": "domain", "aliases": ["circuit design", "pcb", "electronics", "analog"], "base_exposure": 0.25, "ai_sensitivity": 0.5, "signal": "llm_codegen", "sdgs": ["9.5"]},
+    {"id": "electrical_maintenance", "name": "Electrical installation & maintenance", "category": "domain", "aliases": ["wiring", "maintenance", "electrical installation"], "base_exposure": 0.15, "ai_sensitivity": 0.4, "signal": "visual_inspection", "sdgs": ["7.1", "8.8"]},
+    {"id": "customer_service", "name": "Customer service (scripted)", "category": "domain", "aliases": ["customer service", "call centre", "call center", "helpdesk", "support"], "base_exposure": 0.6, "ai_sensitivity": 1.0, "signal": "conversational_ai", "sdgs": ["8.5"]},
+    {"id": "bookkeeping", "name": "Bookkeeping", "category": "domain", "aliases": ["bookkeeping", "accounts", "invoicing"], "base_exposure": 0.6, "ai_sensitivity": 0.9, "signal": "document_ai", "sdgs": ["8.5"]},
+    {"id": "scheduling_admin", "name": "Scheduling & office administration", "category": "domain", "aliases": ["admin", "administration", "scheduling", "clerical"], "base_exposure": 0.6, "ai_sensitivity": 0.9, "signal": "llm_agents", "sdgs": ["8.5"]},
+    {"id": "product_management", "name": "Product management", "category": "domain", "aliases": ["product management", "product owner", "roadmap"], "base_exposure": 0.15, "ai_sensitivity": 0.3, "signal": "llm_agents", "sdgs": ["8.2", "9.b"]},
+    {"id": "critical_thinking", "name": "Judgment & critical thinking", "category": "human", "aliases": ["critical thinking", "judgment", "judgement", "analytical thinking", "decision making"], "base_exposure": 0.1, "ai_sensitivity": 0.2, "signal": "human_ai_collab", "sdgs": ["4.4", "4.7"]},
+    {"id": "ownership", "name": "Responsibility & ownership", "category": "human", "aliases": ["responsibility", "ownership", "accountability", "reliable"], "base_exposure": 0.05, "ai_sensitivity": 0.1, "signal": "human_ai_collab", "sdgs": ["8.5"]},
+    {"id": "communication", "name": "Communication", "category": "human", "aliases": ["communication", "presentation", "writing", "public speaking"], "base_exposure": 0.2, "ai_sensitivity": 0.3, "signal": "conversational_ai", "sdgs": ["4.4"]},
+    {"id": "leadership", "name": "Leadership & teamwork", "category": "human", "aliases": ["leadership", "team lead", "teamwork", "president", "captain"], "base_exposure": 0.05, "ai_sensitivity": 0.1, "signal": "human_ai_collab", "sdgs": ["8.5", "5.5"]},
+    {"id": "problem_framing", "name": "Problem framing & systems thinking", "category": "human", "aliases": ["problem solving", "systems thinking", "problem framing"], "base_exposure": 0.1, "ai_sensitivity": 0.25, "signal": "llm_agents", "sdgs": ["4.4", "9.5"]},
+    {"id": "ai_ethics", "name": "Responsible AI & ethics", "category": "human", "aliases": ["ai ethics", "responsible ai", "fairness", "governance"], "base_exposure": 0.05, "ai_sensitivity": 0.1, "signal": "human_ai_collab", "sdgs": ["10.2"]},
+    {"id": "mentoring", "name": "Teaching & mentoring", "category": "human", "aliases": ["teaching", "mentoring", "tutoring", "instructor", "coaching"], "base_exposure": 0.1, "ai_sensitivity": 0.2, "signal": "human_ai_collab", "sdgs": ["4.4", "4.c"]}
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "source": "SAMPLE DATA \u2013 not real. Press 'Refresh trend data' (or run python -m src.backend.trends) to fetch live arXiv counts.",
+  "source_url": "https://info.arxiv.org/help/api/",
+  "fetched_at": null,
+  "is_sample": true,
+  "signals": {
+    "llm_codegen": {
+      "label": "LLM code generation",
+      "query": "all:\"code generation\" AND all:\"language model\"",
+      "recent_12m": null,
+      "previous_12m": null,
+      "growth": 0.6
+    },
+    "llm_data_analysis": {
+      "label": "LLMs for data analysis",
+      "query": "all:\"data analysis\" AND all:\"large language model\"",
+      "recent_12m": null,
+      "previous_12m": null,
+      "growth": 0.8
+    },
+    "automl": {
+      "label": "Automated machine learning",
+      "query": "all:\"automated machine learning\"",
+      "recent_12m": null,
+      "previous_12m": null,
+      "growth": 0.1
+    },
+    "llm_agents": {
+      "label": "LLM agents & task automation",
+      "query": "all:\"agent\" AND all:\"large language model\"",
+      "recent_12m": null,
+      "previous_12m": null,
+      "growth": 1.0
+    },
+    "document_ai": {
+      "label": "Document understanding / extraction",
+      "query": "all:\"document understanding\"",
+      "recent_12m": null,
+      "previous_12m": null,
+      "growth": 0.3
+    },
+    "conversational_ai": {
+      "label": "Conversational AI & chatbots",
+      "query": "all:\"dialogue system\" OR all:\"conversational agent\"",
+      "recent_12m": null,
+      "previous_12m": null,
+      "growth": 0.2
+    },
+    "visual_inspection": {
+      "label": "AI visual inspection",
+      "query": "all:\"defect detection\"",
+      "recent_12m": null,
+      "previous_12m": null,
+      "growth": 0.25
+    },
+    "smart_grid_ai": {
+      "label": "AI for smart grids & energy",
+      "query": "all:\"smart grid\" AND all:\"machine learning\"",
+      "recent_12m": null,
+      "previous_12m": null,
+      "growth": 0.15
+    },
+    "ai_security": {
+      "label": "AI for cybersecurity",
+      "query": "all:\"intrusion detection\" AND all:\"deep learning\"",
+      "recent_12m": null,
+      "previous_12m": null,
+      "growth": 0.2
+    },
+    "human_ai_collab": {
+      "label": "Human-AI collaboration",
+      "query": "all:\"human-AI collaboration\"",
+      "recent_12m": null,
+      "previous_12m": null,
+      "growth": 0.4
+    }
+  }
+}

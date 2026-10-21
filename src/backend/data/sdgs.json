@@ -1,0 +1,35 @@
+{
+  "_meta": {
+    "source": "United Nations, Sustainable Development Goals – targets (https://sdgs.un.org/goals). Target texts shortened; check wording against the source before citing in the PRD.",
+    "domain_focus": ["4.3", "4.4", "8.2", "8.5"]
+  },
+  "goals": {
+    "4": "Quality Education",
+    "5": "Gender Equality",
+    "7": "Affordable and Clean Energy",
+    "8": "Decent Work and Economic Growth",
+    "9": "Industry, Innovation and Infrastructure",
+    "10": "Reduced Inequalities",
+    "11": "Sustainable Cities and Communities",
+    "13": "Climate Action"
+  },
+  "targets": {
+    "4.3": "Equal access to affordable, quality technical, vocational and tertiary education",
+    "4.4": "Substantially increase the number of youth and adults with relevant skills, including technical and vocational skills, for employment and decent jobs",
+    "4.7": "All learners acquire the knowledge and skills needed to promote sustainable development",
+    "4.c": "Substantially increase the supply of qualified teachers",
+    "5.5": "Women's full participation and equal opportunities for leadership",
+    "7.1": "Universal access to affordable, reliable and modern energy services",
+    "7.2": "Increase substantially the share of renewable energy in the global energy mix",
+    "8.2": "Higher economic productivity through diversification, technological upgrading and innovation",
+    "8.5": "Full and productive employment and decent work for all, including young people",
+    "8.8": "Protect labour rights and promote safe and secure working environments",
+    "9.4": "Upgrade infrastructure and retrofit industries to make them sustainable, with clean technologies",
+    "9.5": "Enhance scientific research and upgrade the technological capabilities of industrial sectors",
+    "9.b": "Support domestic technology development, research and innovation",
+    "9.c": "Significantly increase access to information and communications technology",
+    "10.2": "Empower and promote the social and economic inclusion of all",
+    "11.6": "Reduce the adverse per-capita environmental impact of cities",
+    "13.2": "Integrate climate change measures into policies and planning"
+  }
+}
