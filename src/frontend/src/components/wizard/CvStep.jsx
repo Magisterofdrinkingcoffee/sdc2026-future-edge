@@ -19,7 +19,7 @@ export default function CvStep({ s, set, meta, award }) {
   const apply = (res, extra) => {
     const skills = Object.fromEntries(Object.entries(res.skills).map(([k, v]) => [k, nearest(v.level)]))
     set((p) => ({
-      profile: { ...p.profile, ...extra, skills, evidence: res.skills, source: res.source },
+      profile: { ...p.profile, ...extra, skills, evidence: res.skills, source: res.source, reader: res.reader || null },
       completed: [], history: [],
     }))
     award('cv', XP.cv, 'CV added')
@@ -37,7 +37,7 @@ export default function CvStep({ s, set, meta, award }) {
 
   const onFile = (f) => {
     if (!f) return
-    if (f.type !== 'application/pdf' && !f.name.toLowerCase().endsWith('.pdf')) { setErr('Please choose a PDF file.'); return }
+    if (!/\.(pdf|docx|txt|png|jpe?g|webp|heic)$/i.test(f.name)) { setErr('Please choose a PDF, Word (.docx), photo or .txt file.'); return }
     run(`Reading ${f.name}`, () => api.uploadCv(f), { name: s.profile.name, avatar: '🙂', goal_role: '', sampleId: null })
   }
 
@@ -58,7 +58,7 @@ export default function CvStep({ s, set, meta, award }) {
       {phase === 'choose' && (
         <>
           <h1 className="text-3xl font-bold">Start with your CV</h1>
-          <p className="mt-2 text-muted">We read it once to find your skills, then throw it away. Please use a CV without your IC number or address.</p>
+          <p className="mt-2 text-muted">We read it once to find your skills, then throw it away. Your name, email, phone, IC number, age and gender are removed before matching.</p>
 
           {err && <div role="alert" className="mt-4 rounded-2xl border-2 border-coral-500 bg-coral-50 p-3 text-sm text-coral-600">{err}</div>}
 
@@ -69,8 +69,8 @@ export default function CvStep({ s, set, meta, award }) {
               onDrop={(e) => { e.preventDefault(); setDrag(false); onFile(e.dataTransfer.files[0]) }}
               className={`mt-6 grid w-full place-items-center rounded-3xl border-2 border-dashed px-6 py-10 text-center transition-colors ${drag ? 'border-violet-500 bg-violet-50' : 'border-line bg-white hover:border-violet-300'}`}>
               <span className="text-5xl" aria-hidden>📤</span>
-              <span className="mt-3 font-display text-xl font-semibold">Drop your PDF CV here</span>
-              <span className="text-sm text-muted">or click to choose a file (max 5 MB)</span>
+              <span className="mt-3 font-display text-xl font-semibold">Drop your CV here</span>
+              <span className="text-sm text-muted">PDF, Word, photo or .txt, max 5 MB. Click to choose a file.</span>
             </button>
           ) : (
             <div className="mt-6">
@@ -81,9 +81,9 @@ export default function CvStep({ s, set, meta, award }) {
                 onClick={() => run('Reading your text', () => api.parseText(text), { goal_role: '', sampleId: null })}>Find my skills</button>
             </div>
           )}
-          <input ref={fileRef} type="file" accept="application/pdf,.pdf" className="hidden" onChange={(e) => onFile(e.target.files[0])} />
+          <input ref={fileRef} type="file" accept=".pdf,.docx,.txt,.png,.jpg,.jpeg,.webp,.heic,application/pdf,image/*" className="hidden" onChange={(e) => onFile(e.target.files[0])} />
           <button className="mt-3 text-sm font-bold text-violet-600 underline" onClick={() => setPaste(!paste)}>
-            {paste ? 'Upload a PDF instead' : 'No PDF? Paste text instead'}
+            {paste ? 'Upload a file instead' : 'Prefer to paste text instead?'}
           </button>
 
           <h2 className="mt-10 text-xl font-bold">Or try a sample person</h2>
@@ -109,6 +109,16 @@ export default function CvStep({ s, set, meta, award }) {
         <>
           <h1 className="text-3xl font-bold">We found {Object.keys(s.profile.skills).length} skills</h1>
           <p className="mt-2 text-muted">From <b>{s.profile.source || 'your profile'}</b>. Check each level. We guessed it from how you described it.</p>
+          {s.profile.reader && (
+            <div className="mt-3 rounded-2xl bg-sprout-50 p-3 text-sm text-sprout-700">
+              🔒 {s.profile.reader.removed_personal_data.length
+                ? `Removed before matching: ${s.profile.reader.removed_personal_data.map((x) => ({ name: 'name', email: 'email', phone: 'phone', ic_number: 'IC number', age_dob: 'age / date of birth', gender: 'gender', marital: 'marital status' }[x] || x)).join(', ')}.`
+                : 'No personal data found to remove.'}
+              {' '}Read with {s.profile.reader.method.startsWith('gemini') ? 'Gemini, and every phrase was checked against your CV' : 'our offline reader'}.
+              {s.profile.reader.rejected_phrases > 0 && ` ${s.profile.reader.rejected_phrases} phrase(s) the AI suggested were not in your CV and were dropped.`}
+              {s.profile.reader.warnings.map((w, i) => <div key={i} className="mt-1 text-sun-600">{w}</div>)}
+            </div>
+          )}
 
           <label className="mt-6 block">
             <span className="text-sm font-bold">What should we call you?</span>
