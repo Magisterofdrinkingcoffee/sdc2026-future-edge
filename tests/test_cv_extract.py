@@ -1,18 +1,17 @@
 """Tests for the new CV reader (src/backend/cv_extract.py + gemini_cv.py).
 
-The module is not wired into the app yet; to use it, replace the body of
-cv_parser.extract_text() with:   return extract_cv(pdf_bytes)["raw_text"]
-and add "pymupdf" to requirements.txt.
+Used by POST /api/profile/upload. PDFs are read with pypdf (no PyMuPDF), and the test PDFs/PNGs
+below are built by hand so the tests need no extra packages.
 
 No API key or internet needed: Gemini is faked. All CVs are SYNTHETIC.
 """
 import io
 import os
+import struct
 import zipfile
+import zlib
 
 import pytest
-
-pymupdf = pytest.importorskip("pymupdf")  # skipped (not failed) if pymupdf isn't installed yet
 
 os.environ.pop("GEMINI_API_KEY", None)
 from src.backend import cv_extract, gemini_cv  # noqa: E402
@@ -34,12 +33,33 @@ SKILLS
 Excel, SQL, Power BI, Single sign-on setup"""
 
 
+def _pdf_escape(t):
+    return t.replace("\\", "\\\\").replace("(", "\\(").replace(")", "\\)").replace("•", "-")
+
+
 def pdf(text=CV, columns=None):
-    doc = pymupdf.open()
-    page = doc.new_page()
-    for rect, t in (columns or [((50, 50, 550, 800), text)]):
-        page.insert_textbox(pymupdf.Rect(*rect), t, fontsize=10)
-    return doc.tobytes()
+    """Minimal one-page PDF (Helvetica). columns: [((x, y_top), text), ...] in points from the top-left."""
+    blocks = columns or [((50, 50), text)]
+    ops = []
+    for (x, y), t in blocks:
+        ops.append(f"BT /F1 10 Tf 12 TL {x} {842 - y} Td")
+        ops += [f"({_pdf_escape(line)}) Tj T*" for line in t.splitlines()]
+        ops.append("ET")
+    stream = "\n".join(ops).encode("latin-1")
+    objs = [b"<< /Type /Catalog /Pages 2 0 R >>",
+            b"<< /Type /Pages /Kids [3 0 R] /Count 1 >>",
+            b"<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >>",
+            b"<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>",
+            b"<< /Length %d >>\nstream\n" % len(stream) + stream + b"\nendstream"]
+    out, offsets = bytearray(b"%PDF-1.4\n"), []
+    for i, o in enumerate(objs, 1):
+        offsets.append(len(out))
+        out += b"%d 0 obj\n" % i + o + b"\nendobj\n"
+    xref = len(out)
+    out += b"xref\n0 %d\n0000000000 65535 f \n" % (len(objs) + 1)
+    out += b"".join(b"%010d 00000 n \n" % off for off in offsets)
+    out += b"trailer\n<< /Size %d /Root 1 0 R >>\nstartxref\n%d\n%%%%EOF\n" % (len(objs) + 1, xref)
+    return bytes(out)
 
 
 def docx(paragraphs):
@@ -53,9 +73,12 @@ def docx(paragraphs):
 
 
 def png():
-    src = pymupdf.open()
-    src.new_page().insert_text((50, 50), "SKILLS: Excel", fontsize=12)
-    return src[0].get_pixmap(dpi=60).tobytes("png")
+    """A tiny valid PNG (a photo of a CV has no text layer)."""
+    def chunk(kind, data):
+        return struct.pack(">I", len(data)) + kind + data + struct.pack(">I", zlib.crc32(kind + data))
+    raw = b"".join(b"\x00" + b"\xff" * 30 for _ in range(10))
+    return (b"\x89PNG\r\n\x1a\n" + chunk(b"IHDR", struct.pack(">IIBBBBB", 10, 10, 8, 2, 0, 0, 0))
+            + chunk(b"IDAT", zlib.compress(raw)) + chunk(b"IEND", b""))
 
 
 @pytest.fixture
@@ -78,18 +101,31 @@ def test_personal_data_removed_work_text_kept():
 
 def test_layout_kept():
     text = extract_cv(pdf())["raw_text"]
-    assert "• Data input of shipping orders into SAP" in text
+    assert "Data input of shipping orders into SAP" in text
     assert "\nSKILLS\n" in text
 
 
-def test_two_columns():
-    text = extract_cv(pdf(columns=[
-        ((40, 40, 560, 80), "Lim Wei Jie\nwei@example.com"),
-        ((40, 100, 250, 800), "SKILLS\nHydraulics, Pneumatics"),
-        ((300, 100, 560, 800), "WORK EXPERIENCE\n• Machinery repair for stamping presses"),
-    ]))["raw_text"]
-    assert text.index("Hydraulics") < text.index("Machinery repair")
-    assert "Lim Wei Jie" not in text
+def test_text_pdf_sends_redacted_text_to_gemini(fake_gemini, monkeypatch):
+    """Privacy: for PDFs we can read, Gemini gets the text without personal data, never the file."""
+    sent = {}
+    def capture(part):
+        sent.update(part)
+        return {"summary": [], "experience": [], "certifications": [], "projects": [], "skills": ["Excel"], "full_text": ""}
+    fake_gemini({})
+    monkeypatch.setattr(gemini_cv, "call_gemini", capture)
+    extract_cv(pdf())
+    assert sent["type"] == "text"
+    for secret in ["Nurul", "nurul.synthetic", "013-222", "950101"]:
+        assert secret not in sent["text"]
+
+
+def test_upload_endpoint_reads_word_and_removes_personal_data():
+    from fastapi.testclient import TestClient
+    from src.backend.main import app
+    c = TestClient(app)
+    r = c.post("/api/profile/upload", files={"file": ("cv.docx", docx(["Ali bin Abu", "ali@example.com", "SKILLS", "Excel, SQL, Python"]), "application/octet-stream")}).json()
+    assert {"sql", "python"} <= set(r["skills"]) and "email" in r["reader"]["removed_personal_data"]
+    assert c.post("/api/profile/upload", files={"file": ("cv.doc", b"\xd0\xcf\x11\xe0" + b"\0" * 64, "application/msword")}).status_code == 400
 
 
 def test_word_docx():

@@ -1,4 +1,7 @@
-"""CV extraction: PDF -> clean text -> sections -> phrases for skill matching.
+"""CV extraction: PDF / Word / photo / text -> clean text -> sections -> phrases for skill matching.
+
+Author: Alibek Berikov (PR #1). PDF reading switched from PyMuPDF (AGPL-3.0) to pypdf (BSD)
+so the project stays compatible with its Apache-2.0 licence.
 
 Output contract (what the matching step receives):
 {
@@ -32,7 +35,7 @@ from io import BytesIO
 from pathlib import Path
 from xml.etree import ElementTree
 
-import pymupdf  # pip install pymupdf
+from pypdf import PdfReader  # BSD licence
 
 
 def _load_dotenv():
@@ -142,31 +145,12 @@ DATE_ONLY = re.compile(r"^[\d\s/\-–—.,]*(jan|feb|mar|apr|may|jun|jul|aug|sep
 
 
 # ---------------- reading the PDF ----------------
-def _ordered_blocks(page):
-    """Text blocks in reading order, handling simple two-column CV layouts."""
-    blocks = [b for b in page.get_text("blocks", sort=True) if b[6] == 0 and b[4].strip()]
-    mid = page.rect.width / 2
-    spanning = [b for b in blocks if b[0] < mid * 0.9 and b[2] > mid * 1.1]  # full-width header etc.
-    left = [b for b in blocks if b[2] <= mid * 1.1]
-    right = [b for b in blocks if b[0] >= mid * 0.9]
-    # Two columns: read full-width blocks first, then the whole left column, then the right one
-    if len(left) >= 2 and len(right) >= 2:
-        by_y = lambda b: b[1]
-        return sorted(spanning, key=by_y) + sorted(left, key=by_y) + sorted(right, key=by_y)
-    return blocks
-
-
 def read_pdf(data, filename="cv.pdf"):
-    if isinstance(data, (str, Path)):
-        doc = pymupdf.open(data)
-    else:
-        doc = pymupdf.open(stream=data, filetype=Path(filename).suffix.lstrip(".") or "pdf")
-    pages = []
-    for page in doc:
-        pages.append("\n".join(b[4].strip() for b in _ordered_blocks(page)))
-    n = doc.page_count
-    doc.close()
-    return pages, n
+    """PDF -> list of page texts (pypdf). Multi-column layouts are read line by line;
+    Gemini mode handles complex layouts better."""
+    reader = PdfReader(str(data) if isinstance(data, (str, Path)) else BytesIO(data))
+    pages = [page.extract_text() or "" for page in reader.pages]
+    return pages, len(pages)
 
 
 # ---------------- cleaning ----------------
@@ -312,9 +296,10 @@ def extract_cv(data, filename=None, method=None):
     except ImportError:
         import gemini_cv
     file_bytes = Path(data).read_bytes() if isinstance(data, (str, Path)) else data
-    if kind in ("docx", "txt"):
-        # Gemini reads documents as PDF/images; for Word/text we send the extracted text
-        part = {"type": "text", "text": "CV TEXT:\n" + rules_result["raw_text"]}  # already without personal data
+    if kind in ("docx", "txt") or (kind == "pdf" and not rules_result["is_scanned"]):
+        # Privacy: when we can read the text ourselves, Gemini only gets the text with personal data removed.
+        # Only scans and photos (no text layer) are sent as the original file.
+        part = {"type": "text", "text": "CV TEXT:\n" + rules_result["raw_text"]}
     elif len(file_bytes) > MAX_GEMINI_BYTES:
         rules_result["warnings"].append("File is larger than 18MB - too big for Gemini; used rules.")
         rules_result.pop("_full_text", None)
