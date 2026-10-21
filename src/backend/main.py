@@ -8,14 +8,17 @@ import threading
 from pathlib import Path
 from typing import Dict, List, Optional
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 from . import scoring, trends
-from .data_store import load
+from .cv_parser import extract_text, parse_skills
+from .data_store import DATA_DIR, load
+
+SAMPLE_CVS = DATA_DIR / "sample_cvs"
 
 app = FastAPI(title="Future Edge API", version="0.1.0")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
@@ -89,19 +92,44 @@ def meta():
     }
 
 
+def _parsed(text, source):
+    d = load()
+    found = parse_skills(text, d["skills"])
+    for sid, f in found.items():
+        f["name"] = d["skills"][sid]["name"]
+        f["category"] = d["skills"][sid]["category"]
+    return {"skills": found, "source": source, "chars": len(text),
+            "method": "Keyword + context rules against our skill catalog (skills.json). The parser can only return catalog skills.",
+            "note": "Levels are a first guess from the wording of your CV – adjust them if they're wrong."}
+
+
 @app.post("/api/profile/parse")
 def parse_profile(body: ParseIn):
-    """Keyword-based skill extraction from CV / free text.
-    TODO(team): add LLM structured extraction, still restricted to skill ids in skills.json."""
-    d = load()
-    text = body.text.lower()
-    found = {}
-    for s in d["skills"].values():
-        for alias in [s["name"].lower()] + s["aliases"]:
-            if re.search(r"(?<![a-z])" + re.escape(alias) + r"(?![a-z])", text):
-                found[s["id"]] = 0.5
-                break
-    return {"skills": found, "method": "keyword match against skills.json", "note": "Default level 0.5 – the user should adjust each level."}
+    """Parse pasted CV text."""
+    return _parsed(body.text, "pasted text")
+
+
+@app.post("/api/profile/upload")
+async def upload_cv(file: UploadFile = File(...)):
+    """Parse an uploaded PDF CV. Nothing is stored – the file is read in memory and discarded."""
+    raw = await file.read()
+    if len(raw) > 5 * 1024 * 1024:
+        raise HTTPException(413, "PDF too large (max 5 MB)")
+    try:
+        text = extract_text(raw)
+    except Exception:
+        raise HTTPException(400, "Could not read this PDF. Try another file or paste the text instead.")
+    if len(text.strip()) < 20:
+        raise HTTPException(400, "This PDF has no readable text (maybe it's a scanned image). Paste the text instead.")
+    return _parsed(text, file.filename or "uploaded PDF")
+
+
+@app.get("/api/sample-cvs/{profile_id}.pdf")
+def sample_cv(profile_id: str):
+    f = SAMPLE_CVS / f"{profile_id}.pdf"
+    if not re.fullmatch(r"[a-z]+", profile_id) or not f.is_file():
+        raise HTTPException(404, "no such sample CV")
+    return FileResponse(f, media_type="application/pdf", filename=f"{profile_id}-sample-cv.pdf")
 
 
 @app.get("/api/assessment")
@@ -169,5 +197,7 @@ if DIST.exists():
 
     @app.get("/{path:path}")
     def spa(path: str):
+        if path.startswith("api/"):
+            raise HTTPException(404, "unknown API route")
         f = DIST / path
         return FileResponse(f if path and f.is_file() else DIST / "index.html")
