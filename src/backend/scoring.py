@@ -42,7 +42,8 @@ HUMAN_SKILLS = ("critical_thinking", "ownership")
 DEFAULT_HUMAN = 0.3      # used when the assessment has not been taken
 STEP_BOOST = 0.3         # proficiency gained by completing one pathway step
 HAVE_THRESHOLD = 0.3     # proficiency at which a skill counts as "have"
-JOB_READY = 0.7          # proficiency at which a skill gets full credit (and leaves the gap list)
+JOB_READY = 0.7
+AT_RISK_EXPOSURE = 0.5   # a role is "at risk" if AI can do half of its weighted work by year 3          # proficiency at which a skill gets full credit (and leaves the gap list)
 CATEGORIES = ("technical", "data", "domain", "human")
 
 
@@ -181,6 +182,7 @@ def edge_for_role(role, skills, data, scenario, assessed):
             gap.append({"skill": s, "name": cat[s]["name"], "weight": w, "have": round(p, 2)})
 
     have_n = sum(1 for s in role["skills"] if skills.get(s, 0) >= HAVE_THRESHOLD)
+    role_exposure_y3 = sum(w * exposure(cat[s], YEARS[-1], scenario, trends) for s, w in role["skills"].items()) / sum(role["skills"].values())
     return {
         "role_id": role["id"],
         "title": role["title"],
@@ -194,6 +196,8 @@ def edge_for_role(role, skills, data, scenario, assessed):
         "edge_y3": timeline[-1]["edge"],
         "gap": gap,
         "sdgs": role["sdgs"],
+        "role_ai_exposure_y3": round(role_exposure_y3, 2),
+        "at_risk": role_exposure_y3 >= AT_RISK_EXPOSURE,
         "explain": {
             "match": f"You have {have_n} of {len(role['skills'])} skills this role needs (weighted by importance): {round(match * 100)}%.",
             "fit": f"Counting only the part of your skills AI can't do, you cover {round(timeline[0]['fit'] * 100)}% of this role today and {round(timeline[-1]['fit'] * 100)}% in year 3 ({SCENARIOS[scenario]['label'].lower()}).",

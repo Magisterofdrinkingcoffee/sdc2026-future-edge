@@ -65,6 +65,12 @@
       "reference": null
     },
     {
+      "id": "project_coordinator", "title": "Project Coordinator", "field": "Business",
+      "skills": {"scheduling_admin": 2, "communication": 3, "ownership": 3, "leadership": 2, "problem_framing": 2, "data_analysis": 1, "excel_reporting": 1},
+      "sdgs": {"8.5": "Decent work: a growth path for admin and support staff", "8.2": "Coordinates teams adopting new technology"},
+      "reference": null
+    },
+    {
       "id": "admin_assistant", "title": "Administrative Assistant", "field": "Business",
       "skills": {"scheduling_admin": 3, "excel_reporting": 2, "data_entry": 2, "communication": 2, "ownership": 2},
       "sdgs": {"8.5": "Decent work – role at risk, reskilling protects employment"},
