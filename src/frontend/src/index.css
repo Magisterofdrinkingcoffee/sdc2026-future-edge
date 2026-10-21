@@ -18,7 +18,7 @@
   .btn-violet { @apply btn3d bg-violet-500 border-violet-700 text-white hover:bg-violet-600; }
   .btn-green  { @apply btn3d bg-sprout-500 border-sprout-700 text-white hover:bg-sprout-600; }
   .btn-white  { @apply btn3d bg-white border-2 border-b-4 border-line text-ink hover:bg-canvas; }
-  .chip { @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-bold; }
+  .chip { @apply inline-flex max-w-full items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-bold; overflow-wrap: anywhere; }
   .option {
     @apply w-full text-left rounded-2xl border-2 border-b-4 border-line bg-white px-4 py-3 font-semibold
            hover:bg-canvas transition-colors;

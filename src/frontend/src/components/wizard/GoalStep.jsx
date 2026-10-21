@@ -1,5 +1,5 @@
 import { FIELD_ICON, XP } from '../../game'
-import { WizardFrame } from '../ui'
+import { CriticalChip, GrowthChip, WizardFrame } from '../ui'
 
 export default function GoalStep({ s, set, meta, award }) {
   const fields = [...new Set(meta.roles.map((r) => r.field))]
@@ -11,7 +11,7 @@ export default function GoalStep({ s, set, meta, award }) {
   return (
     <WizardFrame step={2} total={4} onBack={() => set({ stage: 'cv' })}>
       <h1 className="text-3xl font-bold">Where do you want to be?</h1>
-      <p className="mt-2 text-muted">Pick the role you're aiming for. You can change it later.</p>
+      <p className="mt-2 text-muted">Pick the role you're aiming for. You can change it later. Job growth is from the WEF Future of Jobs Report 2025; 🇲🇾 marks jobs on Malaysia's Critical Occupations List (MyCOL 2024/25).</p>
 
       <button onClick={() => pick('')} className="option mt-6 flex items-center gap-3">
         <span className="text-3xl" aria-hidden>🧭</span>
@@ -25,7 +25,8 @@ export default function GoalStep({ s, set, meta, award }) {
           <div className="grid gap-3 sm:grid-cols-2">
             {meta.roles.filter((r) => r.field === f).map((r) => (
               <button key={r.id} onClick={() => pick(r.id)} className={`option ${s.profile.goal_role === r.id ? 'option-on' : ''}`}>
-                {r.title}
+                <span className="block">{r.title}</span>
+                <span className="mt-1 flex flex-wrap gap-1"><GrowthChip outlook={r.outlook} /><CriticalChip mycol={r.mycol} /></span>
               </button>
             ))}
           </div>

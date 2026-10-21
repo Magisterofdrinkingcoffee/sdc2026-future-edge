@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { celebrate, ForecastStrip, WizardFrame } from '../ui'
+import { celebrate, CriticalChip, ForecastStrip, GrowthChip, WizardFrame } from '../ui'
 import CharacterCard from '../dash/CharacterCard'
 
 export default function Reveal(ctx) {
@@ -21,6 +21,8 @@ export default function Reveal(ctx) {
         {fading.length ? `, mainly because AI is catching up on ${fading.slice(0, 2).map((f) => f.name.toLowerCase()).join(' and ')}` : ''}.
       </p>
 
+      <div className="mt-3 flex flex-wrap gap-2"><GrowthChip outlook={goal.outlook} /><CriticalChip mycol={goal.mycol} />
+        {goal.wage && <span className="chip bg-canvas text-muted" title={goal.wage.source}>💵 {goal.wage.group}: median RM {goal.wage.median_myr.toLocaleString()}/month</span>}</div>
       <div className="mt-6"><ForecastStrip timeline={goal.timeline} compare={other.timeline} animate /></div>
       <p className="mt-2 text-xs text-muted">Estimate. "vs" shows the {forecast[s.scenario === 'fast' ? 'moderate' : 'fast'].scenario_label} scenario. Not a hiring decision.</p>
 

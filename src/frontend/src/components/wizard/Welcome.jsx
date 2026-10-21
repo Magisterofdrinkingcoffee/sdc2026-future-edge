@@ -1,8 +1,8 @@
-import { ForecastStrip, Logo } from '../ui'
+import { FactCard, ForecastStrip, Logo } from '../ui'
 
 const EXAMPLE = [{ year: 0, edge: 64 }, { year: 1, edge: 55 }, { year: 2, edge: 44 }, { year: 3, edge: 33 }]
 
-export default function Welcome({ set, s }) {
+export default function Welcome({ set, s, meta }) {
   const started = Object.keys(s.profile.skills).length > 0
   return (
     <div className="min-h-screen">
@@ -31,6 +31,13 @@ export default function Welcome({ set, s }) {
           <p className="mt-4 text-sm text-muted">Your Edge Score shows how hard you'll be to replace by AI, from 0 to 100. Each year gets its own forecast.</p>
         </div>
       </main>
+      <section className="mx-auto max-w-5xl px-4 pb-16">
+        <h2 className="text-2xl font-bold">Malaysia's job market is already changing</h2>
+        <p className="mt-1 text-muted">Real numbers from the World Economic Forum and the Department of Statistics Malaysia.</p>
+        <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {meta.facts.filter((f) => ['analytical', 'data_entry', 'ai_jobs', 'human_tasks'].includes(f.id)).map((f) => <FactCard key={f.id} fact={f} />)}
+        </div>
+      </section>
     </div>
   )
 }

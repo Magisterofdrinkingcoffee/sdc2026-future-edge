@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { api } from '../../api'
 import { FIELD_ICON, weather } from '../../game'
-import { Bar, ForecastStrip, SdgChip } from '../ui'
+import { Bar, CriticalChip, ForecastStrip, GrowthChip, SdgChip } from '../ui'
 
 const GROUPS = [
   { id: 'rising', icon: '🌱', title: 'Growing in value', text: 'Hard for AI and in demand. Lean into these.', bar: 'bg-sprout-500' },
@@ -12,6 +12,7 @@ const GROUPS = [
 export default function ForecastView(ctx) {
   const { s, set, meta, forecast, goal } = ctx
   const year3 = new Date().getFullYear() + 3
+  const [showAll, setShowAll] = useState(false)
 
   useEffect(() => {
     const seen = { ...(s.flags.seen || {}), [s.scenario]: true }
@@ -22,7 +23,8 @@ export default function ForecastView(ctx) {
   const cur = forecast[s.scenario]
   const otherSc = s.scenario === 'fast' ? 'moderate' : 'fast'
   const other = forecast[otherSc].roles.find((r) => r.role_id === goal.role_id)
-  const ranked = [...cur.roles].sort((a, b) => b.edge_y3 - a.edge_y3)
+  const rankedAll = [...cur.roles].sort((a, b) => b.edge_y3 - a.edge_y3)
+  const ranked = showAll ? rankedAll : rankedAll.filter((r, i) => i < 8 || r.role_id === goal.role_id)
 
   return (
     <div className="space-y-6">
@@ -43,6 +45,8 @@ export default function ForecastView(ctx) {
         </div>
         <div className="mt-5"><ForecastStrip timeline={goal.timeline} compare={other.timeline} /></div>
         <p className="mt-2 text-xs text-muted">"vs" is the {meta.scenarios[otherSc].label} scenario.</p>
+
+        <RoleFacts role={goal} />
 
         <details className="mt-4 rounded-2xl bg-canvas p-4">
           <summary className="cursor-pointer font-display font-semibold">How we worked this out</summary>
@@ -99,6 +103,7 @@ export default function ForecastView(ctx) {
                       <span className="text-xl" aria-hidden>{w.icon}</span>
                       <span className="min-w-0 flex-1"><span className="block truncate text-sm font-bold">{FIELD_ICON[meta.roles.find((x) => x.id === r.role_id)?.field]} {r.title}</span>
                         <span className="text-xs text-muted">{isGoal ? 'Your goal' : `${Math.round(r.match * 100)}% skill match`}</span>
+                        <span className="ml-1"><GrowthChip outlook={r.outlook} /></span>
                         {r.at_risk && <span className="chip ml-1 bg-coral-50 text-coral-600" title={`AI could do about ${Math.round(r.role_ai_exposure_y3 * 100)}% of this role's work by ${year3}`}>at risk</span>}</span>
                       <span className="font-display text-lg font-bold">{Math.round(r.edge_y3)}</span>
                     </button>
@@ -106,10 +111,42 @@ export default function ForecastView(ctx) {
                 )
               })}
             </ul>
+            {rankedAll.length > ranked.length || showAll ? (
+              <button className="mt-3 w-full text-sm font-bold text-violet-600 underline" onClick={() => setShowAll(!showAll)}>
+                {showAll ? 'Show top roles only' : `Show all ${rankedAll.length} roles`}
+              </button>
+            ) : null}
           </section>
           <TrendPanel {...ctx} />
         </aside>
       </div>
+    </div>
+  )
+}
+
+function RoleFacts({ role }) {
+  const o = role.outlook || {}
+  const g = o.malaysia_net_growth_2030 ?? o.net_growth_2030
+  return (
+    <div className="mt-5 grid gap-3 sm:grid-cols-3">
+      <div className="rounded-2xl border-2 border-line p-4">
+        <div className="text-sm font-bold text-muted">Job demand by 2030</div>
+        <div className={`font-display text-2xl font-bold ${g > 0 || o.direction === 'growing' ? 'text-sprout-600' : g < 0 || o.direction === 'declining' ? 'text-coral-600' : ''}`}>
+          {g != null ? `${g > 0 ? '+' : ''}${g}%` : o.direction ? (o.direction === 'growing' ? 'Growing fast' : 'Declining fast') : 'No data'}
+        </div>
+        <div className="text-xs text-muted">{o.wef_role ? `${o.wef_role}${o.malaysia_net_growth_2030 != null ? ', Malaysia' : ', worldwide'}. ${o.malaysia_source || o.source}` : o.note}</div>
+      </div>
+      <div className="rounded-2xl border-2 border-line p-4">
+        <div className="text-sm font-bold text-muted">Typical pay</div>
+        <div className="font-display text-2xl font-bold">RM {role.wage?.median_myr.toLocaleString()}</div>
+        <div className="text-xs text-muted">Median monthly wage, {role.wage?.group}. {role.wage?.source}</div>
+      </div>
+      <div className="rounded-2xl border-2 border-line p-4">
+        <div className="text-sm font-bold text-muted">Malaysia's critical jobs list</div>
+        <div className="font-display text-2xl font-bold">{role.mycol?.critical ? '🇲🇾 Yes' : 'Not listed'}</div>
+        <div className="text-xs text-muted">{role.mycol?.critical ? `MASCO ${role.mycol.masco}, ${role.mycol.name}. ${role.mycol.source}` : 'TalentCorp MyCOL 2024/2025'}</div>
+      </div>
+      {role.description && <p className="text-sm text-muted sm:col-span-3">{role.description}{role.ai_tools?.length ? ` AI tools you'll work with: ${role.ai_tools.join(', ')}.` : ''}</p>}
     </div>
   )
 }

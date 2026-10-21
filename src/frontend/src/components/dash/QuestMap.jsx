@@ -4,7 +4,7 @@ import { TYPE, XP } from '../../game'
 import { Bar, SdgChip, Sheet } from '../ui'
 import CharacterCard from './CharacterCard'
 
-const OFFSETS = [0, 70, 110, 70, 0, -70, -110, -70]
+const OFFSETS = [0, 55, 85, 55, 0, -55, -85, -55]
 
 export default function QuestMap(ctx) {
   const { s, meta, plan, goal, toggleQuest } = ctx

@@ -99,4 +99,16 @@ export const TYPE = {
   experience: { icon: '🤝', label: 'Experience', why: 'Live it', color: 'sun' },
 }
 
-export const FIELD_ICON = { IT: '💻', Electrical: '⚡', Business: '💼' }
+export const FIELD_ICON = {
+  'Digital & ICT': '💻', 'Energy & Sustainability': '⚡', Manufacturing: '🏭', Finance: '💰',
+  Services: '🧾', 'Science, Health & Agriculture': '🔬', 'Engineering & Construction': '🏗️',
+}
+
+// "+82%" / "−26%" / "growing" label for a role's WEF job outlook
+export function growthLabel(outlook) {
+  if (!outlook) return null
+  const g = outlook.malaysia_net_growth_2030 ?? outlook.net_growth_2030
+  if (g != null) return { text: `${g > 0 ? '+' : g < 0 ? '−' : ''}${Math.abs(g)}% jobs by 2030`, up: g > 0, down: g < 0, my: outlook.malaysia_net_growth_2030 != null }
+  if (outlook.direction) return { text: outlook.direction === 'growing' ? 'Fast-growing job' : 'Fast-declining job', up: outlook.direction === 'growing', down: outlook.direction === 'declining' }
+  return null
+}

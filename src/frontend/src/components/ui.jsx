@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import confetti from 'canvas-confetti'
-import { weather } from '../game'
+import { growthLabel, weather } from '../game'
 
 const reducedMotion = () => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
 
@@ -113,5 +113,32 @@ export function WizardFrame({ step, total, onBack, children }) {
       </header>
       <main className="mx-auto max-w-2xl px-4 pb-16 pt-8">{children}</main>
     </div>
+  )
+}
+
+export function GrowthChip({ outlook }) {
+  const g = growthLabel(outlook)
+  if (!g) return null
+  return (
+    <span title={`${outlook.wef_role}: ${outlook.malaysia_source || outlook.source}`}
+      className={`chip ${g.up ? 'bg-sprout-50 text-sprout-700' : g.down ? 'bg-coral-50 text-coral-600' : 'bg-canvas text-muted'}`}>
+      {g.up ? '📈' : g.down ? '📉' : '➖'} {g.text}{g.my ? ' in MY' : ''}
+    </span>
+  )
+}
+
+export function CriticalChip({ mycol }) {
+  if (!mycol?.critical) return null
+  return <span className="chip bg-sky-50 text-sky-600" title={`MASCO ${mycol.masco} ${mycol.name}. ${mycol.source}`}>🇲🇾 Critical job in Malaysia</span>
+}
+
+// Real, cited facts from WEF and DOSM
+export function FactCard({ fact }) {
+  return (
+    <figure className="rounded-3xl border-2 border-line bg-white p-4">
+      <div className="font-display text-3xl font-bold text-violet-600">{fact.value}</div>
+      <figcaption className="mt-1 text-sm">{fact.text}</figcaption>
+      <div className="mt-2 text-xs text-muted">{fact.source}</div>
+    </figure>
   )
 }
