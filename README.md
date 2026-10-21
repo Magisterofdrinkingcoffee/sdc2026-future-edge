@@ -133,7 +133,7 @@ python -m unittest discover tests
 
 Describe how your team used Replit. For example:
 
-- **Development:** Collaborative coding in a shared Repl using Multiplayer.
+- **Development:** Collaborative coding in a shared Repl using Multiplayer
 - **Hosting:** The app is deployed with Replit Deployments at the Live Demo link above.
 - **Secrets:** API keys are stored in Replit Secrets, never in the code.
 
