@@ -54,12 +54,13 @@ export function streak(days) {
 
 export const BADGES = [
   { id: 'first_steps', icon: '🧭', name: 'First steps', how: 'Add your CV' },
-  { id: 'know_yourself', icon: '🪞', name: 'Know yourself', how: 'Finish the Edge Check' },
+  { id: 'know_yourself', icon: '🪞', name: 'Know yourself', how: 'Finish the Catch the AI check' },
   { id: 'forecaster', icon: '🔭', name: 'Forecaster', how: 'Compare both AI scenarios' },
   { id: 'first_quest', icon: '✅', name: 'First quest', how: 'Finish any quest' },
   { id: 'builder', icon: '🛠️', name: 'Builder', how: 'Finish a project quest' },
   { id: 'people_person', icon: '🤝', name: 'People person', how: 'Finish an experience quest' },
   { id: 'sharp_mind', icon: '🧠', name: 'Sharp mind', how: 'Score 80%+ judgment in the Edge Check' },
+  { id: 'ai_detective', icon: '🕵️', name: 'AI Detective', how: 'Catch every AI mistake with no false alarms' },
   { id: 'rare_mix', icon: '💎', name: 'Rare mix', how: 'Have skills in all 4 skill types' },
   { id: 'edge_up', icon: '📈', name: 'Edge +10', how: 'Raise your future Edge by 10 points' },
   { id: 'halfway', icon: '🏔️', name: 'Halfway there', how: 'Finish half of your quests' },
@@ -77,6 +78,7 @@ export function earnedBadges(s) {
   if (types.has('project')) e.push('builder')
   if (types.has('experience')) e.push('people_person')
   if ((s.assessment?.judgment ?? 0) >= 0.8) e.push('sharp_mind')
+  if (s.assessment?.details?.all_found) e.push('ai_detective')
   if (s.categories >= 4) e.push('rare_mix')
   if (s.edgeGain >= 10) e.push('edge_up')
   if (s.questTotal && done.length >= s.questTotal / 2) e.push('halfway')

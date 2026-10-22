@@ -1,0 +1,67 @@
+{
+  "_meta": {
+    "description": "Model 3 – 'Catch the AI' packs. Each pack is a short piece of work an AI assistant 'wrote', with planted mistakes. The user flags the lines they think are wrong; because we planted the mistakes, scoring is exact and needs no AI. All content is invented for the demo.",
+    "pick_pack": "Chosen from the user's goal-role sector (see sector_to_pack).",
+    "error_types": "calculation = wrong maths; inconsistency = numbers that don't add up; fabrication = invented source/fact said with confidence; safety = a dangerous or non-compliant instruction; logic = a wrong technical claim"
+  },
+  "sector_to_pack": {
+    "Digital & ICT": "it",
+    "Energy & Sustainability": "engineering",
+    "Manufacturing": "engineering",
+    "Engineering & Construction": "engineering",
+    "Finance": "business",
+    "Services": "business",
+    "Science, Health & Agriculture": "business"
+  },
+  "packs": {
+    "business": {
+      "title": "Q3 sales summary",
+      "context": "Your AI assistant drafted this summary. Your manager needs it in 10 minutes.",
+      "lines": [
+        {"text": "Total sales in Q3 were RM 120,000, up from RM 100,000 in Q2.", "error": null},
+        {"text": "This is a 25% increase quarter on quarter.", "error": {"type": "calculation", "why": "120,000 vs 100,000 is a 20% increase, not 25%."}},
+        {"text": "The North region contributed RM 50,000 and the South region RM 60,000 of the Q3 total.", "error": {"type": "inconsistency", "why": "50,000 + 60,000 = 110,000, but the total was 120,000. A region is missing or a number is wrong."}},
+        {"text": "Customer complaints fell from 30 cases in Q2 to 18 cases in Q3.", "error": null},
+        {"text": "According to the Malaysian Retail Growth Index 2025, retail sales grew 40% nationally this year.", "error": {"type": "fabrication", "why": "This index does not exist. AI tools often invent official-sounding sources and numbers."}},
+        {"text": "The average order value stayed at about RM 250.", "error": null},
+        {"text": "We recommend hiring two more sales staff for Q4.", "error": null}
+      ]
+    },
+    "engineering": {
+      "title": "Site note: new 3 kW water pump",
+      "context": "Your AI assistant drafted this note for the site team. The contractor starts work tomorrow morning.",
+      "lines": [
+        {"text": "The new pump motor is rated 3 kW on a 230 V single-phase supply.", "error": null},
+        {"text": "Full-load current is about 3 kW / 230 V = 1.3 A.", "error": {"type": "calculation", "why": "3,000 W / 230 V is about 13 A, not 1.3 A. A cable sized for 1.3 A would overheat."}},
+        {"text": "We will use 2.5 mm² copper cable on a 20 A circuit breaker.", "error": null},
+        {"text": "The motor will be installed outdoors next to the water tank.", "error": null},
+        {"text": "Standard indoor sockets and switches are fine for this location.", "error": {"type": "safety", "why": "Outdoor equipment next to water needs weatherproof (IP-rated) fittings and RCD protection."}},
+        {"text": "Work can start while the circuit is still live to save time.", "error": {"type": "safety", "why": "Electrical work must be done with the circuit isolated and locked off. This instruction could kill someone."}},
+        {"text": "Test the earth connection and record the readings before handing over.", "error": null}
+      ]
+    },
+    "it": {
+      "title": "Login code review",
+      "context": "Your AI coding assistant wrote this login feature and its notes. It ships to users today.",
+      "lines": [
+        {"text": "The login form sends the user's email and password to the /api/login endpoint over HTTPS.", "error": null},
+        {"text": "Passwords are stored in the database in plain text so support staff can read them out to users.", "error": {"type": "safety", "why": "Passwords must be hashed (e.g. bcrypt or argon2) and never readable, even by staff."}},
+        {"text": "The query is built as \"SELECT * FROM users WHERE email = '\" + email + \"'\".", "error": {"type": "logic", "why": "Joining user input into SQL allows SQL injection. Use a parameterised query."}},
+        {"text": "After 5 failed attempts the account is locked for 15 minutes.", "error": null},
+        {"text": "The Python function hashlib.secure_hash() makes passwords impossible to crack.", "error": {"type": "fabrication", "why": "hashlib has no secure_hash() function, and no hash makes passwords 'impossible' to crack. The AI invented it."}},
+        {"text": "Session tokens expire after 30 minutes of inactivity.", "error": null},
+        {"text": "All login attempts are written to the security log.", "error": null}
+      ]
+    }
+  },
+  "actions": {
+    "question": "You've finished checking. What do you do now?",
+    "options": [
+      {"id": "send", "text": "Send it as it is. The AI is usually right.", "responsibility": 0},
+      {"id": "fix_quiet", "text": "Fix what I found and send it without mentioning anything.", "responsibility": 1},
+      {"id": "delay", "text": "Tell my manager it isn't ready and ask for more time.", "responsibility": 2},
+      {"id": "fix_tell", "text": "Fix what I found, tell my manager what was wrong, and say that AI drafted it.", "responsibility": 3}
+    ]
+  },
+  "responsibility_questions": ["q2", "q4"]
+}

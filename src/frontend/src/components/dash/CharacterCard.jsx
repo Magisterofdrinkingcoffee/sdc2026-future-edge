@@ -29,14 +29,14 @@ export default function CharacterCard({ s, meta, goal, xp, compact }) {
           <div key={st.name}>
             <div className="flex justify-between text-sm font-bold">
               <dt>{st.icon} {st.name}</dt>
-              <dd>{st.v == null ? <span className="text-muted">take the Edge Check</span> : `${Math.round(st.v * 100)}`}</dd>
+              <dd>{st.v == null ? <span className="text-muted">play Catch the AI</span> : `${Math.round(st.v * 100)}`}</dd>
             </div>
             <Bar value={st.v ?? 0} color={st.color} h="h-2.5" />
           </div>
         ))}
       </dl>
       {!compact && (
-        <p className="mt-4 text-xs text-muted">Judgment and responsibility come from your Edge Check answers. Tech skills are the average level of your technical and data skills. Rare mix is how unusual your combination of skill types is. All are estimates.</p>
+        <p className="mt-4 text-xs text-muted">Judgment and responsibility come from Catch the AI (Model 3). Tech skills are the average level of your technical and data skills. Rare mix is how unusual your combination of skill types is. All are estimates.</p>
       )}
     </div>
   )

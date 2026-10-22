@@ -12,7 +12,7 @@ export default function MeView(ctx) {
         <CharacterCard {...ctx} />
         <div className="panel space-y-3">
           <button className="btn-white w-full" onClick={() => set({ stage: 'cv' })}>Update my CV</button>
-          <button className="btn-white w-full" onClick={() => set({ stage: 'quiz' })}>Retake the Edge Check</button>
+          <button className="btn-white w-full" onClick={() => set({ stage: 'quiz' })}>Play Catch the AI again</button>
           <button className="w-full text-sm font-bold text-coral-600 underline" onClick={() => window.confirm('Delete your progress on this device and start again?') && reset()}>Start over</button>
         </div>
       </div>
