@@ -38,6 +38,7 @@ class ProfileIn(BaseModel):
     goal_role: Optional[str] = None
     completed: List[str] = Field(default_factory=list, description="ids of finished pathway steps")
     signal_overrides: Dict[str, float] = Field(default_factory=dict, description="what-if: signal_id -> growth")
+    evidence: Dict[str, str] = Field(default_factory=dict, description="skill_id -> the user's own CV sentence (read by Model 1)")
 
 
 class PathwayIn(ProfileIn):
@@ -151,6 +152,20 @@ def sample_cv(profile_id: str):
     return FileResponse(f, media_type="application/pdf", filename=f"{profile_id}-sample-cv.pdf")
 
 
+@app.post("/api/model/exposure")
+def model_exposure(body: ParseIn):
+    """Model 1 on any sentence: how much of this task can AI do? (for the demo and the judges)"""
+    from .exposure_model import predict
+    r = predict(body.text)
+    return {**r, "exposure_now_estimate": round(r["E1"] + r["E2"] * scoring.TOOLS_NOW, 3)}
+
+
+@app.get("/api/model")
+def model_info():
+    from .exposure_model import info
+    return info()
+
+
 @app.get("/api/assessment")
 def get_assessment():
     a = load()["assessment"]
@@ -169,7 +184,7 @@ def forecast(body: ProfileIn):
     _check(body.scenario, body.skills, d)
     return scoring.forecast(body.skills, d, body.scenario,
                             body.assessment.model_dump() if body.assessment else None,
-                            body.goal_role, body.completed)
+                            body.goal_role, body.completed, body.evidence)
 
 
 @app.post("/api/pathway")
@@ -180,7 +195,7 @@ def pathway(body: PathwayIn):
         raise HTTPException(404, "unknown role")
     return scoring.one_move_and_pathway(body.skills, body.role_id, d, body.scenario,
                                         body.assessment.model_dump() if body.assessment else None,
-                                        body.completed, body.hours_per_week)
+                                        body.completed, body.hours_per_week, evidence=body.evidence)
 
 
 # ------------------------------------------------------------------ trends

@@ -31,21 +31,27 @@ Edge Score (0-100) for a person and a role, at year t and scenario s:
 
 We also show the plain skill match (no AI adjustment) for the skills gap.
 
-How exposure grows over time (the link to the trend layer):
-    rate     = clamp(RATE_K * research_growth * scenario_multiplier * ai_sensitivity, 0, RATE_CAP)
-    exposure(t) = min(0.95, base + (1 - base) * rate * t)
-i.e. every year AI closes `rate` of the remaining gap; faster arXiv research
-growth in that area -> faster closing. Change the trend data and the forecast
-changes.
+How much AI can do a skill (Model 1 + the trend layer):
+    Model 1 (exposure_model.py, trained on 19,265 human-rated O*NET tasks) reads the skill's
+    task description - and, if available, YOUR OWN CV sentence for that skill - and returns
+        E1 = chance an AI chatbot alone can halve the time
+        E2 = chance AI can do it once extra tools are built on top
+    exposure(t) = E1 + E2 * tools(t)
+    tools(t)    = min(1, TOOLS_NOW + t * TOOLS_SPEED[scenario] * (1 + arXiv research growth))
+i.e. chatbot-level exposure counts today; tool-level exposure arrives over the next years,
+faster in the "fast" scenario and in areas where AI research is growing faster.
+Change the trend data and the forecast changes.
 """
 
 W_BASE, W_HUMAN, W_RARITY = 0.60, 0.25, 0.15
-RATE_K = 0.15
-RATE_CAP = 0.30
+TOOLS_NOW = 0.25           # share of "AI + tools" (E2) exposure already real today
+TOOLS_SPEED = {"moderate": 0.08, "fast": 0.16}   # per year, before the research-growth boost
+PERSONAL_WEIGHT = 0.5      # how much your own CV sentence counts vs. the general skill description
+MIN_KNOWN_WORDS = 3        # the model must recognise at least this many words/word pairs in your sentence
 YEARS = [0, 1, 2, 3]
 SCENARIOS = {
-    "moderate": {"label": "Moderate AI disruption", "multiplier": 1.0},
-    "fast": {"label": "Fast AI disruption", "multiplier": 2.0},
+    "moderate": {"label": "Moderate AI disruption", "tools_speed": TOOLS_SPEED["moderate"]},
+    "fast": {"label": "Fast AI disruption", "tools_speed": TOOLS_SPEED["fast"]},
 }
 HUMAN_SKILLS = ("critical_thinking", "ownership")
 DEFAULT_HUMAN = 0.3      # used when the assessment has not been taken
@@ -67,12 +73,35 @@ def signal_growth(trends, signal_id):
     return sig["growth"] if sig and sig.get("growth") is not None else 0.0
 
 
+def tools(year, scenario, growth):
+    return min(1.0, TOOLS_NOW + year * TOOLS_SPEED[scenario] * (1 + max(0.0, growth)))
+
+
 def exposure(skill, year, scenario, trends):
-    g = max(0.0, signal_growth(trends, skill["signal"]))
-    mult = SCENARIOS[scenario]["multiplier"]
-    rate = clamp(RATE_K * g * mult * skill["ai_sensitivity"], 0.0, RATE_CAP)
-    base = skill["base_exposure"]
-    return min(0.95, base + (1 - base) * rate * year)
+    """Share of this skill's work AI can do in `year` (Model 1 output + trend layer)."""
+    m = skill["model"]
+    return min(0.98, m["E1"] + m["E2"] * tools(year, scenario, signal_growth(trends, skill["signal"])))
+
+
+def with_personal_exposure(data, evidence):
+    """Copy of data where each skill's Model 1 reading blends in the user's own CV sentence."""
+    if not evidence:
+        return data
+    from .exposure_model import predict
+    skills = dict(data["skills"])
+    for sid, sentence in evidence.items():
+        if sid not in skills or not sentence or not sentence.strip():
+            continue
+        if skills[sid]["category"] == "human":
+            continue  # "Responsible for data entry..." describes the context, not the human skill itself
+        general, mine = skills[sid]["model"], predict(sentence)
+        if mine["known_words"] < MIN_KNOWN_WORDS:
+            continue  # e.g. a bare list "Python, SQL, Git": too little for the model to read
+        blended = {k: round((1 - PERSONAL_WEIGHT) * general[k] + PERSONAL_WEIGHT * mine[k], 4) for k in ("E0", "E1", "E2")}
+        skills[sid] = {**skills[sid], "model": {**blended, "personal": True, "sentence": sentence,
+                                                "sentence_reading": {k: mine[k] for k in ("E0", "E1", "E2")},
+                                                "top_words": mine["top_words"]}}
+    return {**data, "skills": skills}
 
 
 def skill_outlook(skill, scenario, trends, n_roles_using, n_roles):
@@ -274,7 +303,8 @@ def _market_text(role, m3):
     return "Job market: no WEF figure for this role, so we keep it neutral (x1.00)."
 
 
-def forecast(profile_skills, data, scenario="moderate", assessment=None, goal_role=None, completed=()):
+def forecast(profile_skills, data, scenario="moderate", assessment=None, goal_role=None, completed=(), evidence=None):
+    data = with_personal_exposure(data, evidence)
     assessed = bool(assessment and assessment.get("judgment") is not None)
     skills = apply_completed(effective_skills(profile_skills, assessment), completed, data["catalog"])
     roles = [edge_for_role(r, skills, data, scenario, assessed) for r in data["roles"].values()]
@@ -295,6 +325,7 @@ def forecast(profile_skills, data, scenario="moderate", assessment=None, goal_ro
             **out,
             "signal": {"label": sig.get("label", sk["signal"]), "growth": sig.get("growth")},
             "sdgs": sk["sdgs"],
+            "model": {**sk["model"], "task": sk["task"]},
         })
     return {
         "scenario": scenario,
@@ -308,11 +339,23 @@ def forecast(profile_skills, data, scenario="moderate", assessment=None, goal_ro
             "is_sample": trends.get("is_sample", False),
         },
         "exposure_source": data["skills_meta"].get("exposure_source"),
+        "model": _model_card(),
     }
 
 
+def _model_card():
+    from .exposure_model import info
+    i = info()
+    m = i["metrics"]
+    return {"name": i["name"], "data": i["data"], "class_meaning": i["class_meaning"],
+            "accuracy": m["accuracy"], "baseline_accuracy": m["baseline_accuracy"], "macro_f1": m["macro_f1"],
+            "recall_per_class": m["recall_per_class"], "n_tasks": m["n_tasks"], "n_occupations": m["n_occupations"],
+            "evaluation": m["evaluation"]}
+
+
 def one_move_and_pathway(profile_skills, role_id, data, scenario="moderate", assessment=None,
-                         completed=(), hours_per_week=6, max_steps=6):
+                         completed=(), hours_per_week=6, max_steps=6, evidence=None):
+    data = with_personal_exposure(data, evidence)
     assessed = bool(assessment and assessment.get("judgment") is not None)
     skills = apply_completed(effective_skills(profile_skills, assessment), completed, data["catalog"])
     role = data["roles"][role_id]
