@@ -30,7 +30,7 @@ export default function QuizStep({ s, set, meta, award }) {
     const r = await api.scoreCatch({ pack: pack.pack, flagged, confidence, action, answers })
     setResult(r)
     set({ assessment: r })
-    award('quiz', XP.quiz, 'Edge Check finished')
+    award('quiz', XP.quiz, 'Catch the AI finished')
     if (r.details.all_found) celebrate()
     setStage('result')
   }

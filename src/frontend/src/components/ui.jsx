@@ -21,7 +21,7 @@ export function Logo({ small }) {
 export function Toasts({ toasts }) {
   return (
     <div aria-live="polite" className="pointer-events-none fixed bottom-4 inset-x-0 z-50 flex flex-col items-center gap-2 px-4">
-      {toasts.map((t) => (
+      {toasts.slice(-2).map((t) => (
         <div key={t.id} className="animate-pop flex items-center gap-3 rounded-2xl border-2 border-line bg-white px-4 py-3 shadow-[0_4px_0_#E3E6EF]">
           <span className="text-2xl" aria-hidden>{t.icon}</span>
           <div><div className="font-display font-semibold">{t.title}</div>{t.text && <div className="text-sm text-muted">{t.text}</div>}</div>
