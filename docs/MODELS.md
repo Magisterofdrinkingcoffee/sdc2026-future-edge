@@ -1,4 +1,17 @@
-# Model 1 – AI-Exposure Model (model card)
+# Future Edge – models and data fusion
+
+Future Edge combines **three models** with real Malaysian job-market data. Each section below is a model card: what it does, the data, how it was checked, and its limits.
+
+```
+CV sentences ──► Model 1  AI-exposure (trained, 19,265 human-rated tasks) ─┐
+arXiv papers ──► Model 2  trend forecaster (36 months, 80% range) ─────────┼─► DATA FUSION ─► Edge Score (low–mid–high)
+Catch the AI ──► Model 3  judgment & responsibility (exact scoring) ───────┘        ▲
+WEF / DOSM / MyCOL ──────────────────────────────────────────── job market ─────────┘
+```
+
+---
+
+# Model 1 – AI-Exposure Model
 
 **What it does:** reads a description of work (a skill, or a sentence from the user's CV) and estimates how much of it AI can do:
 
@@ -31,3 +44,53 @@
 - The model only understands words it saw in O*NET tasks. Product names (e.g. "PostgreSQL") are often unknown.
 - It's weakest at E1 ("chatbot alone") tasks and sometimes reacts to single words (e.g. "explain").
 - Exposure means **AI can do part of the work**, not "the job disappears". All results are labelled estimates and are never used for hiring decisions.
+
+---
+
+# Model 2 – AI-Trend Forecaster
+
+**What it does:** estimates how fast AI capability is growing in each area (code generation, document AI, smart grids…), with an **80% range**, and projects the next 3 years.
+
+**Data:** new arXiv papers per month for each of the 10 signals in `src/backend/data/signals.json`, for the 36 full months Oct 2023 – Sep 2026, collected from the arXiv API (360 requests, 3+ s apart). Snapshot: `src/database/arxiv_monthly.json`. Rebuild: `python -m tools.build_trends`. Live refresh on Replit: the "Refresh trend data" button (or `python -m src.backend.trends`).
+
+**Model:** per signal, ordinary least squares on `log(papers + 1) = a + b × month`. Yearly growth = `exp(12b) − 1`; its 80% interval comes from the standard error of `b`; forecasts use the 80% prediction band. Code: `src/backend/trend_model.py` (plain Python).
+
+**Validation (backtest):** fit on the first 24 months, predict the total papers in the last 12 months, and compare with the naive guess "next year = last year". Results are stored in `trends.json → backtest` and shown in the app.
+
+**Limitations:** research papers are a *proxy* for AI capability, not a direct measure; the log-linear trend assumes steady growth (it can't predict sudden breakthroughs); some queries have small monthly counts, which widens their range.
+
+---
+
+# Model 3 – "Catch the AI" (judgment & responsibility)
+
+**What it does:** instead of asking people to rate themselves, it **tests** them. The user reviews a short AI-written piece of work from their field (business report, electrical site note, or login code) with **planted mistakes** (wrong maths, numbers that don't add up, an invented source, a safety error), flags the lines they would not send, says how sure they are, chooses what to do next, and answers two responsibility situations.
+
+**Scoring (exact, no AI needed – we know where the mistakes are):**
+```
+judgment       = 0.60 × share of planted mistakes found
+               + 0.25 × (1 − share of correct lines flagged)      # no panic-flagging
+               + 0.15 × calibration (1 − |confidence − share found|)
+responsibility = 0.50 × action chosen (send as is … fix + tell manager + disclose AI)
+               + 0.50 × two responsibility situations
+range          = ± 0.10 judgment, ± 0.08 responsibility (one short exercise is a small sample)
+```
+Content: `src/backend/data/catch_the_ai.json`. Code: `src/backend/catch_the_ai.py`.
+
+**Why this design:** there is no labelled data for "judgment", so training a model would only learn our own opinions. A performance test with known answers is objective and explainable. It measures the exact skill the app is about: judging AI output. WEF Future of Jobs 2025 (Malaysia profile, p. 168) reports that 71% of employers in Malaysia see analytical thinking as a core skill.
+
+**Limitations:** one short exercise, not a personality measurement; the packs are few and could be memorised; results are shown as estimates and never used for hiring decisions.
+
+---
+
+# Data fusion – the Edge Score
+
+```
+Edge(t) = 100 × [AI-adjusted fit(t) / best possible fit]        # Model 1 + Model 2
+              × [0.60 + 0.25 × human skills + 0.15 × rarity]      # Model 3 + rare skill mix
+              × job market(t)                                     # WEF net job growth (Malaysia first)
+              × core-skill check                                  # 0.5 + 0.5 × level in the role's core skills
+```
+* **AI-adjusted fit** counts each of the role's skills only for the part AI can't do in year t:
+  `exposure(t) = E1 + E2 × tools(t)` (Model 1), where `tools(t)` grows faster with Model 2's research growth and in the "fast" scenario.
+* **Range:** low = Model 2's upper growth (AI arrives faster) + Model 3's lower bound; high = the opposite. Shown on every forecast day.
+* Weights are **designed, not learned** (there is no outcome data to learn them from); they are documented here and in `src/backend/scoring.py`, and every number in the app has a plain-English "why".
