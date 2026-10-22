@@ -38,5 +38,6 @@ export const api = {
   forecast: (body) => call('/forecast', body),
   pathway: (body) => call('/pathway', body),
   trends: () => call('/trends'),
+  modelExposure: (text) => call('/model/exposure', { text }),
   refreshTrends: () => call('/trends/refresh', {}),
 }

@@ -78,6 +78,7 @@ export default function ForecastView(ctx) {
                           <div className={`absolute h-3 rounded-full ${g.bar}`} style={{ width: `${k.exposure_now * 100}%` }} />
                         </div>
                         <div className="mt-0.5 text-xs text-muted">Trend: {k.signal.label}, research {k.signal.growth >= 0 ? 'up' : 'down'} {Math.abs(Math.round((k.signal.growth || 0) * 100))}% in a year</div>
+                        <ModelReading m={k.model} />
                       </li>
                     ))}
                   </ul>
@@ -85,7 +86,7 @@ export default function ForecastView(ctx) {
               )
             })}
           </div>
-          <p className="mt-6 text-xs text-muted">Trend source: {cur.trend_source.source}{cur.trend_source.fetched_at ? `, updated ${new Date(cur.trend_source.fetched_at).toLocaleDateString()}` : ''}. Today's AI levels per skill: {cur.exposure_source}.</p>
+          <p className="mt-6 text-xs text-muted">Trend source: {cur.trend_source.source}{cur.trend_source.fetched_at ? `, updated ${new Date(cur.trend_source.fetched_at).toLocaleDateString()}` : ''}. How much AI can do each skill: {cur.exposure_source}.</p>
         </section>
 
         <aside className="space-y-6">
@@ -117,10 +118,57 @@ export default function ForecastView(ctx) {
               </button>
             ) : null}
           </section>
+          <ModelCard card={cur.model} />
           <TrendPanel {...ctx} />
         </aside>
       </div>
     </div>
+  )
+}
+
+function ModelReading({ m }) {
+  if (!m) return null
+  const words = (m.top_words || []).map((w) => `"${w.term}" (${w.towards === 'AI' ? 'AI' : 'human'})`).join(', ')
+  return (
+    <details className="mt-1 text-xs text-muted">
+      <summary className="cursor-pointer">🧠 Model 1 {m.personal ? 'read your CV sentence' : 'read this skill'}</summary>
+      <div className="mt-1 rounded-xl bg-canvas p-2">
+        {m.personal && <div>Your sentence: <q className="italic">{m.sentence}</q></div>}
+        {!m.personal && <div>Task: <q className="italic">{m.task}</q></div>}
+        <div className="mt-1">AI can't speed it up: <b>{Math.round(m.E0 * 100)}%</b> · chatbot alone: <b>{Math.round(m.E1 * 100)}%</b> · AI with tools: <b>{Math.round(m.E2 * 100)}%</b>{m.personal && ' (blended 50/50 with the general skill reading)'}</div>
+        {words && <div className="mt-1">Words that mattered most: {words}</div>}
+      </div>
+    </details>
+  )
+}
+
+function ModelCard({ card }) {
+  const [text, setText] = useState('')
+  const [res, setRes] = useState(null)
+  if (!card) return null
+  const ask = async () => setRes(await api.modelExposure(text))
+  return (
+    <section className="panel">
+      <h2 className="text-lg font-bold">🧠 Model 1: AI-exposure model</h2>
+      <p className="mt-1 text-sm text-muted">Trained on {card.n_tasks.toLocaleString()} real job tasks that people rated for how much AI can do them. Tested only on {card.n_occupations} occupations it never saw in training.</p>
+      <div className="mt-3 grid grid-cols-2 gap-2 text-center">
+        <div className="rounded-2xl bg-violet-50 p-2"><div className="font-display text-2xl font-bold text-violet-700">{Math.round(card.accuracy * 100)}%</div><div className="text-xs text-muted">accuracy</div></div>
+        <div className="rounded-2xl bg-canvas p-2"><div className="font-display text-2xl font-bold">{Math.round(card.baseline_accuracy * 100)}%</div><div className="text-xs text-muted">simple guess</div></div>
+      </div>
+      <p className="mt-2 text-xs text-muted">Best at spotting work AI can't do ({Math.round(card.recall_per_class.E0 * 100)}% right), weakest at "chatbot alone" tasks ({Math.round(card.recall_per_class.E1 * 100)}%). Data: {card.data}.</p>
+      <details className="mt-3">
+        <summary className="cursor-pointer text-sm font-bold">Try the model on any task</summary>
+        <textarea rows={2} value={text} onChange={(e) => setText(e.target.value)} placeholder="e.g. Repair hydraulic presses on the factory floor"
+          className="mt-2 w-full rounded-xl border-2 border-line p-2 text-sm focus:border-violet-500 focus:outline-none" />
+        <button className="btn-white mt-2 w-full py-2 text-sm" disabled={text.trim().length < 5} onClick={ask}>Ask Model 1</button>
+        {res && (
+          <div className="mt-2 rounded-xl bg-canvas p-2 text-xs">
+            AI can't speed it up <b>{Math.round(res.E0 * 100)}%</b> · chatbot alone <b>{Math.round(res.E1 * 100)}%</b> · AI with tools <b>{Math.round(res.E2 * 100)}%</b>
+            <div className="mt-1 text-muted">Words that mattered: {res.top_words.map((w) => `"${w.term}" → ${w.towards}`).join(', ') || 'none it knows'}</div>
+          </div>
+        )}
+      </details>
+    </section>
   )
 }
 

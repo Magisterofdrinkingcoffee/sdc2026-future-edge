@@ -68,7 +68,9 @@ export default function App() {
   const body = useMemo(() => ({
     skills: s.profile.skills, goal_role: s.profile.goal_role || null, assessment: assessed,
     completed: s.completed, signal_overrides: overrides,
-  }), [s.profile.skills, s.profile.goal_role, s.assessment, s.completed, overrides]) // eslint-disable-line react-hooks/exhaustive-deps
+    // Model 1 also reads the user's own CV sentence for each skill
+    evidence: Object.fromEntries(Object.entries(s.profile.evidence || {}).filter(([id]) => id in s.profile.skills).map(([id, e]) => [id, e.evidence])),
+  }), [s.profile.skills, s.profile.goal_role, s.assessment, s.completed, overrides, s.profile.evidence]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const ready = ['reveal', 'app'].includes(s.stage) && Object.keys(s.profile.skills).length > 0
   useEffect(() => {
