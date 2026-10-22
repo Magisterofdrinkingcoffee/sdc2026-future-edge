@@ -19,6 +19,8 @@ SNAPSHOT = ROOT / "src" / "database" / "arxiv_monthly.json"
 
 def main():
     snap = json.loads(SNAPSHOT.read_text(encoding="utf-8"))
+    if snap.get("complete") is False:
+        raise SystemExit("Snapshot is still incomplete - run python -m tools.collect_arxiv to finish it.")
     signals = json.loads((trends.DATA_DIR / "signals.json").read_text(encoding="utf-8"))["signals"]
     data = trends.build(snap["counts"], signals, snap["collected_at"],
                         source=trends.SOURCE + f" (snapshot collected {snap['collected_at'][:10]})")

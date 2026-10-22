@@ -51,7 +51,7 @@ WEF / DOSM / MyCOL ────────────────────�
 
 **What it does:** estimates how fast AI capability is growing in each area (code generation, document AI, smart grids…), with an **80% range**, and projects the next 3 years.
 
-**Data:** new arXiv papers per month for each of the 10 signals in `src/backend/data/signals.json`, for the 36 full months Oct 2023 – Sep 2026, collected from the arXiv API (360 requests, 3+ s apart). Snapshot: `src/database/arxiv_monthly.json`. Rebuild: `python -m tools.build_trends`. Live refresh on Replit: the "Refresh trend data" button (or `python -m src.backend.trends`).
+**Data:** new arXiv papers per month for each of the 10 signals in `src/backend/data/signals.json`, for the 36 full months Oct 2023 – Sep 2026, collected from the arXiv API (360 requests, 3+ s apart). Collect (resumable, ~20 min, standard library only): `python -m tools.collect_arxiv`; it saves to `src/database/arxiv_monthly.json` after every answer and then rebuilds `data/trends.json`. Rebuild only: `python -m tools.build_trends`. Live refresh on Replit: the "Refresh trend data" button (or `python -m src.backend.trends`).
 
 **Model:** per signal, ordinary least squares on `log(papers + 1) = a + b × month`. Yearly growth = `exp(12b) − 1`; its 80% interval comes from the standard error of `b`; forecasts use the 80% prediction band. Code: `src/backend/trend_model.py` (plain Python).
 
