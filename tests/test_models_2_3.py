@@ -14,8 +14,9 @@ DATA = load()
 # ---------------- Model 2 ----------------
 def test_trend_model_recovers_known_growth():
     counts = [round(100 * 1.02 ** t) for t in range(36)]  # +2%/month = +26.8%/year
-    f = trend_model.fit(counts)
+    f = trend_model.fit(counts, phi=1.0)  # undamped: must recover the true growth
     assert abs(f["growth"] - (1.02 ** 12 - 1)) < 0.03
+    assert abs(f["past_growth"] - (1.02 ** 12 - 1)) < 0.03
     assert f["growth_low"] <= f["growth"] <= f["growth_high"]
     assert len(f["forecast"]) == 36 and f["forecast"][0]["low"] <= f["forecast"][0]["mid"] <= f["forecast"][0]["high"]
 
@@ -28,7 +29,7 @@ def test_noisier_data_gives_a_wider_range():
 
 
 def test_backtest_beats_naive_on_a_growing_series():
-    bt = trend_model.backtest([round(50 * 1.04 ** t) for t in range(36)])
+    bt = trend_model.backtest([round(50 * 1.04 ** t) for t in range(36)], phi=1.0)
     assert bt["model_error"] < bt["naive_error"]
 
 
@@ -108,3 +109,20 @@ def test_wider_trend_uncertainty_gives_a_wider_edge_range():
     r1 = {r["role_id"]: r["edge_y3_range"] for r in w1}["software_developer"]
     r2 = {r["role_id"]: r["edge_y3_range"] for r in w2}["software_developer"]
     assert (r2[1] - r2[0]) > (r1[1] - r1[0])
+
+
+def test_damping_is_chosen_from_training_months_only():
+    # steady exponential growth -> no damping needed
+    steady = [[round(100 * 1.03 ** t) for t in range(36)] for _ in range(3)]
+    assert trend_model.select_phi(steady)[0] == 1.0
+    # boom then flat inside the training window -> damping wins
+    boom = [[round(20 * 1.15 ** min(t, 8)) for t in range(36)] for _ in range(3)]
+    assert trend_model.select_phi(boom)[0] < 1.0
+    # changing the test year (months 24-35) must not change the choice
+    changed = [s[:24] + [9999] * 12 for s in boom]
+    assert trend_model.select_phi(changed)[0] == trend_model.select_phi(boom)[0]
+
+
+def test_damped_growth_is_smaller_than_past_trend():
+    f = trend_model.fit([round(100 * 1.05 ** t) for t in range(36)], phi=0.8)
+    assert 0 < f["growth"] < f["past_growth"]

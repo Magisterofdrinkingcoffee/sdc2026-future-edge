@@ -77,7 +77,7 @@ export default function ForecastView(ctx) {
                           <div className={`absolute h-3 rounded-full opacity-35 ${g.bar}`} style={{ width: `${k.exposure_y3 * 100}%` }} />
                           <div className={`absolute h-3 rounded-full ${g.bar}`} style={{ width: `${k.exposure_now * 100}%` }} />
                         </div>
-                        <div className="mt-0.5 text-xs text-muted">📈 Model 2: {k.signal.label} research {k.signal.growth >= 0 ? 'growing' : 'shrinking'} {Math.abs(Math.round((k.signal.growth || 0) * 100))}% a year{k.signal.growth_low != null && ` (80% range ${Math.round(k.signal.growth_low * 100)}% to ${Math.round(k.signal.growth_high * 100)}%)`}</div>
+                        <div className="mt-0.5 text-xs text-muted">📈 Model 2: {k.signal.label} research {k.signal.growth >= 0 ? '+' : ''}{Math.round((k.signal.growth || 0) * 100)}% expected next year{k.signal.growth_low != null && ` (80% range ${Math.round(k.signal.growth_low * 100)}% to ${Math.round(k.signal.growth_high * 100)}%)`}{k.signal.past_growth != null && `, grew ${Math.round(k.signal.past_growth * 100)}% a year since 2023`}</div>
                         <ModelReading m={k.model} />
                       </li>
                     ))}
@@ -149,7 +149,7 @@ function TrendModelCard({ ts }) {
   return (
     <section className="panel">
       <h2 className="text-lg font-bold">📈 Model 2: AI-trend forecaster</h2>
-      <p className="mt-1 text-sm text-muted">Fits a growth trend to 36 months of new arXiv papers per AI area and projects it 3 years ahead with an 80% range. That range is part of your Edge Score range.</p>
+      <p className="mt-1 text-sm text-muted">Fits a growth trend to 36 months of new arXiv papers (Oct 2023 – Sep 2026) per AI area and projects it ahead with an 80% range. The trend fades over time (a damped trend), because AI research boomed in 2023–24 and is now slowing. That range is part of your Edge Score range.</p>
       <div className="mt-3 grid grid-cols-2 gap-2 text-center">
         <div className="rounded-2xl bg-violet-50 p-2"><div className="font-display text-2xl font-bold text-violet-700">{Math.round(b.model_mean_error * 100)}%</div><div className="text-xs text-muted">average error</div></div>
         <div className="rounded-2xl bg-canvas p-2"><div className="font-display text-2xl font-bold">{Math.round(b.naive_mean_error * 100)}%</div><div className="text-xs text-muted">"same as last year"</div></div>

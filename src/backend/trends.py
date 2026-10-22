@@ -22,7 +22,7 @@ from . import trend_model
 from .data_store import DATA_DIR
 
 ARXIV_URL = "https://export.arxiv.org/api/query"
-SOURCE = "arXiv API – new papers per month and topic; trend and range by Model 2 (log-linear regression)"
+SOURCE = "arXiv API – new papers per month and topic; trend and range by Model 2 (damped log-linear trend)"
 PAUSE_SECONDS = 3  # arXiv asks clients to wait ~3 s between requests
 MONTHS = 36
 
@@ -57,14 +57,16 @@ def _count_month(query, y, m):
 def build(monthly, signals, fetched_at, source=SOURCE):
     """monthly: {signal_id: {"YYYY-MM": count}} -> trends.json structure (pure function, testable)."""
     out, backtests = {}, []
+    all_counts = [[monthly[s["id"]][k] for k in sorted(monthly[s["id"]])] for s in signals if len(monthly.get(s["id"], {})) >= 12]
+    phi, phi_errors = trend_model.select_phi(all_counts)
     for sig in signals:
         series = monthly.get(sig["id"], {})
         months = sorted(series)
         counts = [series[k] for k in months]
         if len(counts) < 12:
             continue
-        f = trend_model.fit(counts)
-        bt = trend_model.backtest(counts)
+        f = trend_model.fit(counts, phi=phi)
+        bt = trend_model.backtest(counts, phi=phi)
         if bt:
             backtests.append(bt)
         last = months[-1]
@@ -78,6 +80,7 @@ def build(monthly, signals, fetched_at, source=SOURCE):
         out[sig["id"]] = {
             "label": sig["label"], "query": sig["query"],
             "growth": f["growth"], "growth_low": f["growth_low"], "growth_high": f["growth_high"],
+            "past_growth": f["past_growth"],
             "r2": f["r2"], "last_12m": sum(counts[-12:]), "previous_12m": sum(counts[-24:-12]) if len(counts) >= 24 else None,
             "monthly": {k: series[k] for k in months}, "forecast": steps, "backtest": bt,
         }
@@ -95,7 +98,8 @@ def build(monthly, signals, fetched_at, source=SOURCE):
         }
     return {
         "source": source, "source_url": "https://info.arxiv.org/help/api/", "fetched_at": fetched_at,
-        "is_sample": False, "model": "Model 2: log-linear regression on monthly arXiv counts, 80% intervals",
+        "is_sample": False, "model": "Model 2: damped log-linear trend on monthly arXiv counts, 80% intervals",
+        "damping": {"phi": phi, "chosen_on": "first 24 months only (fit 12, predict 12)", "inner_errors": phi_errors},
         "backtest": summary, "signals": out,
     }
 

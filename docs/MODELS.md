@@ -53,11 +53,23 @@ WEF / DOSM / MyCOL ────────────────────�
 
 **Data:** new arXiv papers per month for each of the 10 signals in `src/backend/data/signals.json`, for the 36 full months Oct 2023 – Sep 2026, collected from the arXiv API (360 requests, 3+ s apart). Collect (resumable, ~20 min, standard library only): `python -m tools.collect_arxiv`; it saves to `src/database/arxiv_monthly.json` after every answer and then rebuilds `data/trends.json`. Rebuild only: `python -m tools.build_trends`. Live refresh on Replit: the "Refresh trend data" button (or `python -m src.backend.trends`).
 
-**Model:** per signal, ordinary least squares on `log(papers + 1) = a + b × month`. Yearly growth = `exp(12b) − 1`; its 80% interval comes from the standard error of `b`; forecasts use the 80% prediction band. Code: `src/backend/trend_model.py` (plain Python).
+**Model:** a damped log-linear trend per signal. (1) Ordinary least squares on `log(papers + 1) = a + b × month`. (2) Project forward from the last fitted month with the slope fading by φ each month: level after h months = level + b × (φ + φ² + … + φʰ) (Gardner & McKenzie, 1985). Growth used by the app = expected change over the next 12 months = `exp(b × (φ + … + φ¹²)) − 1`; its 80% interval comes from the standard error of `b`; forecasts carry an 80% prediction band. The undamped past trend `exp(12b) − 1` is shown next to it. Code: `src/backend/trend_model.py` (plain Python).
 
-**Validation (backtest):** fit on the first 24 months, predict the total papers in the last 12 months, and compare with the naive guess "next year = last year". Results are stored in `trends.json → backtest` and shown in the app.
+**Choosing φ without peeking:** `select_phi()` uses only the first 24 months of every signal (fit on months 1–12, predict 13–24) over φ ∈ {1.0, 0.95, …, 0.5} and takes the largest φ within 0.005 of the best mean error. On the real data it picks **φ = 0.8**. A test checks that changing the test year does not change the choice.
 
-**Limitations:** research papers are a *proxy* for AI capability, not a direct measure; the log-linear trend assumes steady growth (it can't predict sudden breakthroughs); some queries have small monthly counts, which widens their range.
+**Validation (backtest, real arXiv data, collected 22 Oct 2026):** fit on the first 24 months, predict the total papers in the last 12 months, compare with the naive guess "next year = last year".
+
+| | mean error | better than naive | real total inside 80% band |
+|---|---|---|---|
+| Plain log-linear trend (first version) | 29.5% | 5 of 10 | 9 of 10 |
+| **Damped trend (φ = 0.8, used)** | **17.2%** | **6 of 10** | **10 of 10** |
+| Naive "same as last year" | 22.7% | – | – |
+
+We kept the first version's result here on purpose: a plain exponential over-shot because AI research boomed in 2023–24 and is now slowing (e.g. LLM code generation grew +48%/yr over the period but only +13% is expected next year).
+
+**Real results (expected growth next 12 months, 80% range):** LLM agents +27% (25–30), human-AI collaboration +18% (15–21), LLM code generation +13% (11–15), document AI +13% (10–15), LLMs for data analysis +5% (3–7), visual inspection +5% (3–8), conversational AI +4% (2–6), AI security +2% (−1–6), smart grids −2% (−5–0), AutoML −3% (−5–0).
+
+**Limitations:** research papers are a *proxy* for AI capability, not a direct measure; trends can't predict sudden breakthroughs; several queries have only 2–20 papers a month (AutoML, smart grids, AI security), so their trends are noisy (R² < 0.1) and the model is only slightly better than the naive guess there. The 80% range reflects uncertainty in the slope, not in which queries we chose.
 
 ---
 

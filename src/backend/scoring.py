@@ -358,7 +358,7 @@ def forecast(profile_skills, data, scenario="moderate", assessment=None, goal_ro
             "skill": s, "name": sk["name"], "category": sk["category"], "level": round(p, 2),
             **out,
             "signal": {"label": sig.get("label", sk["signal"]), "growth": sig.get("growth"),
-                       "growth_low": sig.get("growth_low"), "growth_high": sig.get("growth_high")},
+                       "growth_low": sig.get("growth_low"), "growth_high": sig.get("growth_high"), "past_growth": sig.get("past_growth")},
             "sdgs": sk["sdgs"],
             "model": {**sk["model"], "task": sk["task"]},
         })
