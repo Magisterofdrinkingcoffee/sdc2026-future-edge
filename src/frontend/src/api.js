@@ -39,5 +39,7 @@ export const api = {
   pathway: (body) => call('/pathway', body),
   trends: () => call('/trends'),
   modelExposure: (text) => call('/model/exposure', { text }),
+  catchPack: (params) => call(`/catch?${new URLSearchParams(params)}`),
+  scoreCatch: (body) => call('/catch', body),
   refreshTrends: () => call('/trends/refresh', {}),
 }

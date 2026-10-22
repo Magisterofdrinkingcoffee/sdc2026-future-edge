@@ -72,12 +72,12 @@ export default function ForecastView(ctx) {
                     {list.map((k) => (
                       <li key={k.skill}>
                         <div className="flex justify-between gap-2 text-sm"><b>{k.name}</b>
-                          <span className="shrink-0 text-muted">AI can do {Math.round(k.exposure_now * 100)}% now, {Math.round(k.exposure_y3 * 100)}% in {year3}</span></div>
+                          <span className="shrink-0 text-muted">AI can do {Math.round(k.exposure_now * 100)}% now, {Math.round(k.exposure_y3 * 100)}% in {year3}{k.exposure_y3_range && <> (range {Math.round(k.exposure_y3_range[0] * 100)}–{Math.round(k.exposure_y3_range[1] * 100)}%)</>}</span></div>
                         <div className="relative mt-1 h-3 overflow-hidden rounded-full bg-line">
                           <div className={`absolute h-3 rounded-full opacity-35 ${g.bar}`} style={{ width: `${k.exposure_y3 * 100}%` }} />
                           <div className={`absolute h-3 rounded-full ${g.bar}`} style={{ width: `${k.exposure_now * 100}%` }} />
                         </div>
-                        <div className="mt-0.5 text-xs text-muted">Trend: {k.signal.label}, research {k.signal.growth >= 0 ? 'up' : 'down'} {Math.abs(Math.round((k.signal.growth || 0) * 100))}% in a year</div>
+                        <div className="mt-0.5 text-xs text-muted">📈 Model 2: {k.signal.label} research {k.signal.growth >= 0 ? 'growing' : 'shrinking'} {Math.abs(Math.round((k.signal.growth || 0) * 100))}% a year{k.signal.growth_low != null && ` (80% range ${Math.round(k.signal.growth_low * 100)}% to ${Math.round(k.signal.growth_high * 100)}%)`}</div>
                         <ModelReading m={k.model} />
                       </li>
                     ))}
@@ -119,6 +119,7 @@ export default function ForecastView(ctx) {
             ) : null}
           </section>
           <ModelCard card={cur.model} />
+          <TrendModelCard ts={cur.trend_source} />
           <TrendPanel {...ctx} />
         </aside>
       </div>
@@ -139,6 +140,22 @@ function ModelReading({ m }) {
         {words && <div className="mt-1">Words that mattered most: {words}</div>}
       </div>
     </details>
+  )
+}
+
+function TrendModelCard({ ts }) {
+  const b = ts?.backtest
+  if (!b) return null
+  return (
+    <section className="panel">
+      <h2 className="text-lg font-bold">📈 Model 2: AI-trend forecaster</h2>
+      <p className="mt-1 text-sm text-muted">Fits a growth trend to 36 months of new arXiv papers per AI area and projects it 3 years ahead with an 80% range. That range is part of your Edge Score range.</p>
+      <div className="mt-3 grid grid-cols-2 gap-2 text-center">
+        <div className="rounded-2xl bg-violet-50 p-2"><div className="font-display text-2xl font-bold text-violet-700">{Math.round(b.model_mean_error * 100)}%</div><div className="text-xs text-muted">average error</div></div>
+        <div className="rounded-2xl bg-canvas p-2"><div className="font-display text-2xl font-bold">{Math.round(b.naive_mean_error * 100)}%</div><div className="text-xs text-muted">"same as last year"</div></div>
+      </div>
+      <p className="mt-2 text-xs text-muted">Backtest: trained on the first 24 months, predicted the last 12. Better than the simple guess on {b.model_better_on} of {b.signals} AI areas; the real result fell inside the 80% range for {b.inside_80pct_band} of {b.signals}.</p>
+    </section>
   )
 }
 
@@ -219,7 +236,7 @@ function TrendPanel({ meta, trends, setTrends, overrides, setOverrides, set }) {
             : `Real arXiv paper counts, updated ${new Date(trends.fetched_at).toLocaleString()}.`}
         </p>
       )}
-      <button className="btn-white mt-3 w-full py-2 text-sm" disabled={busy} onClick={refresh}>{busy ? 'Fetching from arXiv (about 1 min)…' : 'Refresh trend data'}</button>
+      <button className="btn-white mt-3 w-full py-2 text-sm" disabled={busy} onClick={refresh}>{busy ? 'Fetching 36 months from arXiv (about 20 min)…' : 'Refresh trend data'}</button>
       {trends?.refresh?.error && <p className="mt-2 text-xs text-coral-600">{trends.refresh.error}</p>}
       <details className="mt-4">
         <summary className="cursor-pointer text-sm font-bold">What if AI moves faster in one area?</summary>

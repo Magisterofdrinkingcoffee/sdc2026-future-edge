@@ -64,7 +64,10 @@ export default function App() {
   const unaward = (key) => set((prev) => { const xpLog = { ...prev.xpLog }; delete xpLog[key]; return { xpLog } })
 
   // ---- request body shared by forecast + pathway -------------------------
-  const assessed = s.assessment ? { judgment: s.assessment.judgment, responsibility: s.assessment.responsibility } : null
+  const assessed = s.assessment ? {
+    judgment: s.assessment.judgment, responsibility: s.assessment.responsibility,
+    judgment_range: s.assessment.judgment_range || null, responsibility_range: s.assessment.responsibility_range || null,
+  } : null
   const body = useMemo(() => ({
     skills: s.profile.skills, goal_role: s.profile.goal_role || null, assessment: assessed,
     completed: s.completed, signal_overrides: overrides,

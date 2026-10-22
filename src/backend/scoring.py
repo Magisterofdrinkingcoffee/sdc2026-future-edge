@@ -68,19 +68,23 @@ def clamp(x, lo, hi):
 
 
 # ---------------------------------------------------------------- trends
-def signal_growth(trends, signal_id):
+def signal_growth(trends, signal_id, key="growth"):
+    """Model 2's yearly research growth for a signal; key = growth | growth_low | growth_high (80% range)."""
     sig = trends.get("signals", {}).get(signal_id)
-    return sig["growth"] if sig and sig.get("growth") is not None else 0.0
+    if not sig:
+        return 0.0
+    value = sig.get(key, sig.get("growth"))
+    return value if value is not None else 0.0
 
 
 def tools(year, scenario, growth):
     return min(1.0, TOOLS_NOW + year * TOOLS_SPEED[scenario] * (1 + max(0.0, growth)))
 
 
-def exposure(skill, year, scenario, trends):
-    """Share of this skill's work AI can do in `year` (Model 1 output + trend layer)."""
+def exposure(skill, year, scenario, trends, key="growth"):
+    """Share of this skill's work AI can do in `year` (Model 1 output + Model 2 trend)."""
     m = skill["model"]
-    return min(0.98, m["E1"] + m["E2"] * tools(year, scenario, signal_growth(trends, skill["signal"])))
+    return min(0.98, m["E1"] + m["E2"] * tools(year, scenario, signal_growth(trends, skill["signal"], key)))
 
 
 def with_personal_exposure(data, evidence):
@@ -115,7 +119,9 @@ def skill_outlook(skill, scenario, trends, n_roles_using, n_roles):
         status = "rising"
     else:
         status = "holding"
-    return {"status": status, "exposure_now": round(e0, 2), "exposure_y3": round(e3, 2)}
+    return {"status": status, "exposure_now": round(e0, 2), "exposure_y3": round(e3, 2),
+            "exposure_y3_range": [round(exposure(skill, 3, scenario, trends, "growth_low"), 2),
+                                  round(exposure(skill, 3, scenario, trends, "growth_high"), 2)]}
 
 
 # ---------------------------------------------------------------- profile
@@ -166,13 +172,13 @@ def match_score(role, skills):
     return got / total if total else 0.0
 
 
-def ai_adjusted_fit(role, skills, catalog_skills, year, scenario, trends):
+def ai_adjusted_fit(role, skills, catalog_skills, year, scenario, trends, key="growth"):
     total = sum(role["skills"].values())
     got = 0.0
     for s, w in role["skills"].items():
         p = skills.get(s, 0.0)
         if p > 0 and s in catalog_skills:
-            got += w * credit(p) * (1 - exposure(catalog_skills[s], year, scenario, trends))
+            got += w * credit(p) * (1 - exposure(catalog_skills[s], year, scenario, trends, key))
     return got / total if total else 0.0
 
 
@@ -219,7 +225,8 @@ def human_score(skills, assessed):
 
 
 # ---------------------------------------------------------------- main API
-def edge_for_role(role, skills, data, scenario, assessed):
+def edge_for_role(role, skills, data, scenario, assessed, human_bounds=None):
+    """human_bounds: {"low": {...}, "high": {...}} skill overrides from Model 3's range (optional)."""
     cat = data["skills"]
     trends = data["trends"]
     usage = role_usage(data["roles"])
@@ -230,12 +237,27 @@ def edge_for_role(role, skills, data, scenario, assessed):
     best = best_fit(data)
     multiplier = W_BASE + W_HUMAN * human + W_RARITY * rarity
     gate, core = core_gate(role, skills, cat)
+    def series(sk, mult, key):
+        return [min(100.0, 100 * (ai_adjusted_fit(role, sk, cat, t, scenario, trends, key) / best) * mult
+                    * job_market(role, t) * gate) for t in YEARS]
+
+    # DATA FUSION RANGE: pessimistic = Model 2's upper research growth (AI arrives faster) + Model 3's
+    # lower human-skill bound; optimistic = the opposite. Mid = central estimates.
+    def variant(bound):
+        if not human_bounds or bound not in human_bounds:
+            return skills, multiplier
+        sk = {**skills, **human_bounds[bound]}
+        return sk, W_BASE + W_HUMAN * human_score(sk, assessed) + W_RARITY * rarity
+    lo_sk, lo_mult = variant("low")
+    hi_sk, hi_mult = variant("high")
+    lows, highs = series(lo_sk, lo_mult, "growth_high"), series(hi_sk, hi_mult, "growth_low")
     timeline = []
-    for t in YEARS:
+    for i, t in enumerate(YEARS):
         fit = ai_adjusted_fit(role, skills, cat, t, scenario, trends)
         market = job_market(role, t)
         edge = min(100.0, 100 * (fit / best) * multiplier * market * gate)
-        timeline.append({"year": t, "edge": round(edge, 1), "fit": round(fit, 3), "market": round(market, 3)})
+        timeline.append({"year": t, "edge": round(edge, 1), "low": round(min(lows[i], edge), 1),
+                         "high": round(max(highs[i], edge), 1), "fit": round(fit, 3), "market": round(market, 3)})
 
     gap = []
     for s, w in sorted(role["skills"].items(), key=lambda kv: -kv[1]):
@@ -256,6 +278,7 @@ def edge_for_role(role, skills, data, scenario, assessed):
         "timeline": timeline,
         "edge_now": timeline[0]["edge"],
         "edge_y3": timeline[-1]["edge"],
+        "edge_y3_range": [timeline[-1]["low"], timeline[-1]["high"]],
         "gap": gap,
         "sdgs": role["sdgs"],
         "role_ai_exposure_y3": round(role_exposure_y3, 2),
@@ -276,7 +299,8 @@ def edge_for_role(role, skills, data, scenario, assessed):
             "market": _market_text(role, timeline[-1]["market"]),
             "core": (f"Core specialist skills for this role: {', '.join(cat[c]['name'] for c in core)}. Your level there gives x{gate:.2f}."
                      if core else "This role has no single core specialist skill."),
-            "formula": "Edge = AI-adjusted fit (vs. best possible) x uniqueness multiplier (human skills + rarity) x job market.",
+            "range": f"Range in year 3: {timeline[-1]['low']:.0f}-{timeline[-1]['high']:.0f}. Low end = AI research grows at the top of Model 2's 80% range and your Catch-the-AI score at the bottom of its range; high end = the opposite.",
+            "formula": "Edge = AI-adjusted fit (Model 1 + Model 2) x uniqueness (Model 3 + rare skill mix) x job market (WEF) x core-skill check.",
         },
     }
 
@@ -303,11 +327,21 @@ def _market_text(role, m3):
     return "Job market: no WEF figure for this role, so we keep it neutral (x1.00)."
 
 
+def human_bounds(assessment):
+    """Model 3 range -> skill overrides for the low/high Edge (None if no range)."""
+    if not assessment or not assessment.get("judgment_range") or not assessment.get("responsibility_range"):
+        return None
+    jr, rr = assessment["judgment_range"], assessment["responsibility_range"]
+    return {"low": {"critical_thinking": jr[0], "ownership": rr[0]},
+            "high": {"critical_thinking": jr[1], "ownership": rr[1]}}
+
+
 def forecast(profile_skills, data, scenario="moderate", assessment=None, goal_role=None, completed=(), evidence=None):
     data = with_personal_exposure(data, evidence)
     assessed = bool(assessment and assessment.get("judgment") is not None)
     skills = apply_completed(effective_skills(profile_skills, assessment), completed, data["catalog"])
-    roles = [edge_for_role(r, skills, data, scenario, assessed) for r in data["roles"].values()]
+    bounds = human_bounds(assessment)
+    roles = [edge_for_role(r, skills, data, scenario, assessed, bounds) for r in data["roles"].values()]
     roles.sort(key=lambda r: (r["role_id"] != goal_role, -r["edge_y3"]))
 
     usage = role_usage(data["roles"])
@@ -323,7 +357,8 @@ def forecast(profile_skills, data, scenario="moderate", assessment=None, goal_ro
         skill_rows.append({
             "skill": s, "name": sk["name"], "category": sk["category"], "level": round(p, 2),
             **out,
-            "signal": {"label": sig.get("label", sk["signal"]), "growth": sig.get("growth")},
+            "signal": {"label": sig.get("label", sk["signal"]), "growth": sig.get("growth"),
+                       "growth_low": sig.get("growth_low"), "growth_high": sig.get("growth_high")},
             "sdgs": sk["sdgs"],
             "model": {**sk["model"], "task": sk["task"]},
         })
@@ -334,6 +369,8 @@ def forecast(profile_skills, data, scenario="moderate", assessment=None, goal_ro
         "roles": roles,
         "skills": skill_rows,
         "trend_source": {
+            "model": trends.get("model"),
+            "backtest": trends.get("backtest"),
             "source": trends.get("source"),
             "fetched_at": trends.get("fetched_at"),
             "is_sample": trends.get("is_sample", False),

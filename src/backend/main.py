@@ -29,6 +29,8 @@ app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], all
 class Assessment(BaseModel):
     judgment: Optional[float] = None
     responsibility: Optional[float] = None
+    judgment_range: Optional[List[float]] = None
+    responsibility_range: Optional[List[float]] = None
 
 
 class ProfileIn(BaseModel):
@@ -52,6 +54,14 @@ class ParseIn(BaseModel):
 
 class AnswersIn(BaseModel):
     answers: Dict[str, int]
+
+
+class CatchIn(BaseModel):
+    pack: str
+    flagged: List[int] = Field(default_factory=list)
+    confidence: float = 50
+    action: Optional[str] = None
+    answers: Dict[str, int] = Field(default_factory=dict)
 
 
 def _data(overrides=None):
@@ -164,6 +174,25 @@ def model_exposure(body: ParseIn):
 def model_info():
     from .exposure_model import info
     return info()
+
+
+@app.get("/api/catch")
+def catch_pack(sector: Optional[str] = None, pack: Optional[str] = None):
+    """Model 3: the 'Catch the AI' exercise for the user's sector (answers are NOT sent)."""
+    from . import catch_the_ai
+    pid = pack or catch_the_ai.pack_for_sector(sector)
+    try:
+        return catch_the_ai.public_pack(pid)
+    except KeyError:
+        raise HTTPException(404, "unknown pack")
+
+
+@app.post("/api/catch")
+def catch_score(body: CatchIn):
+    from . import catch_the_ai
+    if body.pack not in catch_the_ai.content()["packs"]:
+        raise HTTPException(404, "unknown pack")
+    return catch_the_ai.score(body.pack, body.flagged, body.confidence, body.action, body.answers)
 
 
 @app.get("/api/assessment")

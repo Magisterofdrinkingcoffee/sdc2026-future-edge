@@ -70,6 +70,9 @@ function ForecastDay({ t, i, year, animate, other }) {
       <div className="my-1 text-3xl sm:text-4xl" aria-hidden>{w.icon}</div>
       <div className="font-display text-2xl font-bold sm:text-3xl">{Math.round(animate ? n : t.edge)}</div>
       <div className={`text-[11px] font-bold leading-tight ${w.tone}`}>{w.label}</div>
+      {t.low != null && t.high != null && Math.round(t.high) - Math.round(t.low) >= 1 && (
+        <div className="mt-1 text-[11px] text-muted" title="Range from Model 2 (trend interval) and Model 3 (Catch the AI range)">{Math.round(t.low)}–{Math.round(t.high)}</div>
+      )}
       {other && <div className="mt-1 text-[11px] text-muted" title="Other scenario">vs {Math.round(other.edge)}</div>}
     </li>
   )
