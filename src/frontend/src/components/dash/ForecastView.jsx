@@ -72,7 +72,7 @@ export default function ForecastView(ctx) {
                     {list.map((k) => (
                       <li key={k.skill}>
                         <div className="flex justify-between gap-2 text-sm"><b>{k.name}</b>
-                          <span className="shrink-0 text-muted">AI can do {Math.round(k.exposure_now * 100)}% now, {Math.round(k.exposure_y3 * 100)}% in {year3}{k.exposure_y3_range && <> (range {Math.round(k.exposure_y3_range[0] * 100)}–{Math.round(k.exposure_y3_range[1] * 100)}%)</>}</span></div>
+                          <span className="shrink-0 text-muted">AI can do {Math.round(k.exposure_now * 100)}% now, {Math.round(k.exposure_y3 * 100)}% in {year3}{k.exposure_y3_range && Math.round(k.exposure_y3_range[1] * 100) > Math.round(k.exposure_y3_range[0] * 100) && <> (range {Math.round(k.exposure_y3_range[0] * 100)}–{Math.round(k.exposure_y3_range[1] * 100)}%)</>}</span></div>
                         <div className="relative mt-1 h-3 overflow-hidden rounded-full bg-line">
                           <div className={`absolute h-3 rounded-full opacity-35 ${g.bar}`} style={{ width: `${k.exposure_y3 * 100}%` }} />
                           <div className={`absolute h-3 rounded-full ${g.bar}`} style={{ width: `${k.exposure_now * 100}%` }} />
