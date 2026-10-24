@@ -139,3 +139,28 @@ def test_human_skills_gain_ai_exposure_slower_than_technical_skills():
 def test_shrinking_research_slows_tools_but_never_below_half_speed():
     assert scoring.tools(3, "fast", -0.2) < scoring.tools(3, "fast", 0.0)
     assert scoring.tools(3, "fast", -0.9) == scoring.tools(3, "fast", -0.5)
+
+
+def test_sdg_focus_changes_ranking_but_never_the_edge_score():
+    plain = {r["role_id"]: r for r in scoring.forecast(RAVI["skills"], DATA, "moderate")["roles"]}
+    focus = scoring.forecast(RAVI["skills"], DATA, "moderate", sdg_focus=["climate"])["roles"]
+    for r in focus:
+        assert r["edge_y3"] == plain[r["role_id"]]["edge_y3"]          # score is honest, unchanged
+        if "climate" in r["sdg_themes"]:
+            assert (r["rank_score"] > r["edge_y3"] or r["edge_y3"] == 0) and "sdg" in r["explain"]
+        else:
+            assert r["rank_score"] == r["edge_y3"]
+    assert any(r["sdg_focus_match"] for r in focus) and not any(r["sdg_focus_match"] for r in plain.values())
+
+
+def test_every_role_has_an_sdg_impact_line_and_a_theme():
+    for rid, role in DATA["roles"].items():
+        assert DATA["sdg_impact"]["roles"].get(rid)
+        assert scoring.role_themes(role, DATA)
+
+
+def test_pathway_reports_sdg_contribution_with_sources():
+    p = scoring.one_move_and_pathway(RAVI["skills"], "renewable_energy_engineer", DATA)
+    s = p["sdg_summary"]
+    assert "7.2" in [t["target"] for t in s["targets"]]
+    assert all(t["sources"] for t in s["targets"]) and s["impact"]

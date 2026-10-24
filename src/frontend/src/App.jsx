@@ -13,7 +13,7 @@ const STORE_KEY = 'future-edge-v2'
 const FRESH = {
   stage: 'welcome', tab: 'quests',
   profile: { name: '', avatar: '🙂', skills: {}, evidence: {}, source: null, goal_role: '' },
-  assessment: null, scenario: 'fast', completed: [], xpLog: {}, days: [], flags: {}, history: [], earned: [],
+  assessment: null, scenario: 'fast', sdgFocus: [], completed: [], xpLog: {}, days: [], flags: {}, history: [], earned: [],
 }
 
 function loadSaved() {
@@ -70,10 +70,10 @@ export default function App() {
   } : null
   const body = useMemo(() => ({
     skills: s.profile.skills, goal_role: s.profile.goal_role || null, assessment: assessed,
-    completed: s.completed, signal_overrides: overrides,
+    completed: s.completed, signal_overrides: overrides, sdg_focus: s.sdgFocus || [],
     // Model 1 also reads the user's own CV sentence for each skill
     evidence: Object.fromEntries(Object.entries(s.profile.evidence || {}).filter(([id]) => id in s.profile.skills).map(([id, e]) => [id, e.evidence])),
-  }), [s.profile.skills, s.profile.goal_role, s.assessment, s.completed, overrides, s.profile.evidence]) // eslint-disable-line react-hooks/exhaustive-deps
+  }), [s.profile.skills, s.profile.goal_role, s.assessment, s.completed, overrides, s.profile.evidence, s.sdgFocus]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const ready = ['reveal', 'app'].includes(s.stage) && Object.keys(s.profile.skills).length > 0
   useEffect(() => {

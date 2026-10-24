@@ -23,7 +23,7 @@ export default function ForecastView(ctx) {
   const cur = forecast[s.scenario]
   const otherSc = s.scenario === 'fast' ? 'moderate' : 'fast'
   const other = forecast[otherSc].roles.find((r) => r.role_id === goal.role_id)
-  const rankedAll = [...cur.roles].sort((a, b) => b.edge_y3 - a.edge_y3)
+  const rankedAll = [...cur.roles].sort((a, b) => (b.rank_score ?? b.edge_y3) - (a.rank_score ?? a.edge_y3))
   const ranked = showAll ? rankedAll : rankedAll.filter((r, i) => i < 8 || r.role_id === goal.role_id)
 
   return (
@@ -53,8 +53,9 @@ export default function ForecastView(ctx) {
           <ul className="mt-2 space-y-1 text-sm">{Object.values(goal.explain).map((e, i) => <li key={i}>{e}</li>)}</ul>
           {goal.gap.length > 0 && <p className="mt-2 text-sm"><b>Skills gap:</b> {goal.gap.map((g) => g.name).join(', ')}.</p>}
         </details>
-        <div className="mt-4 flex flex-wrap gap-2">{Object.entries(goal.sdgs).map(([t, why]) => <SdgChip key={t} target={t} reason={why} sdgs={meta.sdgs} />)}</div>
       </section>
+
+      <SdgPanel {...ctx} cur={cur} />
 
       <div className="grid gap-6 lg:grid-cols-[1fr_340px]">
         <section className="panel">
@@ -92,7 +93,7 @@ export default function ForecastView(ctx) {
         <aside className="space-y-6">
           <section className="panel">
             <h2 className="text-lg font-bold">Other roles for you</h2>
-            <p className="text-sm text-muted">Ranked by your {year3} Edge Score.</p>
+            <p className="text-sm text-muted">Ranked by your {year3} Edge Score{(s.sdgFocus || []).length ? ', with a lift for roles that serve your SDG focus' : ''}.</p>
             <ul className="mt-3 space-y-1">
               {ranked.map((r) => {
                 const w = weather(r.edge_y3)
@@ -105,6 +106,7 @@ export default function ForecastView(ctx) {
                       <span className="min-w-0 flex-1"><span className="block truncate text-sm font-bold">{FIELD_ICON[meta.roles.find((x) => x.id === r.role_id)?.field]} {r.title}</span>
                         <span className="text-xs text-muted">{isGoal ? 'Your goal' : `${Math.round(r.match * 100)}% skill match`}</span>
                         <span className="ml-1"><GrowthChip outlook={r.outlook} /></span>
+                        {r.sdg_focus_match?.length > 0 && <span className="chip ml-1 bg-sprout-50 text-sprout-700" title={r.explain?.sdg}>🌍 your SDG focus</span>}
                         {r.at_risk && <span className="chip ml-1 bg-coral-50 text-coral-600" title={`AI could do about ${Math.round(r.role_ai_exposure_y3 * 100)}% of this role's work by ${year3}`}>at risk</span>}</span>
                       <span className="font-display text-lg font-bold">{Math.round(r.edge_y3)}</span>
                     </button>
@@ -250,6 +252,80 @@ function TrendPanel({ meta, trends, setTrends, overrides, setOverrides, set }) {
         ))}
         {Object.keys(overrides).length > 0 && <button className="mt-2 text-xs font-bold text-violet-600 underline" onClick={() => setOverrides({})}>Back to real data</button>}
       </details>
+    </section>
+  )
+}
+
+
+function SdgPanel({ s, set, meta, plan, goal, cur }) {
+  const themes = meta.sdg_themes || {}
+  const focus = s.sdgFocus || []
+  const toggle = (t) => set((p) => {
+    const f = p.sdgFocus || []
+    return { sdgFocus: f.includes(t) ? f.filter((x) => x !== t) : [...f, t], flags: { ...p.flags, sdg: true } }
+  })
+  const sum = plan?.sdg_summary
+  const best = focus.length
+    ? [...cur.roles].filter((r) => r.sdg_focus_match?.length).sort((a, b) => b.edge_y3 - a.edge_y3).slice(0, 4)
+    : []
+  return (
+    <section className="panel">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <h2 className="text-xl font-bold">🌍 Your path and the Sustainable Development Goals</h2>
+          <p className="text-sm text-muted">What your work as a {goal.title} would help the world with – and roles that serve the goals you care about.</p>
+        </div>
+      </div>
+      {goal.sdg_impact && <p className="mt-3 rounded-2xl bg-sprout-50 p-3 text-sm text-sprout-700"><b>Why it matters:</b> {goal.sdg_impact}</p>}
+
+      {sum && sum.targets.length > 0 && (
+        <div className="mt-4">
+          <h3 className="font-display font-semibold">Your path contributes to {sum.goals.length} SDG{sum.goals.length > 1 ? 's' : ''}</h3>
+          <ul className="mt-2 grid gap-2 sm:grid-cols-2">
+            {sum.targets.map((t) => (
+              <li key={t.target} className="rounded-2xl border-2 border-line p-3 text-sm">
+                <div className="font-bold">SDG {t.target} · {sum.goal_names[t.goal]}</div>
+                <div className="text-xs text-muted">{t.text}</div>
+                <div className="mt-1 text-xs">Because of {t.sources.slice(0, 3).join('; ')}{t.sources.length > 3 ? ` and ${t.sources.length - 3} more` : ''}.</div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      <div className="mt-5">
+        <h3 className="font-display font-semibold">What do you want your work to help with?</h3>
+        <p className="text-xs text-muted">Pick any. Roles that serve these goals move up your list and are shown below. Your Edge Score itself never changes – it only measures how hard you are to replace.</p>
+        <div className="mt-2 flex flex-wrap gap-2" role="group" aria-label="SDG focus">
+          {Object.entries(themes).map(([id, th]) => (
+            <button key={id} aria-pressed={focus.includes(id)} onClick={() => toggle(id)}
+              className={`rounded-full border-2 px-3 py-1.5 text-sm font-bold ${focus.includes(id) ? 'border-sprout-500 bg-sprout-50 text-sprout-700' : 'border-line text-muted'}`}>
+              {th.icon} {th.label}
+            </button>
+          ))}
+        </div>
+        {focus.length > 0 && (
+          <div className="mt-3">
+            {best.length ? (
+              <ul className="grid gap-2 sm:grid-cols-2">
+                {best.map((r) => (
+                  <li key={r.role_id} className="rounded-2xl bg-canvas p-3 text-sm">
+                    <div className="flex justify-between gap-2"><b>{r.title}</b><span className="font-display font-bold">{Math.round(r.edge_y3)}</span></div>
+                    <div className="text-xs text-muted">{Math.round(r.match * 100)}% skill match · {r.sdg_focus_match.map((t) => themes[t]?.icon + ' ' + themes[t]?.label).join(', ')}</div>
+                    {r.sdg_impact && <div className="mt-1 text-xs">{r.sdg_impact}</div>}
+                    {r.role_id !== goal.role_id && (
+                      <button className="mt-2 text-xs font-bold text-violet-600 underline"
+                        onClick={() => window.confirm(`Make ${r.title} your new goal? Your quest map will change.`) && set((p) => ({ profile: { ...p.profile, goal_role: r.role_id }, completed: [], history: [] }))}>
+                        Make this my goal
+                      </button>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            ) : <p className="text-sm text-muted">No roles in our catalog serve this goal yet.</p>}
+          </div>
+        )}
+      </div>
     </section>
   )
 }

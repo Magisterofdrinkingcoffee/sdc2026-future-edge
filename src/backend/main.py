@@ -41,6 +41,7 @@ class ProfileIn(BaseModel):
     completed: List[str] = Field(default_factory=list, description="ids of finished pathway steps")
     signal_overrides: Dict[str, float] = Field(default_factory=dict, description="what-if: signal_id -> growth")
     evidence: Dict[str, str] = Field(default_factory=dict, description="skill_id -> the user's own CV sentence (read by Model 1)")
+    sdg_focus: List[str] = Field(default_factory=list, description="SDG themes the user cares about: climate, health, digital, work")
 
 
 class PathwayIn(ProfileIn):
@@ -101,6 +102,7 @@ def meta():
         "skills": [{"id": s["id"], "name": s["name"], "category": s["category"]} for s in d["skills"].values()],
         "scenarios": scoring.SCENARIOS,
         "sdgs": d["sdgs"],
+        "sdg_themes": d["sdg_impact"]["themes"],
         "signals": d["signals"]["signals"],
         "weights": {"base": scoring.W_BASE, "human": scoring.W_HUMAN, "rarity": scoring.W_RARITY},
         "llm": None,  # set to the model name once an LLM is wired in (must be declared in Tech Declaration)
@@ -213,7 +215,7 @@ def forecast(body: ProfileIn):
     _check(body.scenario, body.skills, d)
     return scoring.forecast(body.skills, d, body.scenario,
                             body.assessment.model_dump() if body.assessment else None,
-                            body.goal_role, body.completed, body.evidence)
+                            body.goal_role, body.completed, body.evidence, body.sdg_focus)
 
 
 @app.post("/api/pathway")

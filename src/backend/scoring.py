@@ -47,7 +47,8 @@ Change the trend data and the forecast changes.
 W_BASE, W_HUMAN, W_RARITY = 0.60, 0.25, 0.15
 TOOLS_NOW = 0.25           # share of "AI + tools" (E2) exposure already real today
 TOOLS_SPEED = {"moderate": 0.08, "fast": 0.16}   # per year, before the research-growth boost
-HUMAN_TOOLS_FACTOR = 0.25  # human skills: tool-level AI arrives at a quarter of the speed
+HUMAN_TOOLS_FACTOR = 0.25
+SDG_FOCUS_BOOST = 0.15    # ranking only: roles that serve the SDG themes the user cares about move up (Edge Score itself unchanged)  # human skills: tool-level AI arrives at a quarter of the speed
 PERSONAL_WEIGHT = 0.5      # how much your own CV sentence counts vs. the general skill description
 MIN_KNOWN_WORDS = 3        # the model must recognise at least this many words/word pairs in your sentence
 YEARS = [0, 1, 2, 3]
@@ -347,13 +348,62 @@ def human_bounds(assessment):
             "high": {"critical_thinking": jr[1], "ownership": rr[1]}}
 
 
-def forecast(profile_skills, data, scenario="moderate", assessment=None, goal_role=None, completed=(), evidence=None):
+def role_themes(role, data):
+    """SDG themes (climate, health, digital, work) that this role's SDG targets belong to."""
+    themes = data.get("sdg_impact", {}).get("themes", {})
+    return [k for k, th in themes.items() if set(role["sdgs"]) & set(th["targets"])]
+
+
+def add_sdg_view(row, role, data, focus):
+    """Attach the SDG impact line, themes and the (ranking-only) focus boost to a forecast row."""
+    themes = role_themes(role, data)
+    matched = [t for t in themes if t in (focus or [])]
+    labels = data.get("sdg_impact", {}).get("themes", {})
+    row["sdg_impact"] = data.get("sdg_impact", {}).get("roles", {}).get(role["id"])
+    row["sdg_themes"] = themes
+    row["sdg_focus_match"] = matched
+    row["rank_score"] = round(row["edge_y3"] * (1 + SDG_FOCUS_BOOST if matched else 1), 2)
+    if focus:
+        row["explain"]["sdg"] = (
+            f"SDG focus: this role serves {', '.join(labels[t]['label'] for t in matched)}, which you said matters to you, "
+            f"so it moves up the list (ranking x{1 + SDG_FOCUS_BOOST:.2f}). Your Edge Score itself is not changed."
+            if matched else "SDG focus: this role doesn't serve the SDG themes you picked, so its ranking is unchanged.")
+    return row
+
+
+def sdg_summary(role, steps, skills, data):
+    """How a career path (goal role + the user's skills + planned quests) contributes to SDG targets."""
+    targets = data["sdgs"]["targets"]
+    out = {}
+    def add(t, src):
+        if t in targets:
+            e = out.setdefault(t, {"target": t, "goal": t.split(".")[0], "text": targets[t], "sources": []})
+            if src not in e["sources"]:
+                e["sources"].append(src)
+    for t in role["sdgs"]:
+        add(t, f"the role: {role['title']}")
+    for sid, lvl in skills.items():
+        if lvl >= HAVE_THRESHOLD and sid in role["skills"] and sid in data["skills"]:
+            for t in data["skills"][sid]["sdgs"]:
+                add(t, f"your skill: {data['skills'][sid]['name']}")
+    for st in steps:
+        for t in st.get("sdgs", []):
+            add(t, f"quest: {st['title']}")
+    rows = sorted(out.values(), key=lambda e: (-(any(s.startswith("the role") for s in e["sources"])), -len(e["sources"])))
+    goals = data["sdgs"]["goals"]
+    return {"targets": rows, "goals": sorted({e["goal"] for e in rows}, key=lambda g: int(g)),
+            "goal_names": {e["goal"]: goals.get(e["goal"], "") for e in rows},
+            "impact": data.get("sdg_impact", {}).get("roles", {}).get(role["id"])}
+
+
+def forecast(profile_skills, data, scenario="moderate", assessment=None, goal_role=None, completed=(), evidence=None, sdg_focus=()):
     data = with_personal_exposure(data, evidence)
     assessed = bool(assessment and assessment.get("judgment") is not None)
     skills = apply_completed(effective_skills(profile_skills, assessment), completed, data["catalog"])
     bounds = human_bounds(assessment)
-    roles = [edge_for_role(r, skills, data, scenario, assessed, bounds) for r in data["roles"].values()]
-    roles.sort(key=lambda r: (r["role_id"] != goal_role, -r["edge_y3"]))
+    roles = [add_sdg_view(edge_for_role(r, skills, data, scenario, assessed, bounds), r, data, sdg_focus)
+             for r in data["roles"].values()]
+    roles.sort(key=lambda r: (r["role_id"] != goal_role, -r["rank_score"]))
 
     usage = role_usage(data["roles"])
     n_roles = len(data["roles"])
@@ -377,6 +427,7 @@ def forecast(profile_skills, data, scenario="moderate", assessment=None, goal_ro
         "scenario": scenario,
         "scenario_label": SCENARIOS[scenario]["label"],
         "is_estimate": True,
+        "sdg_focus": list(sdg_focus or []),
         "roles": roles,
         "skills": skill_rows,
         "trend_source": {
@@ -457,6 +508,7 @@ def one_move_and_pathway(profile_skills, role_id, data, scenario="moderate", ass
         "edge_y3": base,
         "one_move": one_move,
         "steps": steps,
+        "sdg_summary": sdg_summary(role, steps, skills, data),
         "total_hours": sum(s["hours"] for s in steps),
         "total_weeks": round(sum(s["hours"] for s in steps) / hours_per_week, 1),
         "hours_per_week": hours_per_week,

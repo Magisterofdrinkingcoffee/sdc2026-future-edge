@@ -32,6 +32,7 @@ def load():
         "profiles": _read("profiles.json")["profiles"],
         "assessment": _read("assessment.json"),
         "sdgs": _read("sdgs.json"),
+        "sdg_impact": _read("sdg_impact.json"),
         "signals": _read("signals.json"),
         "trends": _read("trends.json"),
         "facts": _read("malaysia_facts.json")["facts"],

@@ -1,0 +1,48 @@
+{
+  "_meta": {
+    "description": "One plain sentence per role: HOW the work itself contributes to its SDG targets (targets are in roles.json). Written by the team; no statistics, so nothing here can be out of date.",
+    "themes_note": "Themes group SDG targets into four things a user can say they care about. A target can belong to more than one theme."
+  },
+  "themes": {
+    "climate": {"label": "Climate & clean energy", "icon": "🌱", "targets": ["6.3", "7.1", "7.2", "9.4", "11.2", "11.6", "12.2", "12.6", "13.2"]},
+    "health": {"label": "Health & food", "icon": "❤️", "targets": ["2.4", "3.8", "3.9", "6.3", "8.8"]},
+    "digital": {"label": "Digital inclusion & innovation", "icon": "💡", "targets": ["8.2", "8.3", "9.1", "9.2", "9.3", "9.5", "9.b", "9.c"]},
+    "work": {"label": "Fair work & lifelong skills", "icon": "🤝", "targets": ["4.3", "4.4", "4.7", "4.c", "5.5", "8.5", "8.8", "8.10", "10.2"]}
+  },
+  "roles": {
+    "ai_ml_specialist": "Builds the AI systems that raise productivity across industries (8.2) and strengthens Malaysia's own research and technology capability (9.5).",
+    "renewable_energy_engineer": "Every solar, wind or storage system you design adds clean power to the grid, directly raising the share of renewable energy (7.2).",
+    "sustainability_specialist": "Helps companies measure and cut their environmental impact and report it honestly (12.6), turning climate goals into company plans (13.2).",
+    "big_data_specialist": "Builds the data infrastructure that lets organisations make evidence-based decisions (8.2) and widens access to digital services (9.c).",
+    "av_ev_specialist": "Develops electric and autonomous vehicles that replace fuel-burning transport with cleaner technology (9.4).",
+    "fintech_engineer": "Builds digital payment and lending tools that bring banking to people and small businesses left out by traditional banks (8.10, 9.3).",
+    "environmental_engineer": "Designs water treatment and pollution control that keeps rivers clean and protects public health (6.3).",
+    "bi_analyst": "Turns raw data into decisions that make companies more productive (8.2) and supports their modernisation (9.2).",
+    "cybersecurity_specialist": "Keeps digital services safe and trusted, so more people can rely on them (9.c) and businesses keep running (8.2).",
+    "digital_transformation_specialist": "Helps traditional businesses adopt digital tools, raising productivity (8.2) and modernising industry (9.2).",
+    "network_professional": "Keeps internet connections reliable, which every digital service and remote job depends on (9.c).",
+    "qa_engineer": "Makes sure products are safe and built right the first time, reducing waste in manufacturing (8.2, 9.2).",
+    "mech_technician": "Keeps factory machines running safely and efficiently, protecting skilled, decent jobs in industry (8.5, 9.2).",
+    "finance_manager": "Steers money toward stable, sustainable growth (8.3) and supports access to financial services (8.10).",
+    "agri_rnd_executive": "Researches crops and farming methods that produce more food with less land and water (2.4).",
+    "operations_manager": "Runs processes that produce more with fewer resources and less waste (8.2).",
+    "medical_specialist": "Diagnoses and treats patients directly, bringing quality health care to the community (3.8).",
+    "civil_engineer": "Builds safe roads, bridges and public transport that cities and communities depend on (9.1, 11.2).",
+    "supply_chain_specialist": "Moves goods efficiently so less fuel, time and stock are wasted along the way (8.2).",
+    "safety_engineer": "Prevents injuries and makes workplaces safe for everyone who works there (8.8).",
+    "data_entry_clerk": "A role AI is shrinking fast; moving from here into data or AI work is itself the reskilling SDG 4.4 and 8.5 aim for.",
+    "admin_assistant": "A role AI is changing fast; growing into coordination or project work keeps it a decent, future-proof job (4.4, 8.5).",
+    "bookkeeping_clerk": "Routine bookkeeping is being automated; reskilling toward financial analysis keeps the career decent and secure (4.4, 8.5).",
+    "bank_teller": "Branch work is moving online; helping customers through that shift supports financial inclusion (8.10), and reskilling protects the job (4.4).",
+    "postal_clerk": "Mail is going digital; moving into logistics or digital services keeps the career secure (4.4, 8.5).",
+    "software_developer": "Builds the apps and services people and businesses use every day (9.c) and drives technological upgrading (8.2).",
+    "data_analyst": "Helps organisations decide with evidence instead of guesswork, which raises productivity (8.2).",
+    "devops_engineer": "Keeps digital and AI systems reliable in production (9.c), so research and products actually reach people (9.5).",
+    "iot_specialist": "Builds sensors and smart systems that cut energy use in industry (9.4) and monitor pollution in cities (11.6).",
+    "electrical_engineer": "Designs the power systems and smart grids that deliver reliable modern electricity (7.1) and connect clean energy to it (9.4).",
+    "electrical_technician": "Installs and maintains the electrical systems that keep power on (7.1), and does it safely (8.8).",
+    "project_manager": "A common growth path from admin and support work into a decent, future-proof role (8.5), leading teams that adopt new technology (8.2).",
+    "product_manager": "Turns local technology into products people use, supporting home-grown innovation (9.b) and productivity (8.2).",
+    "customer_service_worker": "A role AI chatbots are changing fast; the human part – solving hard problems with empathy – is what keeps it a decent job (8.5)."
+  }
+}
