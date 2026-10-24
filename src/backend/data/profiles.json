@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "note": "SYNTHETIC sample people with invented CVs. No real personal data (hackathon rule). The PDFs in data/sample_cvs/ are generated from this file by: python -m tools.make_sample_cvs"
+    "note": "SYNTHETIC sample people with invented CVs. No real personal data (hackathon rule): names, emails (example.com) and phone numbers are made up. The PDFs in data/sample_cvs/ are generated from this file by: python -m tools.make_sample_cvs"
   },
   "profiles": [
     {
@@ -9,12 +9,39 @@
       "headline": "Final-year Electrical Engineering student",
       "goal_role": "renewable_energy_engineer",
       "avatar": "⚡",
+      "contact": "Shah Alam, Selangor · aiman.hakim@example.com · +60 12-000 1101",
       "cv": {
-        "Summary": "Final-year BEng Electrical & Electronic Engineering student interested in power systems and clean energy.",
-        "Education": "BEng Electrical & Electronic Engineering (Hons), final year. Coursework: power systems, protection, circuit design, electronics.",
-        "Experience": "Internship (3 months) at an electrical contractor: assisted wiring inspections and electrical installation checks. Prepared site reports for the supervisor.",
-        "Projects": "Final-year project: designed a small solar charge controller circuit. Used basic Python to plot lab data.",
-        "Activities": "Secretary of the Engineering Society. Organised a 2-day workshop and handled communication with 4 sponsors."
+        "Summary": "Final-year BEng Electrical & Electronic Engineering student interested in power systems and clean energy. Hands-on with solar PV design and site work, comfortable with lab data and basic Python, looking for a graduate role in renewable energy.",
+        "Education": [
+          "BEng (Hons) Electrical & Electronic Engineering, Universiti Teknologi MARA (UiTM), 2022 – 2026 (expected). CGPA 3.41/4.00.",
+          "Coursework: power systems, power system protection, power electronics, circuit design, control systems, electrical machines.",
+          "SPM 2020: 8A, including Additional Mathematics and Physics."
+        ],
+        "Experience": [
+          "Industrial Trainee, Sinar Elektrik Sdn Bhd (electrical contractor), Klang. Jun – Aug 2025.",
+          "Assisted wiring inspections and electrical installation checks at 3 commercial sites.",
+          "Helped install a 40 kWp rooftop solar PV system: cable routing, string testing and commissioning checklist.",
+          "Prepared daily site reports and as-built marked-up drawings in AutoCAD for the site supervisor.",
+          "Followed site safety rules and attended the contractor's hazard briefing and risk assessment every morning."
+        ],
+        "Projects": [
+          "Final-year project: designed a small solar charge controller circuit (MPPT) on a PCB and tested it with a 100 W panel.",
+          "Load flow study of a 14-bus network in MATLAB for the power systems course.",
+          "Used basic Python (pandas) to plot and compare lab data from the solar panel tests."
+        ],
+        "Skills": [
+          "Technical: solar PV sizing, wiring, circuit design, PCB layout, AutoCAD Electrical, MATLAB, basic Python.",
+          "Soft skills: teamwork, communication with clients and sponsors, problem solving."
+        ],
+        "Certifications": [
+          "Grid-Connected PV System Design (online short course), 2025.",
+          "CIDB Green Card (construction site safety induction), 2025."
+        ],
+        "Languages": ["Bahasa Melayu (native), English (fluent)."],
+        "Activities": [
+          "Secretary, Engineering Society 2024/25. Organised a 2-day solar workshop for 60 students and handled communication with 4 sponsors.",
+          "Volunteer, rural electrification trip to Sabah with a university club (2024)."
+        ]
       }
     },
     {
@@ -23,11 +50,34 @@
       "headline": "Admin executive, 6 years, wants a future-proof role",
       "goal_role": "project_manager",
       "avatar": "📊",
+      "contact": "Petaling Jaya, Selangor · meiling.tan@example.com · +60 16-000 2202",
       "cv": {
-        "Summary": "Administrative executive with 6 years of experience in a logistics SME, looking to move into data work.",
-        "Experience": "Administrative executive, 6 years. Manages scheduling and office administration for a team of 15. Responsible for data entry of all shipment records. Prepares weekly Excel reports for management. Trained two new staff members on our reporting process.",
-        "Skills": "Excel, data entry, scheduling, communication. Currently learning basic SQL online.",
-        "Activities": "Volunteer at a community food bank, coordinating weekend schedules."
+        "Summary": "Administrative executive with 6 years of experience in a logistics SME. Known for keeping things organised and on time. Now building data and project skills to move into a coordination or data role as AI takes over routine admin work.",
+        "Experience": [
+          "Administrative Executive, Swift Haul Logistics Sdn Bhd, Shah Alam. 2020 – present.",
+          "Manages scheduling and office administration for a team of 15 drivers and 4 office staff.",
+          "Responsible for data entry of all shipment records into the company ERP system (around 300 records a week).",
+          "Prepares weekly Excel reports for management on deliveries, delays and fuel costs.",
+          "Coordinated the move to a new office in 2023: planned the timeline, booked vendors and kept the budget.",
+          "Trained two new staff members on our reporting process.",
+          "Admin Assistant, Sunrise Trading Enterprise, Kuala Lumpur. 2018 – 2020. Handled invoicing, filing and customer calls."
+        ],
+        "Education": [
+          "Diploma in Business Administration, Tunku Abdul Rahman University of Management and Technology (TAR UMT), 2015 – 2018. CGPA 3.12.",
+          "Currently learning basic SQL online (self-paced course, 2026)."
+        ],
+        "Skills": [
+          "Excel (pivot tables, VLOOKUP), data entry, scheduling, record keeping, basic SQL.",
+          "Communication with drivers, vendors and managers; organised and reliable."
+        ],
+        "Certifications": [
+          "Microsoft Office Specialist: Excel Associate, 2022.",
+          "Introduction to Project Management (online), 2025."
+        ],
+        "Languages": ["English (fluent), Bahasa Melayu (good), Mandarin and Cantonese (native)."],
+        "Activities": [
+          "Volunteer at a community food bank, coordinating weekend schedules for 20 volunteers."
+        ]
       }
     },
     {
@@ -36,12 +86,85 @@
       "headline": "Fresh Computer Science graduate",
       "goal_role": "ai_ml_specialist",
       "avatar": "🤖",
+      "contact": "Cyberjaya, Selangor · ravi.kumar@example.com · +60 11-000 3303",
       "cv": {
-        "Summary": "Fresh BSc Computer Science graduate who wants to work on AI products.",
-        "Education": "BSc Computer Science. Completed one machine learning elective (regression, classification).",
-        "Projects": "Final-year project: built a web app with React and a Flask backend, deployed with Docker. Developed REST APIs in Python with a PostgreSQL database. Hackathon: built a chatbot prototype with an LLM API and prompt engineering.",
-        "Skills": "Python, JavaScript, SQL, Git and GitHub, HTML/CSS.",
-        "Activities": "Member of the university coding club."
+        "Summary": "Fresh Computer Science graduate who wants to work on AI products. Built and deployed full-stack web apps and a small LLM chatbot; strongest in Python and SQL.",
+        "Education": [
+          "BSc (Hons) Computer Science, Multimedia University (MMU), 2022 – 2026. CGPA 3.55/4.00.",
+          "Completed one machine learning elective (regression, classification) and a database systems course."
+        ],
+        "Projects": [
+          "Final-year project: built a web app with React and a Flask backend for booking campus rooms, deployed with Docker on AWS.",
+          "Developed REST APIs in Python with a PostgreSQL database; wrote unit tests and used GitHub for version control.",
+          "Hackathon (2025): built a chatbot prototype with an LLM API and prompt engineering to answer student FAQs; our team placed top 10.",
+          "Kaggle: trained a scikit-learn classification model to predict customer churn (accuracy 84%)."
+        ],
+        "Experience": [
+          "Software Engineering Intern, Kirana Digital Sdn Bhd, Kuala Lumpur. Mar – Aug 2025.",
+          "Fixed bugs and added small features to an internal admin dashboard (JavaScript, PHP, MySQL).",
+          "Wrote SQL queries for the operations team's weekly reports.",
+          "Part-time tutor: tutoring secondary-school students in mathematics, 2023 – 2024."
+        ],
+        "Skills": [
+          "Python, JavaScript, React, SQL, PostgreSQL, Git, Docker, AWS (basic), HTML, CSS.",
+          "Machine learning with scikit-learn; basic prompt engineering for LLM apps."
+        ],
+        "Certifications": ["AWS Certified Cloud Practitioner, 2025."],
+        "Languages": ["English (fluent), Bahasa Melayu (good), Tamil (native)."],
+        "Activities": ["Vice-president, MMU Coding Club 2024/25: ran weekly coding sessions for first-year students."]
+      }
+    },
+    {
+      "id": "nurul",
+      "name": "Nurul Aina Rahman",
+      "headline": "Customer service team lead, telco, 5 years",
+      "goal_role": "product_manager",
+      "avatar": "🎧",
+      "contact": "Johor Bahru, Johor · nurul.aina@example.com · +60 13-000 4404",
+      "cv": {
+        "Summary": "Customer service team lead with 5 years in a telco contact centre. Leads a team of 8 agents and works closely with the product team on customer complaints. Wants to move into product or customer-experience work as chatbots take over routine calls.",
+        "Experience": [
+          "Customer Service Team Lead, TeleNusa Berhad contact centre, Johor Bahru. 2023 – present.",
+          "Team lead for 8 call centre agents handling about 1,200 customer service calls a week.",
+          "Responsible for weekly KPI reports in Excel and coaching agents with low satisfaction scores.",
+          "Worked with the product team to redesign the bill-dispute process; complaints about it fell noticeably in 3 months.",
+          "Tested the new AI chatbot before launch and wrote the list of questions it answered wrongly.",
+          "Customer Service Agent, TeleNusa Berhad, 2021 – 2023. Helpdesk support for mobile and broadband customers."
+        ],
+        "Education": ["Diploma in Mass Communication, Universiti Teknologi MARA (UiTM), 2017 – 2020."],
+        "Skills": [
+          "Customer service, coaching and mentoring, Excel reporting, call centre systems, communication, problem solving.",
+          "Basic Power BI dashboard building (self-taught)."
+        ],
+        "Certifications": ["Customer Experience (CX) Fundamentals, online, 2024."],
+        "Languages": ["Bahasa Melayu (native), English (fluent)."],
+        "Activities": ["Organised the contact centre's yearly charity run (2024, 2025)."]
+      }
+    },
+    {
+      "id": "daniel",
+      "name": "Daniel Lim",
+      "headline": "Junior accountant, 3 years, audit firm",
+      "goal_role": "finance_manager",
+      "avatar": "🧾",
+      "contact": "Penang · daniel.lim@example.com · +60 17-000 5505",
+      "cv": {
+        "Summary": "Junior accountant with 3 years in a mid-size audit and accounting firm. Strong with numbers and spreadsheets; wants to grow from bookkeeping into financial analysis as routine bookkeeping becomes automated.",
+        "Experience": [
+          "Junior Accountant, Lee & Partners Chartered Accountants, George Town. 2023 – present.",
+          "Bookkeeping, invoicing and monthly accounts for 12 SME clients using SQL Accounting and Excel.",
+          "Assisted in statutory audit fieldwork for 5 clients: vouching, bank reconciliations and audit working papers.",
+          "Built an Excel template for budgeting and cash-flow forecasting that the team now uses for all SME clients.",
+          "Accounts Intern, same firm, 2022."
+        ],
+        "Education": ["Bachelor of Accounting (Hons), Universiti Sains Malaysia (USM), 2019 – 2023. CGPA 3.38."],
+        "Skills": [
+          "Bookkeeping, accounts, audit, Excel (advanced), budgeting, financial reporting under MPERS.",
+          "Learning Power BI and basic Python for finance."
+        ],
+        "Certifications": ["ACCA – passed 9 of 13 papers (in progress)."],
+        "Languages": ["English (fluent), Bahasa Melayu (good), Mandarin and Hokkien (native)."],
+        "Activities": ["Treasurer, USM Accounting Society 2021/22."]
       }
     }
   ]
