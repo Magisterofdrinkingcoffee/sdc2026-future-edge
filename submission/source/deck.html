@@ -65,7 +65,7 @@ th { color: #5a6478; font-weight: 600; font-size: 14px; text-transform: uppercas
     <div class="col card"><h3>📊 Mei Ling, 6 years in admin</h3><p>Her data entry and Excel reports are exactly the work AI is taking over. WEF expects data-entry clerk jobs in Malaysia to fall 28% by 2030.</p></div>
     <div class="col card"><h3>🤖 Ravi, fresh CS graduate</h3><p>Python, REST APIs and React on his CV – the work AI coding tools are getting best at. What makes him hard to replace?</p></div>
   </div>
-  <p style="margin-top:28px" class="muted">Sample users are made up, with made-up CVs (rules: synthetic data only). Also useful for career centres and HR teams advising many people.</p>
+  <p style="margin-top:28px" class="muted">Plus a customer-service team lead and a junior accountant – five made-up people with realistic made-up CVs (rules: synthetic data only). And HR / L&amp;D managers who plan a whole team's reskilling.</p>
   <div class="src">WEF Future of Jobs Report 2025, Malaysia profile, p. 168</div>
   <div class="pn">3</div>
 </section>
@@ -143,10 +143,10 @@ th { color: #5a6478; font-weight: 600; font-size: 14px; text-transform: uppercas
     <tr><td><b>2 AI-trend signal</b></td><td>arXiv monthly counts + Model 2, source and date shown, live refresh button; WEF / DOSM / MyCOL job market</td></tr>
     <tr><td><b>3 Role matching</b></td><td>34 roles ranked by Edge Score with plain-English "why" for every number and a skills gap</td></tr>
     <tr><td><b>4 Reskilling pathway</b></td><td>Ordered courses + projects with hours and weeks; 53 free / low-cost resources, all links checked 24 Oct 2026, HRD Corp option</td></tr>
-    <tr><td><b>5 SDG mapping</b></td><td>All 52 skills, 34 roles and every pathway step tagged to SDG targets (e.g. 7.2, 8.2, 4.4)</td></tr>
+    <tr><td><b>5 SDG mapping</b></td><td>Every skill, role and step tagged; "your path contributes to…" with reasons; pick what your work should help with and matching roles move up</td></tr>
     <tr><td><b>6 Uncertainty</b></td><td>Moderate vs fast AI scenarios, low–high ranges from Model 2 and Model 3, "estimate, not a hiring decision"</td></tr>
   </table>
-  <p style="margin-top:14px" class="muted">Good-to-haves: progress tracking (XP, levels, badges), mobile-friendly, fairness – age, gender and name removed before matching.</p>
+  <p style="margin-top:14px" class="muted">Good-to-haves too: HR team view, EN / BM / 中文 interface, a 12-person fairness check, progress tracking (XP, levels, badges), mobile-friendly – see the next slides.</p>
   <div class="pn">8</div>
 </section>
 
@@ -161,17 +161,50 @@ th { color: #5a6478; font-weight: 600; font-size: 14px; text-transform: uppercas
   <div class="pn">9</div>
 </section>
 
+<!-- 9b SDG that changes choices -->
+<section class="s">
+  <div class="k">SDG link that changes choices</div>
+  <div class="row" style="align-items:flex-start">
+    <div style="flex:1.35"><img class="shot" src="images/app_sdg.png"></div>
+    <div class="col">
+      <h2 style="font-size:32px">Not decoration: the SDGs shape the plan</h2>
+      <ul>
+        <li><b>Why it matters:</b> one plain line per role on how the work serves its SDG</li>
+        <li><b>Your path contributes to…</b> every SDG target, with the reason: the role, your skills, each quest</li>
+        <li><b>What do you want your work to help with?</b> Climate, health, digital inclusion or fair work – matching roles are surfaced and lifted</li>
+        <li>The Edge Score itself never changes – it stays an honest measure</li>
+      </ul>
+    </div>
+  </div>
+  <div class="pn">10</div>
+</section>
+
+<!-- 9c Beyond the must-haves -->
+<section class="s dark">
+  <div class="k">Beyond the must-haves</div>
+  <h2>Built for teams, fairness and every Malaysian</h2>
+  <div class="row" style="align-items:flex-start">
+    <div style="flex:1.5"><img class="shot" src="images/app_team.png" style="max-height:470px;object-fit:cover;object-position:top"></div>
+    <div class="col" style="display:flex;flex-direction:column;gap:16px">
+      <div class="card"><h3>🏢 HR team view</h3><p>Skills heatmap of a whole team vs a future role, shared gaps, one training plan with hours, team SDG contribution.</p></div>
+      <div class="card"><h3>⚖️ Fairness check</h3><p>Every CV is re-read as 12 invented people – other names, genders, ages, races, religions. The result must be identical.</p></div>
+      <div class="card"><h3>🌏 EN · BM · 中文</h3><p>Switch language on every screen. Mobile-friendly, free courses only.</p></div>
+    </div>
+  </div>
+  <div class="pn">11</div>
+</section>
+
 <!-- 10 Tech + Replit -->
 <section class="s">
   <div class="k">Technical approach</div>
   <h2>Simple, explainable, deployed on Replit</h2>
   <div class="row">
     <div class="col card"><h3>Stack</h3><p>React + Vite + Tailwind → FastAPI (Python) → three in-process models → JSON catalogs. No database, no stored CVs. Optional Gemini API with a JSON schema for photo CVs, every phrase checked against the CV.</p></div>
-    <div class="col card"><h3>Replit (official sponsor)</h3><p>Imported from GitHub, built and tested in the Replit Shell (49 tests, 53 links checked with open internet), and hosted as a Replit autoscale deployment.</p></div>
-    <div class="col card"><h3>Quality</h3><p>49 automated tests, held-out model evaluations, Apache-2.0 licence, every dataset and AI tool declared. CPU only – no GPU work, so RunPod not needed.</p></div>
+    <div class="col card"><h3>Replit (official sponsor)</h3><p>Imported from GitHub, built and tested in the Replit Shell (55 tests, 53 links checked with open internet), and hosted as a Replit autoscale deployment.</p></div>
+    <div class="col card"><h3>Quality</h3><p>55 automated tests incl. a fairness test, held-out model evaluations, Apache-2.0 licence, every dataset and AI tool declared. CPU only – no GPU work, so RunPod not needed.</p></div>
   </div>
   <p style="margin-top:24px"><b>Hardest risk:</b> reliable, updatable trend data. <b>Fallback:</b> free arXiv API with a resumable collector; if a refresh fails the app keeps the last good snapshot.</p>
-  <div class="pn">10</div>
+  <div class="pn">12</div>
 </section>
 
 <!-- 11 Impact -->
@@ -183,9 +216,9 @@ th { color: #5a6478; font-weight: 600; font-size: 14px; text-transform: uppercas
     <div class="col"><div class="big" style="color:#fff">+40 pts</div><p>more users able to name one skill to learn next and a free resource for it (before vs after)</p></div>
     <div class="col"><div class="big" style="color:#fff">100%</div><p>of recommended courses link-checked within 7 days of a demo (53 / 53 today)</p></div>
   </div>
-  <p style="margin-top:40px">Phase 2: user test with 20+ XMUM students and staff · Bahasa Malaysia interface · employer team view · job-posting data as a second trend signal.</p>
+  <p style="margin-top:40px">Phase 2: user test with 20+ XMUM students and staff · translate course content too · company / region SDG dashboards · job-posting data as a second trend signal.</p>
   <div class="src">Baseline: only 26% of Malaysian professionals using AI have formal training (Hays 2025).</div>
-  <div class="pn">11</div>
+  <div class="pn">13</div>
 </section>
 
 <!-- 12 Close -->
@@ -194,7 +227,7 @@ th { color: #5a6478; font-weight: 600; font-size: 14px; text-transform: uppercas
   <h1 style="margin-top:70px">AI should be a partner, not a replacement.<br>Future Edge shows you how to stay the partner.</h1>
   <p class="muted" style="margin-top:40px">Azimkhan Bekassyl (lead) · Elnurken Abdigaparov · Bernar Zholdybek · Alibek Berik · Shirvanskiy Zeinal</p>
   <p style="margin-top:24px">Try it: <b>sdc-2026-future-edge.replit.app</b><br>Code: github.com/Magisterofdrinkingcoffee/sdc2026-future-edge</p>
-  <div class="pn">12</div>
+  <div class="pn">14</div>
 </section>
 
 </body></html>

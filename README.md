@@ -85,11 +85,12 @@ Future Edge turns a CV into a **3-year career forecast**. It doesn't ask "which 
 
 | Layer         | Technology |
 | ------------- | ---------- |
-| Frontend      | React 18, Vite, Tailwind CSS |
+| Frontend      | React 18, Vite, Tailwind CSS; interface in English, Bahasa Malaysia and Chinese |
 | Backend       | Python, FastAPI, Uvicorn |
 | AI models     | Model 1: TF-IDF + logistic regression (scikit-learn, trained on CPU, exported to plain-Python JSON). Model 2: damped log-linear trend (plain Python). Model 3: exact scoring of a performance task. |
 | Data          | JSON catalogs in the repo (no database needed); O*NET / GPTs-are-GPTs, arXiv API, WEF, DOSM, MyCOL |
 | CV reading    | pypdf, a built-in Word (.docx) reader, optional Google Gemini API for photos and messy layouts |
+| Sample CVs    | reportlab (generates the synthetic sample CV PDFs) |
 | Hosting / Dev | **Replit** (development, Shell, link checking and the live deployment) |
 | Compute       | CPU only – no GPU work, so RunPod is not used (Participant Handbook 9.4) |
 
