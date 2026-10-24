@@ -25,7 +25,7 @@
 | Replit Project    | https://replit.com/@riotbek07/sdc2026-future-edge |
 | Live Demo         | https://sdc-2026-future-edge.replit.app |
 | Slide Deck        | [`submission/SDC2026_BEBZA_PitchDeck.pdf`](submission/SDC2026_BEBZA_PitchDeck.pdf) |
-| Demo Video        | *YouTube link added by the team before the deadline* |
+| Demo Video        | [youtu.be/8z8rt7cwmtU](https://youtu.be/8z8rt7cwmtU) (5:59, English voice-over, subtitles) |
 | Proposal (PRD)    | [`submission/SDC2026_BEBZA_Preliminary.pdf`](submission/SDC2026_BEBZA_Preliminary.pdf) |
 | Tech Declaration  | [`submission/SDC2026_BEBZA_TechDeclaration.pdf`](submission/SDC2026_BEBZA_TechDeclaration.pdf) |
 | Replit proof of use | [`submission/SDC2026_BEBZA_Replit_POU.pdf`](submission/SDC2026_BEBZA_Replit_POU.pdf) |
@@ -208,7 +208,7 @@ Not used. All our models train and run on a normal CPU in seconds (Model 1 train
 - [x] RunPod: not needed (no GPU work)
 - [x] PRD and Tech Declaration in `submission/`
 - [x] Pitch deck in `submission/`
-- [ ] Demo video link added
+- [x] Demo video link added
 - [x] "How to Run" steps verified
 - [x] No API keys or secrets committed to the repository
 
