@@ -164,3 +164,22 @@ def test_pathway_reports_sdg_contribution_with_sources():
     s = p["sdg_summary"]
     assert "7.2" in [t["target"] for t in s["targets"]]
     assert all(t["sources"] for t in s["targets"]) and s["impact"]
+
+
+def test_fairness_same_cv_as_12_different_people_gives_identical_skills():
+    from src.backend import fairness
+    from src.backend.cv_extract import extract_cv, redact_text
+    for pid in ["aiman", "meiling", "ravi", "nurul", "daniel"]:
+        text = extract_cv((DATA_DIR / "sample_cvs" / f"{pid}.pdf").read_bytes(), f"{pid}.pdf")["raw_text"]
+        rep = fairness.check(text, DATA["skills"])
+        assert rep["passed"] and rep["people_tested"] == 12, (pid, rep["differences"])
+    # every protected attribute line is actually removed before matching
+    red = redact_text(fairness._as(fairness.PEOPLE[1], "Summary\nPython developer."))
+    for word in ["Tan Wei Ming", "Gender", "Age", "Race", "Religion", "Marital"]:
+        assert word not in red
+
+
+def test_upload_returns_fairness_report():
+    c = TestClient(app)
+    r = c.post("/api/profile/upload", files={"file": ("ravi.pdf", _pdf, "application/pdf")}).json()
+    assert r["fairness"]["passed"] is True

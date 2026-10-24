@@ -19,7 +19,7 @@ export default function CvStep({ s, set, meta, award }) {
   const apply = (res, extra) => {
     const skills = Object.fromEntries(Object.entries(res.skills).map(([k, v]) => [k, nearest(v.level)]))
     set((p) => ({
-      profile: { ...p.profile, ...extra, skills, evidence: res.skills, source: res.source, reader: res.reader || null },
+      profile: { ...p.profile, ...extra, skills, evidence: res.skills, source: res.source, reader: res.reader || null, fairness: res.fairness || null },
       completed: [], history: [],
     }))
     award('cv', XP.cv, 'CV added')
@@ -112,11 +112,17 @@ export default function CvStep({ s, set, meta, award }) {
           {s.profile.reader && (
             <div className="mt-3 rounded-2xl bg-sprout-50 p-3 text-sm text-sprout-700">
               🔒 {s.profile.reader.removed_personal_data.length
-                ? `Removed before matching: ${s.profile.reader.removed_personal_data.map((x) => ({ name: 'name', email: 'email', phone: 'phone', ic_number: 'IC number', age_dob: 'age / date of birth', gender: 'gender', marital: 'marital status' }[x] || x)).join(', ')}.`
+                ? `Removed before matching: ${s.profile.reader.removed_personal_data.map((x) => ({ name: 'name', email: 'email', phone: 'phone', ic_number: 'IC number', age_dob: 'age / date of birth', gender: 'gender', marital: 'marital status', race_religion: 'race / religion' }[x] || x)).join(', ')}.`
                 : 'No personal data found to remove.'}
               {' '}Read with {s.profile.reader.method.startsWith('gemini') ? 'Gemini, and every phrase was checked against your CV' : 'our offline reader'}.
               {s.profile.reader.rejected_phrases > 0 && ` ${s.profile.reader.rejected_phrases} phrase(s) the AI suggested were not in your CV and were dropped.`}
               {s.profile.reader.warnings.map((w, i) => <div key={i} className="mt-1 text-sun-600">{w}</div>)}
+            </div>
+          )}
+          {s.profile.fairness && (
+            <div className={`mt-2 rounded-2xl p-3 text-sm ${s.profile.fairness.passed ? 'bg-violet-50 text-violet-700' : 'bg-coral-50 text-coral-600'}`}>
+              ⚖️ <b>Fairness check {s.profile.fairness.passed ? 'passed' : 'failed'}:</b> {s.profile.fairness.note}
+              {' '}Tested: {s.profile.fairness.attributes.join(', ')}.
             </div>
           )}
 

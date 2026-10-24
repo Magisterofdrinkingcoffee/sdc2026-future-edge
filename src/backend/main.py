@@ -16,6 +16,7 @@ from pydantic import BaseModel, Field
 
 from . import scoring, trends
 from .cv_extract import extract_cv, phrases_for_matching
+from . import fairness
 from .cv_parser import parse_skills
 from .data_store import DATA_DIR, load
 
@@ -112,12 +113,14 @@ def meta():
 def _parsed(text, source, reader=None):
     d = load()
     found = parse_skills(text, d["skills"])
+    fair = fairness.check(text, d["skills"])
     for sid, f in found.items():
         f["name"] = d["skills"][sid]["name"]
         f["category"] = d["skills"][sid]["category"]
     out = {"skills": found, "source": source, "chars": len(text),
            "method": "Keyword + context rules against our skill catalog (skills.json). The parser can only return catalog skills.",
            "note": "Levels are a first guess from the wording of your CV – adjust them if they're wrong."}
+    out["fairness"] = fair
     if reader:
         out["reader"] = reader
     return out

@@ -136,6 +136,7 @@ PERSONAL_PATTERNS = {
     "age_dob": re.compile(r"\b(age|umur)\s*[:\-]?\s*\d|\b(date of birth|dob|tarikh lahir|born on)\b", re.I),
     "gender": re.compile(r"\b(gender|jantina|sex)\s*[:\-]|^(male|female|lelaki|perempuan)$", re.I),
     "marital": re.compile(r"\b(marital status|status perkahwinan)\b|^(single|married|bujang|berkahwin)$", re.I),
+    "race_religion": re.compile(r"\b(race|bangsa|ethnicity|keturunan|religion|agama|nationality|kewarganegaraan|warganegara)\s*[:\-]", re.I),
 }
 # Lines at the top of a CV that are titles, not the person's name
 TITLE_LINES = {"curriculum vitae", "resume", "résumé", "cv", "biodata", "personal details", "maklumat peribadi"}
