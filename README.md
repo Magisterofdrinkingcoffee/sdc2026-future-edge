@@ -1,30 +1,34 @@
-# Project Name
+# Future Edge – your career weather forecast for the AI era
 
-> A one-sentence description of what your project does and who it is for.
+> Upload your CV and see, year by year, how AI will change the value of your skills over the next 3 years, which future roles fit you best, and the shortest reskilling path to stay ahead, with every role and skill linked to the UN SDGs.
+
+**Live demo:** https://sdc-2026-future-edge.replit.app  ·  **Domain 1 – Aiversecity Future-Ready Workforce**
 
 ---
 
 ## Team Information
 
-| Field                  | Details                                     |
-| ---------------------- | ------------------------------------------- |
-| **Team Name**          | Your Team Name                              |
-| **Team Domain**        | Domain 1 / Domain 2 *(choose one)*          |
-| **SDG Track (1–17)**   | e.g. SDG 11 — Sustainable Cities and Communities |
-| **Team Leader**        | Leader Name                                 |
-| **University**         | University Name(s)                          |
-| **Number of Members**  | e.g. 4                                      |
+| Field                  | Details |
+| ---------------------- | ------- |
+| **Team Name**          | BEBZA |
+| **Team Domain**        | Domain 1 – Aiversecity Future-Ready Workforce |
+| **SDG Track (1–17)**   | SDG 8 – Decent Work and Economic Growth (targets 8.2, 8.5), with SDG 4 – Quality Education (targets 4.3, 4.4) |
+| **Team Leader**        | Azimkhan Bekassyl |
+| **University**         | Xiamen University Malaysia (XMUM) |
+| **Number of Members**  | 5 |
 
 ## Links
 
-| Resource          | Link                                           |
-| ----------------- | ---------------------------------------------- |
-| GitHub Repository | https://github.com/your-username/your-project  |
-| Replit Project    | https://replit.com/@your-username/your-project |
-| Live Demo         | https://your-project.replit.app                |
-| RunPod Endpoint   | https://api.runpod.ai/v2/your-endpoint-id      |
-| Slide Deck        | https://example.com/slides                     |
-| Demo Video        | https://example.com/demo-video                 |
+| Resource          | Link |
+| ----------------- | ---- |
+| GitHub Repository | https://github.com/Magisterofdrinkingcoffee/sdc2026-future-edge |
+| Replit Project    | https://replit.com/@riotbek07/sdc2026-future-edge |
+| Live Demo         | https://sdc-2026-future-edge.replit.app |
+| Slide Deck        | [`submission/SDC2026_BEBZA_PitchDeck.pdf`](submission/SDC2026_BEBZA_PitchDeck.pdf) |
+| Demo Video        | *YouTube link added by the team before the deadline* |
+| Proposal (PRD)    | [`submission/SDC2026_BEBZA_Preliminary.pdf`](submission/SDC2026_BEBZA_Preliminary.pdf) |
+| Tech Declaration  | [`submission/SDC2026_BEBZA_TechDeclaration.pdf`](submission/SDC2026_BEBZA_TechDeclaration.pdf) |
+| Model cards       | [`docs/MODELS.md`](docs/MODELS.md) |
 
 ---
 
@@ -32,27 +36,52 @@
 
 ### Problem
 
-Describe the real-world problem you are solving in 2–4 sentences. Who is affected, and why does it matter?
+In Malaysia, 56% of professionals already use AI tools at work but only 26% have had formal training (Hays Asia Salary Guide 2025), and more than 600,000 workers will need reskilling within three to five years (MOSTI). Workers don't know which skills AI will take over, and most career tools give a one-time answer from a static list that is out of date the day it is published.
+
+### Who it is for
+
+The moment we design for: **a person deciding what to learn next**, before AI makes the decision for them. Our three sample users (made-up people, made-up CVs) are a final-year engineering student, an admin executive with 6 years' experience whose data-entry work is shrinking, and a fresh CS graduate.
 
 ### Solution
 
-Explain how your project uses AI to solve the problem and what makes it valuable.
+Future Edge turns a CV into a **3-year career forecast**. It doesn't ask "which job matches your keywords?" – it asks "which of your skills will still be yours in 2029?":
 
-### Key Features
+1. **Tell us about yourself** – upload a CV (PDF, Word, photo or text). Personal data (name, email, phone, IC, age, gender) is removed before matching.
+2. **See the Future Skills Radar** – each skill is labelled *growing in value / holding steady / at risk from AI*, with how much of it AI can do now and in 2029.
+3. **Catch the AI** – instead of a self-rating quiz, the user reviews a short AI-written work sample with planted mistakes. This measures judgment and responsibility, the skills that keep humans in charge of AI.
+4. **Get matched** – future roles ranked by an explainable **Edge Score** (0–100, "how hard you'll be to replace"), with a skills gap and real Malaysian job-market data.
+5. **Follow a pathway** – an ordered quest map of free or low-cost courses and projects with hours and weeks, starting from the **One Move** that raises your score the most.
 
-- **Feature 1** — Short description.
-- **Feature 2** — Short description.
-- **Feature 3** — Short description.
+### Key Features (the six must-haves)
+
+| Must-have | How Future Edge does it |
+|---|---|
+| 1. Skills profile intake | CV upload (PDF / Word / photo / .txt) or paste; skills are matched only against our 52-skill catalog, with the CV sentence shown as evidence. The user can adjust every level. |
+| 2. AI-trend signal layer | **Model 2**: monthly arXiv paper counts for 10 AI-capability areas (Oct 2023 – Sep 2026), forecast with a damped trend and 80% range. Source and collection date are shown on every screen. A "Refresh trend data" button re-downloads from the arXiv API, and the forecast changes with it. Job demand comes from WEF Future of Jobs 2025 (Malaysia profile), DOSM wages and TalentCorp MyCOL. |
+| 3. Future-role matching | 34 roles ranked by Edge Score = AI-adjusted fit × human skills × job market × core-skill check, with a plain-English "why" for every number. |
+| 4. Personalised reskilling pathway | Ordered steps (courses + projects) with hours and weeks at the user's hours per week. All 53 resources are real, free or low-cost, link-checked on 24 Oct 2026, and include HRD Corp-claimable training. |
+| 5. SDG mapping | Every one of the 52 skills, 34 roles and every pathway step is tagged with at least one SDG target (e.g. 7.2, 8.2, 4.4), shown on the role and quest cards. |
+| 6. Handling uncertainty | Two scenarios (moderate vs fast AI disruption) shown side by side, plus a low–high range from Model 2's 80% interval and Model 3's measurement range. Every result says it is an estimate and never a hiring decision. |
+
+**Good-to-have features included:** progress tracking with XP, levels, streaks and badges; mobile-friendly layout; fairness by design (age, gender and name are removed before matching).
+
+### Rules we followed
+
+- **Data:** only public, open or synthetic data. Our sample CVs are made up (`tools/make_sample_cvs.py`).
+- **No invented jobs, courses or statistics:** roles, skills and courses come from fixed catalogs with sources; the CV reader can only return catalog skills and quotes the CV sentence it used.
+- **Human-centred:** the app supports a person's own career decision. It never ranks candidates for employers and never makes hiring decisions.
 
 ### Tech Stack
 
-| Layer         | Technology                   |
-| ------------- | ---------------------------- |
-| Frontend      | e.g. HTML, React             |
-| Backend       | e.g. Python, Flask / FastAPI |
-| Database      | e.g. PostgreSQL, SQLite      |
-| AI / Compute  | RunPod (GPU)                 |
-| Hosting / Dev | Replit                       |
+| Layer         | Technology |
+| ------------- | ---------- |
+| Frontend      | React 18, Vite, Tailwind CSS |
+| Backend       | Python, FastAPI, Uvicorn |
+| AI models     | Model 1: TF-IDF + logistic regression (scikit-learn, trained on CPU, exported to plain-Python JSON). Model 2: damped log-linear trend (plain Python). Model 3: exact scoring of a performance task. |
+| Data          | JSON catalogs in the repo (no database needed); O*NET / GPTs-are-GPTs, arXiv API, WEF, DOSM, MyCOL |
+| CV reading    | pypdf, a built-in Word (.docx) reader, optional Google Gemini API for photos and messy layouts |
+| Hosting / Dev | **Replit** (development, Shell, link checking and the live deployment) |
+| Compute       | CPU only – no GPU work, so RunPod is not used (Participant Handbook 9.4) |
 
 ---
 
@@ -60,137 +89,118 @@ Explain how your project uses AI to solve the problem and what makes it valuable
 
 ```
 .
-├── docs/                    # Screenshots, diagrams
-├── runpod/
-│   └── handler.py           # RunPod serverless handler (GPU workload)
+├── docs/MODELS.md          # Model cards for Models 1-3 and the Edge Score
+├── runpod/handler.py       # template placeholder – no GPU work in this project
 ├── src/
-│   ├── main.py              # Application entry point
-│   └── utils.py             # Helper functions
-├── submission/              # Required submission documents
-│   ├── REPLIT PROOF OF USE.pdf
-│   ├── RUNPOD PROOF OF USE.pdf
-│   └── Submission Template SDC Hackathon.pdf
-├── tests/
-│   └── test_utils.py        # Unit tests
-├── .env.example             # Example environment variables
-├── .gitignore
-├── .replit                  # Replit run configuration
-├── LICENSE
-├── requirements.txt         # Python dependencies
-└── README.md
+│   ├── backend/            # FastAPI app, scoring, models, CV reader, data catalogs
+│   ├── database/           # raw public datasets (O*NET tasks, arXiv counts, WEF, DOSM, MyCOL)
+│   └── frontend/           # React app (wizard, forecast, quest map)
+├── submission/             # PRD, Tech Declaration, pitch deck
+├── tests/                  # 49 tests + link checker
+├── tools/                  # data collection, training and build scripts
+├── .replit, build.sh, start.sh
+└── LICENSE                 # Apache 2.0
 ```
 
 ### Architecture
 
 ```
-User ──► Replit (App / API) ──► RunPod Endpoint (GPU model)
-                │
-                └──► Response returned to user
+Browser (React)  ──►  FastAPI on Replit  ──►  Model 1  AI-exposure (O*NET-trained)   ─┐
+   CV upload            /api/profile          Model 2  AI-trend forecast (arXiv)      ├─► Edge Score + range
+   forecast             /api/forecast         Model 3  Catch the AI (judgment)       ─┘        │
+   quest map            /api/pathway          WEF / DOSM / MyCOL job market ─────────────────┘
+                        /api/trends/refresh ──► arXiv API (live refresh)
+                        (optional) Gemini API for hard-to-read CVs, personal data removed first
 ```
 
 ---
 
 ## How to Run
 
-### Option 1 — Run on Replit (Recommended)
+### Option 1 – Replit (recommended)
 
-1. Open the [Replit Project](https://replit.com/@your-username/your-project), or import this repository via **Create Repl → Import from GitHub**.
-2. Open the **Secrets** tab (🔒) and add the variables listed in `.env.example`:
-   - `RUNPOD_API_KEY`
-   - `RUNPOD_ENDPOINT_ID`
-3. Click **Run**. Replit uses the `.replit` file to start `python src/main.py`.
+1. Open the [Replit project](https://replit.com/@riotbek07/sdc2026-future-edge), or import this repo with **Import → GitHub**.
+2. Optional: add `GEMINI_API_KEY` in **Secrets** for photo CVs. Without it the app reads PDF, Word and text CVs offline.
+3. Click **Run**. `.replit` runs `bash start.sh`, which builds the frontend once and serves everything on port 8000.
 
-### Option 2 — Run Locally
+### Option 2 – Locally
 
 ```bash
-# 1. Clone the repository
-git clone https://github.com/your-username/your-project.git
-cd your-project
-
-# 2. Create and activate a virtual environment
-python -m venv venv
-source venv/bin/activate        # Windows: venv\Scripts\activate
-
-# 3. Install dependencies
-pip install -r requirements.txt
-
-# 4. Configure environment variables
-cp .env.example .env            # then fill in your values
-
-# 5. Run the app
-python src/main.py
+git clone https://github.com/Magisterofdrinkingcoffee/sdc2026-future-edge.git
+cd sdc2026-future-edge
+bash build.sh        # pip install -r requirements.txt + build the React app
+bash start.sh        # http://localhost:8000
 ```
 
 ### Run Tests
 
 ```bash
-python -m unittest discover tests
+python -m pytest -q          # 49 tests
+python -m tests.check_links  # checks every course link (needs internet)
 ```
 
 ---
 
 ## How We Use Replit *(Required)*
 
-Describe how your team used Replit. For example:
+- **Development and testing:** the team imported the repo into Replit and used its Shell to install dependencies, build the app, run the test suite and check all 53 course links (the checker needs open internet).
+- **Hosting:** the live demo is a Replit autoscale deployment, configured in `.replit` (`build.sh` then `start.sh`): https://sdc-2026-future-edge.replit.app
+- **Secrets:** the optional `GEMINI_API_KEY` is kept in Replit Secrets, never in the code.
 
-- **Development:** Collaborative coding in a shared Repl using Multiplayer
-- **Hosting:** The app is deployed with Replit Deployments at the Live Demo link above.
-- **Secrets:** API keys are stored in Replit Secrets, never in the code.
+Proof of use is in the Technical & Tools Declaration ([`submission/SDC2026_BEBZA_TechDeclaration.pdf`](submission/SDC2026_BEBZA_TechDeclaration.pdf)).
 
-📄 Proof of use: [`submission/REPLIT PROOF OF USE.pdf`](submission/REPLIT%20PROOF%20OF%20USE.pdf)
+## How We Use RunPod
 
-## How We Use RunPod *(Required)*
-
-Describe how your team used RunPod. For example:
-
-- **Workload:** Model inference (e.g. text generation, image processing) runs on a RunPod GPU.
-- **Setup:** `runpod/handler.py` is deployed as a **RunPod Serverless Endpoint**.
-- **Integration:** The Replit app sends requests to the endpoint using `RUNPOD_API_KEY` and `RUNPOD_ENDPOINT_ID`.
-
-Example request:
-
-```bash
-curl -X POST https://api.runpod.ai/v2/$RUNPOD_ENDPOINT_ID/runsync \
-  -H "Authorization: Bearer $RUNPOD_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{"input": {"prompt": "Hello"}}'
-```
-
-📄 Proof of use: [`submission/RUNPOD PROOF OF USE.pdf`](submission/RUNPOD%20PROOF%20OF%20USE.pdf)
+Not used. All our models train and run on a normal CPU in seconds (Model 1 trains on 19,265 short task statements), so no work needed a GPU. The Participant Handbook (section 9.4) requires RunPod only for GPU work.
 
 ---
 
+## Hardest risks and our fallbacks
+
+| Risk | What we did |
+|---|---|
+| Reliable, updatable trend data | arXiv API is free and stable; the collector is resumable, and the app keeps the last good snapshot if a refresh fails. |
+| Matching quality | Model 1 is validated on occupations it never saw (73.4% accuracy vs 53.2% baseline); Model 2 is backtested (17.2% error vs 22.7% naive). Results in `docs/MODELS.md`. |
+| AI inventing jobs or courses | No generative model writes recommendations. Roles, skills and courses come from fixed, cited catalogs. |
+| US-based task labels applied to Malaysia | Job-market numbers come from Malaysian sources (WEF Malaysia profile, DOSM, MyCOL); the limitation is stated in the model card. |
+
 ## Challenges & Learnings
 
-- What challenges did you face, and how did you overcome them?
-- What did your team learn?
+- A plain exponential trend over-shot because AI research boomed in 2023–24 and is now slowing. A damped trend, with the damping chosen on held-out months only, cut forecast error from 29.5% to 17.2%.
+- There is no labelled data for "judgment", so instead of training a model on our own opinions we built a test with known answers (Catch the AI).
+- PyMuPDF is AGPL-licensed, so we switched to pypdf to stay compatible with Apache 2.0.
 
 ## Future Improvements
 
-- [ ] Improvement 1
-- [ ] Improvement 2
+- [ ] Employer / HR view: team-level skills-gap heatmap
+- [ ] Bahasa Malaysia and Chinese interface
+- [ ] Job-posting data (e.g. MYFutureJobs) as a second trend signal
+- [ ] More Catch-the-AI packs per field
 
 ## Team
 
-| Name        | Role                | GitHub                                   |
-| ----------- | ------------------- | ---------------------------------------- |
-| Member Name | Team Lead / Backend | [@username](https://github.com/username) |
-| Member Name | Frontend            | [@username](https://github.com/username) |
-| Member Name | AI / RunPod         | [@username](https://github.com/username) |
+| Name | Role |
+| ---- | ---- |
+| Azimkhan Bekassyl | Team leader, product and scoring |
+| Alibek Berik | CV reader |
+| Elnurken Abdigaparov | Team member |
+| Bernar Zholdybek | Team member |
+| Shirvanskiy Zeinal | Team member |
 
 ---
 
 ## Submission Checklist
 
-- [ ] Team name, domain (Domain 1 / Domain 2) and SDG track filled in
-- [ ] Slide deck link added
+- [x] Team name, domain and SDG track filled in
+- [x] Live demo on Replit
+- [x] Replit used, with proof in the Tech Declaration
+- [x] RunPod: not needed (no GPU work)
+- [x] PRD and Tech Declaration in `submission/`
+- [x] Pitch deck in `submission/`
 - [ ] Demo video link added
-- [ ] Replit used, with proof of use in `submission/`
-- [ ] RunPod used, with proof of use in `submission/`
-- [ ] Submission template completed in `submission/`
-- [ ] "How to Run" steps verified
-- [ ] No API keys or secrets committed to the repository
+- [x] "How to Run" steps verified
+- [x] No API keys or secrets committed to the repository
 
 ## License
 
-This project is licensed under the [Apache License 2.0](LICENSE).
+This project is licensed under the [Apache License 2.0](LICENSE). Third-party data keeps its own licence: GPTs-are-GPTs labels (MIT, `src/database/LICENSE-gpts-are-gpts.txt`), O*NET (CC BY 4.0).

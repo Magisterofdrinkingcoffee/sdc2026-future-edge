@@ -1,0 +1,200 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>SDC2026_BEBZA_PitchDeck</title>
+<style>
+@page { size: 1280px 720px; margin: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: "Helvetica Neue", Arial, sans-serif; color: #1d2433; }
+.s { width: 1280px; height: 720px; padding: 56px 72px; position: relative; overflow: hidden; page-break-after: always; background: #f6f7fb; }
+.s.dark { background: #1b1f3b; color: #fff; }
+.s.accent { background: linear-gradient(135deg, #2f6fed 0%, #6a4bd8 100%); color: #fff; }
+.k { font-size: 15px; letter-spacing: .12em; text-transform: uppercase; color: #6a4bd8; font-weight: 700; margin-bottom: 10px; }
+.dark .k, .accent .k { color: #b9c4ff; }
+h1 { font-size: 64px; line-height: 1.05; margin-bottom: 16px; }
+h2 { font-size: 40px; line-height: 1.15; margin-bottom: 22px; }
+p, li { font-size: 21px; line-height: 1.45; }
+.muted { color: #5a6478; } .dark .muted, .accent .muted { color: #cfd6ff; }
+ul { margin-left: 24px; } li { margin-bottom: 8px; }
+.row { display: flex; gap: 24px; } .col { flex: 1; }
+.card { background: #fff; border-radius: 16px; padding: 20px 22px; box-shadow: 0 2px 10px rgba(20,30,60,.08); }
+.dark .card { background: #262b52; box-shadow: none; }
+.card h3 { font-size: 22px; margin-bottom: 8px; } .card p { font-size: 17px; }
+.big { font-size: 56px; font-weight: 800; color: #2f6fed; line-height: 1; margin-bottom: 6px; }
+.dark .big { color: #8fb0ff; }
+.src { position: absolute; bottom: 22px; left: 72px; right: 72px; font-size: 12px; color: #8a93a6; }
+.dark .src, .accent .src { color: #aab3e0; }
+.shot { border-radius: 12px; box-shadow: 0 6px 24px rgba(20,30,60,.18); width: 100%; display: block; }
+.pn { position: absolute; bottom: 22px; right: 36px; font-size: 13px; color: #8a93a6; }
+table { border-collapse: collapse; width: 100%; font-size: 16px; }
+td, th { padding: 7px 10px; border-bottom: 1px solid #dfe3ee; text-align: left; vertical-align: top; }
+th { color: #5a6478; font-weight: 600; font-size: 14px; text-transform: uppercase; letter-spacing: .05em; }
+.tag { display: inline-block; background: #e8eeff; color: #2f4fb8; border-radius: 999px; padding: 3px 12px; font-size: 15px; font-weight: 600; margin: 0 6px 6px 0; }
+.flow { display: flex; align-items: stretch; gap: 10px; margin-top: 14px; }
+.flow .card { flex: 1; } .arrow { align-self: center; font-size: 28px; color: #6a4bd8; }
+</style></head><body>
+
+<!-- 1 Title -->
+<section class="s accent">
+  <div class="k">SDC Hackathon 2026 · Domain 1 – Aiversecity Future-Ready Workforce</div>
+  <h1 style="font-size:84px;margin-top:90px">Future Edge</h1>
+  <p style="font-size:30px;max-width:900px">Your career weather forecast for the AI era: which of your skills AI will take over, which will keep you valuable, and the one move to make next.</p>
+  <p class="muted" style="margin-top:60px">Team BEBZA · Xiamen University Malaysia<br>Live: sdc-2026-future-edge.replit.app</p>
+  <div class="src">SDG 8 Decent Work · SDG 4 Quality Education</div>
+</section>
+
+<!-- 2 Problem -->
+<section class="s">
+  <div class="k">The problem</div>
+  <h2>Malaysians use AI at work, but nobody is telling them what it will do to their careers</h2>
+  <div class="row" style="margin-top:20px">
+    <div class="col card"><div class="big">56%</div><p>of Malaysian professionals already use AI tools at work</p></div>
+    <div class="col card"><div class="big">26%</div><p>have had any formal AI training</p></div>
+    <div class="col card"><div class="big">600k+</div><p>workers need reskilling in 3–5 years</p></div>
+    <div class="col card"><div class="big">47→33%</div><p>share of tasks done mainly by people, today vs 2030</p></div>
+  </div>
+  <p style="margin-top:30px">Today's career tools give a <b>one-time keyword match</b> from a static list. AI chatbots can <b>invent jobs and courses</b>. Neither tells you <i>which of your own skills</i> will still be yours in 3 years.</p>
+  <div class="src">Hays Asia Salary Guide 2025 and MOSTI (as cited in the Domain 1 brief); WEF Future of Jobs Report 2025, Malaysia profile, p. 169</div>
+  <div class="pn">2</div>
+</section>
+
+<!-- 3 User and moment -->
+<section class="s">
+  <div class="k">Who we build for</div>
+  <h2>One moment: deciding what to learn next, before AI decides for you</h2>
+  <div class="row">
+    <div class="col card"><h3>⚡ Aiman, final-year student</h3><p>Final-year Electrical Engineering student. Wants to work in clean energy but doesn't know which skills will age well.</p></div>
+    <div class="col card"><h3>📊 Mei Ling, 6 years in admin</h3><p>Her data entry and Excel reports are exactly the work AI is taking over. WEF expects data-entry clerk jobs in Malaysia to fall 28% by 2030.</p></div>
+    <div class="col card"><h3>🤖 Ravi, fresh CS graduate</h3><p>Python, REST APIs and React on his CV – the work AI coding tools are getting best at. What makes him hard to replace?</p></div>
+  </div>
+  <p style="margin-top:28px" class="muted">Sample users are made up, with made-up CVs (rules: synthetic data only). Also useful for career centres and HR teams advising many people.</p>
+  <div class="src">WEF Future of Jobs Report 2025, Malaysia profile, p. 168</div>
+  <div class="pn">3</div>
+</section>
+
+<!-- 4 Solution journey -->
+<section class="s">
+  <div class="k">The solution</div>
+  <h2>From CV to a 3-year forecast and a plan, in about 3 minutes</h2>
+  <div class="flow">
+    <div class="card"><h3>1 · Upload CV</h3><p>PDF, Word, photo or text. Name, email, phone, IC, age and gender removed before matching.</p></div><div class="arrow">→</div>
+    <div class="card"><h3>2 · Skills radar</h3><p>Each skill: growing, holding or at risk – and how much AI can do now vs 2029.</p></div><div class="arrow">→</div>
+    <div class="card"><h3>3 · Catch the AI</h3><p>Spot planted mistakes in an AI draft. Measures judgment, not self-rating.</p></div><div class="arrow">→</div>
+    <div class="card"><h3>4 · Ranked roles</h3><p>Edge Score 0–100 per year, 2 scenarios, skills gap, real Malaysian pay and demand.</p></div><div class="arrow">→</div>
+    <div class="card"><h3>5 · Quest map</h3><p>Ordered free courses and projects, with hours, SDG tags – starting with your One Move.</p></div>
+  </div>
+  <p style="margin-top:30px"><b>Edge Score</b> = how hard you will be to replace by AI, shown as a weather forecast for each year to 2029.</p>
+  <div class="pn">4</div>
+</section>
+
+<!-- 5 Demo forecast -->
+<section class="s">
+  <div class="k">Live prototype</div>
+  <div class="row" style="align-items:flex-start">
+    <div style="flex:1.45"><img class="shot" src="images/app_reveal.png"></div>
+    <div class="col">
+      <h2 style="font-size:32px">Aiman's forecast as a Renewable Energy Engineer</h2>
+      <ul>
+        <li>A score for every year, fast vs moderate AI disruption side by side</li>
+        <li>Real demand: +38% jobs by 2030 (WEF) and median pay RM 6,124 (DOSM)</li>
+        <li><b>One Move:</b> the single skill that raises his 2029 score most</li>
+        <li>Always labelled an estimate – never a hiring decision</li>
+      </ul>
+    </div>
+  </div>
+  <div class="pn">5</div>
+</section>
+
+<!-- 6 Three models -->
+<section class="s dark">
+  <div class="k">How it works</div>
+  <h2>Three models, real data, no chatbot guessing</h2>
+  <div class="row">
+    <div class="col card"><h3>🧠 Model 1 · AI exposure</h3><p>Text classifier trained on <b>19,265 human-rated O*NET tasks</b>. Reads each skill and your own CV sentence.</p><p style="margin-top:10px"><b>73.4%</b> accuracy on occupations it never saw (baseline 53.2%)</p></div>
+    <div class="col card"><h3>📈 Model 2 · AI-trend signal</h3><p>Monthly <b>arXiv</b> papers for 10 AI areas, Oct 2023 – Sep 2026. Damped trend with 80% range. Refreshable live.</p><p style="margin-top:10px">Backtest error <b>17.2%</b> vs 22.7% naive</p></div>
+    <div class="col card"><h3>🕵️ Model 3 · Catch the AI</h3><p>Review an AI-written site note, report or code with <b>planted mistakes</b>. Scores judgment and responsibility exactly.</p><p style="margin-top:10px">Known answers – no opinions to learn</p></div>
+  </div>
+  <p style="margin-top:24px">Fused with <b>WEF Future of Jobs 2025 (Malaysia)</b>, <b>DOSM</b> wages and <b>TalentCorp MyCOL</b> into an explainable Edge Score with a low–high range.</p>
+  <div class="src">Eloundou et al. (2023) "GPTs are GPTs" labels (MIT); O*NET (CC BY 4.0); arXiv API. Full model cards: docs/MODELS.md</div>
+  <div class="pn">6</div>
+</section>
+
+<!-- 7 Skills radar + roles -->
+<section class="s">
+  <div class="k">Future Skills Radar · transparent by default</div>
+  <div class="row" style="align-items:flex-start">
+    <div style="flex:1.5"><img class="shot" src="images/app_skills_radar.png"></div>
+    <div class="col">
+      <ul>
+        <li>Every skill shows <b>its source</b>: which arXiv trend, which model reading, and the snapshot date</li>
+        <li>Change the trend data and <b>the forecast changes</b></li>
+        <li>Roles ranked by 2029 Edge Score, flagged <b>at risk</b> when AI can do half their work</li>
+        <li>Human skills (leadership, communication) gain AI exposure slowly – AI supports them, people own them</li>
+      </ul>
+    </div>
+  </div>
+  <div class="pn">7</div>
+</section>
+
+<!-- 8 Must-haves -->
+<section class="s">
+  <div class="k">All six must-have features – working today</div>
+  <table>
+    <tr><th style="width:25%">Must-have</th><th>In Future Edge</th></tr>
+    <tr><td><b>1 Skills intake</b></td><td>CV upload (PDF / Word / photo / text) or paste; only catalog skills, with the CV sentence as evidence; user can edit levels</td></tr>
+    <tr><td><b>2 AI-trend signal</b></td><td>arXiv monthly counts + Model 2, source and date shown, live refresh button; WEF / DOSM / MyCOL job market</td></tr>
+    <tr><td><b>3 Role matching</b></td><td>34 roles ranked by Edge Score with plain-English "why" for every number and a skills gap</td></tr>
+    <tr><td><b>4 Reskilling pathway</b></td><td>Ordered courses + projects with hours and weeks; 53 free / low-cost resources, all links checked 24 Oct 2026, HRD Corp option</td></tr>
+    <tr><td><b>5 SDG mapping</b></td><td>All 52 skills, 34 roles and every pathway step tagged to SDG targets (e.g. 7.2, 8.2, 4.4)</td></tr>
+    <tr><td><b>6 Uncertainty</b></td><td>Moderate vs fast AI scenarios, low–high ranges from Model 2 and Model 3, "estimate, not a hiring decision"</td></tr>
+  </table>
+  <p style="margin-top:14px" class="muted">Good-to-haves: progress tracking (XP, levels, badges), mobile-friendly, fairness – age, gender and name removed before matching.</p>
+  <div class="pn">8</div>
+</section>
+
+<!-- 9 Pathway + catch -->
+<section class="s">
+  <div class="k">Humans stay in charge</div>
+  <div class="row" style="align-items:flex-start">
+    <div class="col"><img class="shot" src="images/app_catch.png"></div>
+    <div class="col"><img class="shot" src="images/app_quests.png"></div>
+  </div>
+  <p style="margin-top:18px">We measure the skill the AI era rewards – <b>judging AI output</b> – and turn the forecast into small quests the user chooses to follow. The app never ranks people for employers.</p>
+  <div class="pn">9</div>
+</section>
+
+<!-- 10 Tech + Replit -->
+<section class="s">
+  <div class="k">Technical approach</div>
+  <h2>Simple, explainable, deployed on Replit</h2>
+  <div class="row">
+    <div class="col card"><h3>Stack</h3><p>React + Vite + Tailwind → FastAPI (Python) → three in-process models → JSON catalogs. No database, no stored CVs. Optional Gemini API with a JSON schema for photo CVs, every phrase checked against the CV.</p></div>
+    <div class="col card"><h3>Replit (official sponsor)</h3><p>Imported from GitHub, built and tested in the Replit Shell (49 tests, 53 links checked with open internet), and hosted as a Replit autoscale deployment.</p></div>
+    <div class="col card"><h3>Quality</h3><p>49 automated tests, held-out model evaluations, Apache-2.0 licence, every dataset and AI tool declared. CPU only – no GPU work, so RunPod not needed.</p></div>
+  </div>
+  <p style="margin-top:24px"><b>Hardest risk:</b> reliable, updatable trend data. <b>Fallback:</b> free arXiv API with a resumable collector; if a refresh fails the app keeps the last good snapshot.</p>
+  <div class="pn">10</div>
+</section>
+
+<!-- 11 Impact -->
+<section class="s accent">
+  <div class="k">Expected impact · SDG 4.4 and 8.5</div>
+  <h2>From "AI is coming" to "here is my next move"</h2>
+  <div class="row" style="margin-top:16px">
+    <div class="col"><div class="big" style="color:#fff">≥ 80%</div><p>of test users reach ranked roles <i>and</i> a sourced plan in ≤ 5 minutes</p></div>
+    <div class="col"><div class="big" style="color:#fff">+40 pts</div><p>more users able to name one skill to learn next and a free resource for it (before vs after)</p></div>
+    <div class="col"><div class="big" style="color:#fff">100%</div><p>of recommended courses link-checked within 7 days of a demo (53 / 53 today)</p></div>
+  </div>
+  <p style="margin-top:40px">Phase 2: user test with 20+ XMUM students and staff · Bahasa Malaysia interface · employer team view · job-posting data as a second trend signal.</p>
+  <div class="src">Baseline: only 26% of Malaysian professionals using AI have formal training (Hays 2025).</div>
+  <div class="pn">11</div>
+</section>
+
+<!-- 12 Close -->
+<section class="s dark">
+  <div class="k">Team BEBZA · XMUM</div>
+  <h1 style="margin-top:70px">AI should be a partner, not a replacement.<br>Future Edge shows you how to stay the partner.</h1>
+  <p class="muted" style="margin-top:40px">Azimkhan Bekassyl (lead) · Elnurken Abdigaparov · Bernar Zholdybek · Alibek Berik · Shirvanskiy Zeinal</p>
+  <p style="margin-top:24px">Try it: <b>sdc-2026-future-edge.replit.app</b><br>Code: github.com/Magisterofdrinkingcoffee/sdc2026-future-edge</p>
+  <div class="pn">12</div>
+</section>
+
+</body></html>

@@ -1,0 +1,27 @@
+@page { size: A4; margin: 18mm 16mm 18mm 16mm; }
+* { box-sizing: border-box; }
+body { font-family: "Helvetica Neue", Arial, sans-serif; color: #1d2433; font-size: 10.5pt; line-height: 1.5; margin: 0; }
+.cover { border-bottom: 4px solid #2f6fed; padding-bottom: 10px; margin-bottom: 18px; }
+.cover .kicker { font-size: 9pt; letter-spacing: .08em; text-transform: uppercase; color: #5a6478; }
+.cover h1 { font-size: 22pt; margin: 4px 0 2px; }
+.cover .sub { color: #5a6478; font-size: 10pt; }
+h2 { font-size: 13pt; color: #2f6fed; margin: 22px 0 6px; border-bottom: 1px solid #d9dee8; padding-bottom: 3px; page-break-after: avoid; }
+h3 { font-size: 11pt; margin: 14px 0 4px; page-break-after: avoid; }
+p { margin: 0 0 7px; }
+.limit { color: #8a93a6; font-size: 8.5pt; font-weight: normal; }
+table { width: 100%; border-collapse: collapse; margin: 6px 0 10px; font-size: 9.5pt; page-break-inside: auto; }
+tr { page-break-inside: avoid; }
+th, td { border: 1px solid #d9dee8; padding: 5px 7px; text-align: left; vertical-align: top; }
+th { background: #f1f4fa; font-weight: 600; }
+td.k { width: 32%; font-weight: 600; background: #fafbfd; }
+ul { margin: 0 0 8px 18px; padding: 0; }
+li { margin-bottom: 3px; }
+.box { border: 1px solid #d9dee8; border-radius: 6px; padding: 8px 10px; background: #fafbfd; margin: 6px 0 10px; }
+.check { margin: 3px 0; }
+.check span { display: inline-block; width: 14px; height: 14px; border: 1.5px solid #1d2433; margin-right: 8px; vertical-align: -2px; text-align: center; line-height: 11px; font-size: 10pt; }
+.diagram { font-family: Menlo, Consolas, monospace; font-size: 8.3pt; line-height: 1.35; white-space: pre; background: #f6f8fb; border: 1px solid #d9dee8; border-radius: 6px; padding: 8px 10px; margin: 6px 0 10px; }
+.small { font-size: 8.5pt; color: #5a6478; }
+.sig { margin-top: 18px; }
+.sig .line { font-family: "Brush Script MT", cursive; font-size: 18pt; border-bottom: 1px solid #1d2433; display: inline-block; min-width: 220px; padding: 0 6px; }
+img.shot { width: 100%; border: 1px solid #d9dee8; border-radius: 6px; margin: 6px 0; }
+.pb { page-break-before: always; }

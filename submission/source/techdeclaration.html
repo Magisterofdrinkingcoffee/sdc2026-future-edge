@@ -1,0 +1,134 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>SDC2026_BEBZA_TechDeclaration</title><link rel="stylesheet" href="style.css"></head>
+<body>
+
+<div class="cover">
+  <div class="kicker">SDC Hackathon 2026 · Technical &amp; Tools Declaration</div>
+  <h1>Future Edge</h1>
+  <div class="sub">Team BEBZA · Domain 1 – Aiversecity Future-Ready Workforce</div>
+</div>
+
+<h2>1. Team Overview and Project</h2>
+<table>
+<tr><td class="k">Team Name</td><td>BEBZA</td></tr>
+<tr><td class="k">Project / Solution Name</td><td>Future Edge</td></tr>
+<tr><td class="k">Name (Leader)</td><td>Azimkhan Bekassyl</td></tr>
+<tr><td class="k">Email &amp; Phone (Leader)</td><td>beka2007azimut@gmail.com · +7 701 770 7593</td></tr>
+<tr><td class="k">University Affiliation(s)</td><td>Xiamen University Malaysia (XMUM)</td></tr>
+<tr><td class="k">Live Prototype URL</td><td>https://sdc-2026-future-edge.replit.app</td></tr>
+<tr><td class="k">Code Repository URL</td><td>https://github.com/Magisterofdrinkingcoffee/sdc2026-future-edge (public)</td></tr>
+</table>
+
+<h2>2. Architecture &amp; Technology Stack</h2>
+<h3>2.1 System Architecture Overview <span class="limit">[max 200 words]</span></h3>
+<p data-count="2.1">The user works in a React single-page app (built with Vite). It calls a Python FastAPI backend over HTTPS; both are served from one Replit autoscale deployment. A CV upload is read on the server with pypdf or a built-in Word reader; personal data (name, email, phone, IC number, age, gender) is removed before any matching. Only for photos or complex layouts, and only when a key is configured, the redacted content is sent to the Google Gemini API, which returns phrases in a fixed JSON schema; every phrase is checked against the CV's own text. Matched skills go to three models that run inside the backend: Model 1 (AI-exposure classifier trained on O*NET tasks, stored as JSON), Model 2 (damped trend forecast on monthly arXiv paper counts, refreshable from the arXiv API) and Model 3 (exact scoring of the Catch the AI exercise). The scoring engine combines them with WEF, DOSM and MyCOL job-market figures into an Edge Score with a low–high range for two scenarios, then builds an ordered pathway from a catalog of 53 checked learning resources. Catalogs are JSON files in the repository; no database and no user data are stored.</p>
+<div class="diagram">Browser (React) ──► FastAPI (Replit deployment) ──► Model 1 · Model 2 · Model 3 ──► Edge Score + pathway
+                         │                                   ▲
+                         ├─(optional, redacted)─► Gemini API  └── arXiv API (trend refresh)
+                         └─ JSON catalogs in repo: skills, roles, SDGs, courses, WEF / DOSM / MyCOL figures</div>
+
+<h3>2.2 Languages, Frameworks &amp; Libraries</h3>
+<table>
+<tr><th>Name &amp; Version</th><th>Purpose in Project</th><th>License</th></tr>
+<tr><td>Python 3.11+</td><td>Backend, models, data tools</td><td>PSF License</td></tr>
+<tr><td>JavaScript (ES2022), Node.js 20+</td><td>Frontend build</td><td>MIT</td></tr>
+<tr><td>FastAPI 0.115.6</td><td>REST API</td><td>MIT</td></tr>
+<tr><td>Uvicorn 0.32.1</td><td>ASGI web server</td><td>BSD-3-Clause</td></tr>
+<tr><td>Pydantic 2.10.4</td><td>Request validation</td><td>MIT</td></tr>
+<tr><td>httpx 0.28.1</td><td>HTTP client (tests)</td><td>BSD-3-Clause</td></tr>
+<tr><td>python-multipart 0.0.20</td><td>CV file upload</td><td>Apache-2.0</td></tr>
+<tr><td>pypdf 5.1.0</td><td>Reading PDF CVs (chosen over PyMuPDF to avoid AGPL)</td><td>BSD-3-Clause</td></tr>
+<tr><td>pytest 8.3.4</td><td>49 automated tests</td><td>MIT</td></tr>
+<tr><td>React 18, Vite 5.4, Tailwind CSS 3</td><td>User interface</td><td>MIT</td></tr>
+<tr><td>scikit-learn, pandas, matplotlib (training only, not in the running app)</td><td>Training and evaluating Model 1, result charts</td><td>BSD-3-Clause / BSD-3-Clause / PSF-based</td></tr>
+</table>
+
+<h2>3. APIs &amp; Cloud Services</h2>
+<h3>3.1 External APIs</h3>
+<table>
+<tr><th>API and Provider</th><th>Purpose in Project</th><th>Access Tier</th></tr>
+<tr><td>arXiv API (Cornell University)</td><td>Monthly counts of new papers for 10 AI-capability topics – the AI-trend signal (Model 2). Refreshable from the app.</td><td>Free</td></tr>
+<tr><td>Google Gemini API (Google AI Studio)</td><td>Optional: read photo or complex-layout CVs into a fixed JSON schema. Off unless <code>GEMINI_API_KEY</code> is set; the app works without it.</td><td>Free tier</td></tr>
+</table>
+
+<h3>3.2 Cloud Platforms &amp; Deployment</h3>
+<table>
+<tr><th>Service &amp; Provider</th><th>Purpose in Project</th><th>Plan / Region</th></tr>
+<tr><td>Replit (official SDC sponsor)</td><td>Project workspace and Shell (install, build, tests, link checking), Secrets, and hosting of the live prototype via <code>.replit</code> → <code>build.sh</code> → <code>start.sh</code></td><td>Autoscale deployment (2 vCPU / 4 GiB), Asia region</td></tr>
+<tr><td>GitHub</td><td>Source code and version history</td><td>Free, public repository</td></tr>
+</table>
+
+<h2>4. AI Tools, Models &amp; Datasets</h2>
+<h3>4.1 AI Models Used in the Solution</h3>
+<table>
+<tr><th>Model &amp; Version</th><th>Source / Provider</th><th>Usage</th><th>License / Terms</th></tr>
+<tr><td>Model 1 – AI-exposure classifier (TF-IDF + multinomial logistic regression)</td><td>Team BEBZA; trained with scikit-learn on CPU</td><td>Self-trained</td><td>Apache-2.0 (our code); training labels MIT</td></tr>
+<tr><td>Model 2 – damped log-linear trend forecaster</td><td>Team BEBZA (plain Python)</td><td>Self-built, fitted on arXiv counts</td><td>Apache-2.0</td></tr>
+<tr><td>Model 3 – Catch the AI scoring</td><td>Team BEBZA (rule-based, known answers)</td><td>Self-built</td><td>Apache-2.0</td></tr>
+<tr><td>Google Gemini (default <code>gemini-3.8-flash</code>, configurable)</td><td>Google</td><td>Pre-trained, called by API; optional CV reading only</td><td>Gemini API Terms of Service</td></tr>
+</table>
+
+<h3>4.2 Datasets</h3>
+<table>
+<tr><th>Dataset Name</th><th>Source / URL</th><th>Type</th><th>License</th><th>Personal Data?</th></tr>
+<tr><td>GPTs-are-GPTs task exposure labels (19,265 tasks)</td><td>github.com/openai/GPTs-are-GPTs</td><td>Public</td><td>MIT</td><td>N</td></tr>
+<tr><td>O*NET task statements and occupations</td><td>onetcenter.org</td><td>Public</td><td>CC BY 4.0</td><td>N</td></tr>
+<tr><td>arXiv monthly paper counts, Oct 2023 – Sep 2026</td><td>export.arxiv.org/api (collected 22 Oct 2026)</td><td>Public (self-collected counts)</td><td>arXiv API Terms of Use</td><td>N</td></tr>
+<tr><td>WEF Future of Jobs Report 2025 (incl. Malaysia profile)</td><td>weforum.org</td><td>Public report</td><td>WEF terms, cited by page</td><td>N</td></tr>
+<tr><td>DOSM Salaries &amp; Wages Survey 2025; Labour Force Survey</td><td>open.dosm.gov.my / data.gov.my</td><td>Public</td><td>Malaysia open data terms</td><td>N</td></tr>
+<tr><td>TalentCorp MyCOL 2024/2025 critical occupations</td><td>talentcorp.com.my</td><td>Public report</td><td>Cited</td><td>N</td></tr>
+<tr><td>Team role dataset (25 roles: titles, skills, SDG tags, descriptions)</td><td>src/database/gemini-code-…csv</td><td>Self-made, AI-assisted (Gemini)</td><td>Apache-2.0</td><td>N</td></tr>
+<tr><td>Skill, role, SDG and course catalogs; 3 sample CVs</td><td>src/backend/data/</td><td>Self-made; sample people are synthetic</td><td>Apache-2.0</td><td>N</td></tr>
+</table>
+
+<h3>4.3 AI-Assisted Development Tools</h3>
+<p>Did your team use any generative-AI tool to help create code, design, text, or other project material? <b>Yes.</b></p>
+<table>
+<tr><th>Tool &amp; Version</th><th>Used For</th><th>Extent of Use</th></tr>
+<tr><td>Claude (Anthropic) – Claude Code / claude.ai</td><td>Writing and refactoring code, tests, model cards, README and these submission documents (commits authored "Claude" in the history)</td><td>Major</td></tr>
+<tr><td>Google Gemini (chat)</td><td>Drafting the first version of the 25-role dataset (titles, skills, SDG tags, descriptions)</td><td>Moderate</td></tr>
+<tr><td>Replit Agent</td><td>Started an automatic "port to Replit" step on import; we stopped it after 12 seconds and reverted its changes</td><td>Minor</td></tr>
+</table>
+<p><b>How the team reviewed, tested and took responsibility for AI-generated output</b> <span class="limit">[max 100 words]</span></p>
+<p data-count="4.3">The team chose the idea, the models and every design rule, and reviewed each change before it was merged. AI-written code is covered by 49 automated tests and held-out evaluations (Model 1 cross-validation, Model 2 backtest). We replaced AI-drafted salary and risk estimates with real WEF, DOSM and MyCOL figures, and checked every course link by hand or script on 24 October 2026. The running app uses no generative model to make recommendations, so it cannot invent jobs, courses or statistics.</p>
+
+<h2>5. Sponsor-Provided Resources</h2>
+<p>Did your project use any official SDC sponsor-provided resource? <b>Yes.</b></p>
+<table>
+<tr><th>Sponsor</th><th>Resource</th><th>How It Was Used in the Project</th></tr>
+<tr><td>Replit</td><td>Platform (workspace, Shell, Secrets, Deployments)</td><td>Development, testing and link checking in the Replit Shell; live prototype hosted as a Replit autoscale deployment (proof below)</td></tr>
+<tr><td>RunPod</td><td>US$25 GPU credit</td><td>Not used – no part of the project needs a GPU (Participant Handbook 9.4)</td></tr>
+<tr><td>Aiversecity (domain sponsor)</td><td>Problem statement and rubric</td><td>Defined the six must-have features we built</td></tr>
+</table>
+<p><b>Was the sponsor resource essential to the core functionality, or could it be replaced?</b> <span class="limit">[max 100 words]</span></p>
+<p data-count="5">Replit is essential to how the prototype is delivered: it is where judges reach the live app, and where we ran the build, tests and link checks with open internet access. The application code itself is portable – a standard FastAPI and React project with no Replit-specific dependencies – so it could also run on another host. We chose this on purpose, so the project survives beyond the hackathon.</p>
+
+<h3>Replit proof of use</h3>
+<p>Team account <b>riotbek07</b>, project <b>sdc2026-future-edge</b>: https://replit.com/@riotbek07/sdc2026-future-edge · live deployment: https://sdc-2026-future-edge.replit.app</p>
+<img class="shot" src="images/replit_deployment.png" alt="Replit deployment page for sdc2026-future-edge">
+<img class="shot" src="images/replit_live_app.png" alt="Live app running at sdc-2026-future-edge.replit.app">
+
+<h2>6. Security, Privacy &amp; Responsible Use</h2>
+<h3>6.1 Data Handling &amp; Privacy <span class="limit">[max 150 words]</span></h3>
+<p data-count="6.1">The app collects only what the user uploads: a CV file or pasted text, skill levels, a goal role and Catch the AI answers. The CV is read in memory once and is not saved; no database, account or tracking of personal data exists. Before matching, the name line, email, phone, IC number, age, date of birth and gender are removed, so matching never sees protected characteristics. If the optional Gemini key is set, PDFs with readable text are sent to Gemini as redacted text; photos and scanned PDFs have no text layer and are sent as images. The user's progress (skills, XP, badges) is kept only in their own browser's local storage. The API key is stored in Replit Secrets, never in the repository. Our demo uses synthetic CVs only.</p>
+
+<h3>6.2 Known Limitations &amp; Risks <span class="limit">[max 150 words]</span></h3>
+<p data-count="6.2"><b>Bias and scope:</b> Model 1's labels describe US jobs in 2023; we apply them to Malaysia and use Malaysian job-market data alongside. <b>Accuracy:</b> Model 1 is 73.4% accurate on unseen occupations and weakest on "chatbot-only" tasks; Model 2 uses research papers as a proxy for AI capability and cannot foresee sudden breakthroughs; Catch the AI is one short exercise. <b>Hallucination:</b> mitigated by design – no generative model writes recommendations, and Gemini's CV phrases are rejected unless found in the CV text. <b>Provider dependency:</b> Gemini is optional with an offline fallback; if an arXiv refresh fails, the last good snapshot is kept. <b>Mitigations shown to users:</b> two scenarios, low–high ranges, a plain-English reason for every number, and a clear message that results are estimates and never hiring decisions.</p>
+
+<h2>7. Compliance Readiness</h2>
+<div class="box">
+<div class="check"><span>✓</span>All APIs, cloud services, AI tools, models, and datasets used in the project are declared in this document.</div>
+<div class="check"><span>✓</span>All third-party code, datasets, and models are used in accordance with their licenses, and attribution is provided where required.</div>
+<div class="check"><span>✓</span>No API keys, passwords, or other credentials are exposed in the code repository, prototype, or this document.</div>
+<div class="check"><span>✓</span>Any use of generative-AI tools for development has been disclosed and reviewed by the team.</div>
+<div class="check"><span>✓</span>Any use of official SDC sponsor resources has been declared in Section 5.</div>
+<div class="check"><span>✓</span>The prototype described here is accessible to judges through the links provided in Section 1.</div>
+<div class="check"><span>✓</span>All fields in this template have been completed within the word limits stated.</div>
+</div>
+
+<h2>8. Declaration</h2>
+<p>By submitting this document, the team leader confirms that the information provided is complete and accurate to the best of the team's knowledge, and that every API, cloud service, AI tool, dataset, model, and sponsor resource used in the project has been declared.</p>
+<div class="sig"><div class="line">Azimkhan Bekassyl</div><br><span class="small">Azimkhan Bekassyl, Team Leader, BEBZA</span></div>
+<p style="margin-top:10px"><b>Date:</b> 24 October 2026</p>
+
+</body></html>
