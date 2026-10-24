@@ -29,8 +29,7 @@ def main():
         story = [Paragraph(p["name"], name), Paragraph(p["headline"], head)]
         if p.get("contact"):
             story.append(Paragraph(p["contact"], small))
-        story += [Paragraph("<i>Synthetic sample CV – invented person for the SDC Hackathon 2026 demo.</i>", small),
-                  Spacer(1, 4), HRFlowable(width="100%", thickness=1, color=ACCENT), Spacer(1, 2)]
+        story += [Spacer(1, 4), HRFlowable(width="100%", thickness=1, color=ACCENT), Spacer(1, 2)]
         for section, content in p["cv"].items():
             story.append(Paragraph(section, sec))
             if isinstance(content, list):
@@ -38,6 +37,7 @@ def main():
                                           bulletType="bullet", start="•", leftIndent=10, bulletFontSize=8))
             else:
                 story.append(Paragraph(content, body))
+        story += [Spacer(1, 10), Paragraph("<i>Synthetic sample CV: an invented person for the SDC Hackathon 2026 demo.</i>", small)]
         SimpleDocTemplate(str(OUT / f"{p['id']}.pdf"), pagesize=A4, title=f"{p['name']} – sample CV",
                           leftMargin=18 * mm, rightMargin=18 * mm, topMargin=16 * mm, bottomMargin=16 * mm).build(story)
         print("wrote", OUT / f"{p['id']}.pdf")

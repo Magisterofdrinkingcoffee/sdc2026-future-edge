@@ -1,4 +1,5 @@
 import { levelInfo, streak } from '../../game'
+import { t as t_ } from '../../i18n'
 import { Bar, Logo } from '../ui'
 import QuestMap from './QuestMap'
 import ForecastView from './ForecastView'
@@ -23,7 +24,7 @@ export default function Dashboard(ctx) {
             {TABS.map((t) => (
               <button key={t.id} onClick={() => set({ tab: t.id })} aria-current={s.tab === t.id}
                 className={`rounded-xl px-4 py-2 font-display font-semibold ${s.tab === t.id ? 'bg-violet-50 text-violet-700' : 'text-muted hover:bg-canvas'}`}>
-                <span aria-hidden>{t.icon}</span> {t.label}
+                <span aria-hidden>{t.icon}</span> {t_(t.label)}
               </button>
             ))}
           </nav>
@@ -48,7 +49,7 @@ export default function Dashboard(ctx) {
         {TABS.map((t) => (
           <button key={t.id} onClick={() => set({ tab: t.id })} aria-current={s.tab === t.id}
             className={`py-3 text-center text-xs font-bold ${s.tab === t.id ? 'text-violet-600' : 'text-muted'}`}>
-            <div className="text-2xl" aria-hidden>{t.icon}</div>{t.label}
+            <div className="text-2xl" aria-hidden>{t.icon}</div>{t_(t.label)}
           </button>
         ))}
       </nav>

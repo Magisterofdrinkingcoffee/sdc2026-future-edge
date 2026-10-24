@@ -1,3 +1,4 @@
+import { t } from '../../i18n'
 import { useEffect, useState } from 'react'
 import { api } from '../../api'
 import { FIELD_ICON, weather } from '../../game'
@@ -31,8 +32,8 @@ export default function ForecastView(ctx) {
       <section className="panel">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold">Career forecast: {goal.title}</h1>
-            <p className="text-sm text-muted">How hard you'll be to replace by AI, from 0 to 100. Estimates, not a verdict.</p>
+            <h1 className="text-2xl font-bold">{t('Career forecast: {role}', { role: goal.title })}</h1>
+            <p className="text-sm text-muted">{t("How hard you'll be to replace by AI, from 0 to 100. Estimates, not a verdict.")}</p>
           </div>
           <div className="flex rounded-2xl border-2 border-line p-1" role="radiogroup" aria-label="AI scenario">
             {Object.entries(meta.scenarios).map(([id, sc]) => (
@@ -49,7 +50,7 @@ export default function ForecastView(ctx) {
         <RoleFacts role={goal} />
 
         <details className="mt-4 rounded-2xl bg-canvas p-4">
-          <summary className="cursor-pointer font-display font-semibold">How we worked this out</summary>
+          <summary className="cursor-pointer font-display font-semibold">{t("How we worked this out")}</summary>
           <ul className="mt-2 space-y-1 text-sm">{Object.values(goal.explain).map((e, i) => <li key={i}>{e}</li>)}</ul>
           {goal.gap.length > 0 && <p className="mt-2 text-sm"><b>Skills gap:</b> {goal.gap.map((g) => g.name).join(', ')}.</p>}
         </details>
@@ -59,7 +60,7 @@ export default function ForecastView(ctx) {
 
       <div className="grid gap-6 lg:grid-cols-[1fr_340px]">
         <section className="panel">
-          <h2 className="text-xl font-bold">Your skills over the next 3 years</h2>
+          <h2 className="text-xl font-bold">{t("Your skills over the next 3 years")}</h2>
           <p className="text-sm text-muted">The bar shows how much of each skill AI can do: now (solid) and in {year3} (faded).</p>
           <div className="mt-4 space-y-6">
             {GROUPS.map((g) => {
@@ -67,7 +68,7 @@ export default function ForecastView(ctx) {
               if (!list.length) return null
               return (
                 <div key={g.id}>
-                  <h3 className="font-display text-lg font-semibold">{g.icon} {g.title}</h3>
+                  <h3 className="font-display text-lg font-semibold">{g.icon} {t(g.title)}</h3>
                   <p className="text-sm text-muted">{g.text}</p>
                   <ul className="mt-2 space-y-3">
                     {list.map((k) => (
@@ -92,7 +93,7 @@ export default function ForecastView(ctx) {
 
         <aside className="space-y-6">
           <section className="panel">
-            <h2 className="text-lg font-bold">Other roles for you</h2>
+            <h2 className="text-lg font-bold">{t("Other roles for you")}</h2>
             <p className="text-sm text-muted">Ranked by your {year3} Edge Score{(s.sdgFocus || []).length ? ', with a lift for roles that serve your SDG focus' : ''}.</p>
             <ul className="mt-3 space-y-1">
               {ranked.map((r) => {
@@ -197,19 +198,19 @@ function RoleFacts({ role }) {
   return (
     <div className="mt-5 grid gap-3 sm:grid-cols-3">
       <div className="rounded-2xl border-2 border-line p-4">
-        <div className="text-sm font-bold text-muted">Job demand by 2030</div>
+        <div className="text-sm font-bold text-muted">{t("Job demand by 2030")}</div>
         <div className={`font-display text-2xl font-bold ${g > 0 || o.direction === 'growing' ? 'text-sprout-600' : g < 0 || o.direction === 'declining' ? 'text-coral-600' : ''}`}>
           {g != null ? `${g > 0 ? '+' : ''}${g}%` : o.direction ? (o.direction === 'growing' ? 'Growing fast' : 'Declining fast') : 'No data'}
         </div>
         <div className="text-xs text-muted">{o.wef_role ? `${o.wef_role}${o.malaysia_net_growth_2030 != null ? ', Malaysia' : ', worldwide'}. ${o.malaysia_source || o.source}` : o.note}</div>
       </div>
       <div className="rounded-2xl border-2 border-line p-4">
-        <div className="text-sm font-bold text-muted">Typical pay</div>
+        <div className="text-sm font-bold text-muted">{t("Typical pay")}</div>
         <div className="font-display text-2xl font-bold">RM {role.wage?.median_myr.toLocaleString()}</div>
         <div className="text-xs text-muted">Median monthly wage, {role.wage?.group}. {role.wage?.source}</div>
       </div>
       <div className="rounded-2xl border-2 border-line p-4">
-        <div className="text-sm font-bold text-muted">Malaysia's critical jobs list</div>
+        <div className="text-sm font-bold text-muted">{t("Malaysia's critical jobs list")}</div>
         <div className="font-display text-2xl font-bold">{role.mycol?.critical ? '🇲🇾 Yes' : 'Not listed'}</div>
         <div className="text-xs text-muted">{role.mycol?.critical ? `MASCO ${role.mycol.masco}, ${role.mycol.name}. ${role.mycol.source}` : 'TalentCorp MyCOL 2024/2025'}</div>
       </div>
@@ -272,11 +273,11 @@ function SdgPanel({ s, set, meta, plan, goal, cur }) {
     <section className="panel">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <h2 className="text-xl font-bold">🌍 Your path and the Sustainable Development Goals</h2>
+          <h2 className="text-xl font-bold">{t("\ud83c\udf0d Your path and the Sustainable Development Goals")}</h2>
           <p className="text-sm text-muted">What your work as a {goal.title} would help the world with – and roles that serve the goals you care about.</p>
         </div>
       </div>
-      {goal.sdg_impact && <p className="mt-3 rounded-2xl bg-sprout-50 p-3 text-sm text-sprout-700"><b>Why it matters:</b> {goal.sdg_impact}</p>}
+      {goal.sdg_impact && <p className="mt-3 rounded-2xl bg-sprout-50 p-3 text-sm text-sprout-700"><b>{t("Why it matters:")}</b> {goal.sdg_impact}</p>}
 
       {sum && sum.targets.length > 0 && (
         <div className="mt-4">
@@ -294,8 +295,8 @@ function SdgPanel({ s, set, meta, plan, goal, cur }) {
       )}
 
       <div className="mt-5">
-        <h3 className="font-display font-semibold">What do you want your work to help with?</h3>
-        <p className="text-xs text-muted">Pick any. Roles that serve these goals move up your list and are shown below. Your Edge Score itself never changes – it only measures how hard you are to replace.</p>
+        <h3 className="font-display font-semibold">{t("What do you want your work to help with?")}</h3>
+        <p className="text-xs text-muted">{t("Pick any. Roles that serve these goals move up your list and are shown below. Your Edge Score itself never changes \u2013 it only measures how hard you are to replace.")}</p>
         <div className="mt-2 flex flex-wrap gap-2" role="group" aria-label="SDG focus">
           {Object.entries(themes).map(([id, th]) => (
             <button key={id} aria-pressed={focus.includes(id)} onClick={() => toggle(id)}

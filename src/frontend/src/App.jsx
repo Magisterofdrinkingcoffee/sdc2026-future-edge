@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { api } from './api'
 import { BADGES, earnedBadges, levelInfo, today, totalXp, XP } from './game'
 import { celebrate, Toasts } from './components/ui'
+import { LANGS, setLang } from './i18n'
 import Welcome from './components/wizard/Welcome'
 import CvStep from './components/wizard/CvStep'
 import GoalStep from './components/wizard/GoalStep'
@@ -23,6 +24,7 @@ function loadSaved() {
 
 export default function App() {
   const [s, setS] = useState(loadSaved)
+  setLang(s.lang)
   const set = useCallback((patch) => setS((prev) => ({ ...prev, ...(typeof patch === 'function' ? patch(prev) : patch) })), [])
   const [meta, setMeta] = useState(null)
   const [error, setError] = useState(null)
@@ -162,6 +164,12 @@ export default function App() {
           {s.stage === 'team' && <TeamView {...ctx} />}
         </>
       )}
+      <div className="fixed bottom-20 right-3 z-40 flex rounded-full border-2 border-line bg-white/95 p-0.5 shadow sm:bottom-4" role="group" aria-label="Language">
+        {LANGS.map((l) => (
+          <button key={l.id} onClick={() => { setLang(l.id); document.documentElement.lang = l.id; set({ lang: l.id }) }} aria-pressed={(s.lang || 'en') === l.id}
+            className={`rounded-full px-2.5 py-1 text-xs font-bold ${(s.lang || 'en') === l.id ? 'bg-violet-500 text-white' : 'text-muted'}`}>{l.label}</button>
+        ))}
+      </div>
       <Toasts toasts={toasts} />
     </>
   )

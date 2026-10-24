@@ -29,7 +29,7 @@ def _sentences(text):
     # PDFs break lines mid-sentence: join wrapped lines, keep blank lines / bullets as breaks
     text = re.sub(r"(?<![.!?:])\n(?!\s*[•\-\n])", " ", text)
     parts = re.split(r"(?<=[.!?])\s+|\n+", text)
-    return [p.strip(" •-\t") for p in parts if len(p.strip()) > 3]
+    return [p.strip(" •-\t\x7f") for p in parts if len(p.strip(" \x7f")) > 3]
 
 
 def _level(sentence):

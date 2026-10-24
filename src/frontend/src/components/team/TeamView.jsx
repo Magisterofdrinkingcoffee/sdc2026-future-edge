@@ -1,3 +1,4 @@
+import { t } from '../../i18n'
 import { useEffect, useState } from 'react'
 import { api } from '../../api'
 import { Logo } from '../ui'
@@ -41,11 +42,11 @@ export default function TeamView({ set, meta }) {
     <div className="min-h-screen">
       <header className="mx-auto flex max-w-6xl items-center justify-between px-4 py-6">
         <Logo />
-        <button className="btn-white py-2 text-sm" onClick={() => set({ stage: 'welcome' })}>‹ Back</button>
+        <button className="btn-white py-2 text-sm" onClick={() => set({ stage: 'welcome' })}>{t("\u2039 Back")}</button>
       </header>
       <main className="mx-auto max-w-6xl space-y-6 px-4 pb-16">
         <section className="panel">
-          <h1 className="text-3xl font-bold">🏢 Team view for HR &amp; L&amp;D</h1>
+          <h1 className="text-3xl font-bold">{t("\ud83c\udfe2 Team view for HR & L&D")}</h1>
           <p className="mt-1 text-muted">See your team's skills against a future role, find the shared gaps, and get one reskilling plan for everyone. CVs are read once and not stored; names you upload are replaced with "Employee 1, 2…".</p>
           <div className="mt-4 flex flex-wrap items-center gap-3">
             <button className="btn-violet px-5 py-2" disabled={busy} onClick={loadSample}>{busy ? 'Reading CVs…' : `Load the sample team (${meta.profiles.length} made-up people)`}</button>
@@ -53,7 +54,7 @@ export default function TeamView({ set, meta }) {
               + Add CVs
               <input type="file" multiple accept=".pdf,.docx,.txt,.png,.jpg,.jpeg" className="hidden" onChange={(e) => addCvs([...e.target.files])} />
             </label>
-            {members.length > 0 && <button className="text-sm font-bold text-muted underline" onClick={() => setMembers([])}>Clear team</button>}
+            {members.length > 0 && <button className="text-sm font-bold text-muted underline" onClick={() => setMembers([])}>{t("Clear team")}</button>}
           </div>
           {err && <p className="mt-2 text-sm text-coral-600">{err}</p>}
           <div className="mt-4 flex flex-wrap items-center gap-3">
@@ -107,7 +108,7 @@ export default function TeamView({ set, meta }) {
 
             <div className="grid gap-6 lg:grid-cols-[1fr_360px]">
               <section className="panel">
-                <h2 className="text-xl font-bold">One reskilling plan for the team</h2>
+                <h2 className="text-xl font-bold">{t("One reskilling plan for the team")}</h2>
                 <p className="text-sm text-muted">Gaps sorted by how important the skill is for {rep.role_title}. One course covers everyone who needs it.</p>
                 <ol className="mt-3 space-y-3">
                   {rep.gaps.map((g, i) => (
@@ -121,7 +122,7 @@ export default function TeamView({ set, meta }) {
               </section>
               <aside className="space-y-6">
                 <section className="panel">
-                  <h2 className="text-lg font-bold">🌍 Team SDG contribution</h2>
+                  <h2 className="text-lg font-bold">{t("\ud83c\udf0d Team SDG contribution")}</h2>
                   <p className="text-sm text-muted">SDG targets your team would serve in {rep.role_title} and in each person's best future role (number = people).</p>
                   <ul className="mt-2 space-y-2">
                     {rep.sdg_contribution.slice(0, 8).map((e) => (

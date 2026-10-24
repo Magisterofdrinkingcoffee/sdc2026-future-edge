@@ -1,3 +1,4 @@
+import { t } from '../../i18n'
 import { FIELD_ICON, XP } from '../../game'
 import { CriticalChip, GrowthChip, WizardFrame } from '../ui'
 
@@ -10,13 +11,13 @@ export default function GoalStep({ s, set, meta, award }) {
   }
   return (
     <WizardFrame step={2} total={4} onBack={() => set({ stage: 'cv' })}>
-      <h1 className="text-3xl font-bold">Where do you want to be?</h1>
+      <h1 className="text-3xl font-bold">{t("Where do you want to be?")}</h1>
       <p className="mt-2 text-muted">Pick the role you're aiming for. You can change it later. Job growth is from the WEF Future of Jobs Report 2025; 🇲🇾 marks jobs on Malaysia's Critical Occupations List (MyCOL 2024/25).</p>
 
       <button onClick={() => pick('')} className="option mt-6 flex items-center gap-3">
         <span className="text-3xl" aria-hidden>🧭</span>
-        <span><span className="block font-display text-lg">Not sure yet, suggest one for me</span>
-          <span className="text-sm font-normal text-muted">We'll pick the role where you'll have the strongest edge in 3 years, skipping roles AI is taking over.</span></span>
+        <span><span className="block font-display text-lg">{t("Not sure yet, suggest one for me")}</span>
+          <span className="text-sm font-normal text-muted">{t("We'll pick the role where you'll have the strongest edge in 3 years, skipping roles AI is taking over.")}</span></span>
       </button>
 
       {fields.map((f) => (

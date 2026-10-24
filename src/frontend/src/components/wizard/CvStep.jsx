@@ -1,3 +1,4 @@
+import { t } from '../../i18n'
 import { useRef, useState } from 'react'
 import { api } from '../../api'
 import { XP } from '../../game'
@@ -51,14 +52,14 @@ export default function CvStep({ s, set, meta, award }) {
         <div className="grid place-items-center py-24 text-center">
           <div className="animate-bob text-6xl" aria-hidden>📄</div>
           <h2 className="mt-6 text-2xl font-bold">{reading}…</h2>
-          <p className="mt-2 text-muted">Looking for skills and the sentences that prove them.</p>
+          <p className="mt-2 text-muted">{t("Looking for skills and the sentences that prove them.")}</p>
         </div>
       )}
 
       {phase === 'choose' && (
         <>
-          <h1 className="text-3xl font-bold">Start with your CV</h1>
-          <p className="mt-2 text-muted">We read it once to find your skills, then throw it away. Your name, email, phone, IC number, age and gender are removed before matching.</p>
+          <h1 className="text-3xl font-bold">{t("Start with your CV")}</h1>
+          <p className="mt-2 text-muted">{t("We read it once to find your skills, then throw it away. Your name, email, phone, IC number, age and gender are removed before matching.")}</p>
 
           {err && <div role="alert" className="mt-4 rounded-2xl border-2 border-coral-500 bg-coral-50 p-3 text-sm text-coral-600">{err}</div>}
 
@@ -69,8 +70,8 @@ export default function CvStep({ s, set, meta, award }) {
               onDrop={(e) => { e.preventDefault(); setDrag(false); onFile(e.dataTransfer.files[0]) }}
               className={`mt-6 grid w-full place-items-center rounded-3xl border-2 border-dashed px-6 py-10 text-center transition-colors ${drag ? 'border-violet-500 bg-violet-50' : 'border-line bg-white hover:border-violet-300'}`}>
               <span className="text-5xl" aria-hidden>📤</span>
-              <span className="mt-3 font-display text-xl font-semibold">Drop your CV here</span>
-              <span className="text-sm text-muted">PDF, Word, photo or .txt, max 5 MB. Click to choose a file.</span>
+              <span className="mt-3 font-display text-xl font-semibold">{t("Drop your CV here")}</span>
+              <span className="text-sm text-muted">{t("PDF, Word, photo or .txt, max 5 MB. Click to choose a file.")}</span>
             </button>
           ) : (
             <div className="mt-6">
@@ -78,7 +79,7 @@ export default function CvStep({ s, set, meta, award }) {
                 className="w-full rounded-2xl border-2 border-line p-4 focus:border-violet-500 focus:outline-none"
                 placeholder="Paste your CV text, or describe your studies, work and projects…" />
               <button className="btn-violet mt-3" disabled={text.trim().length < 20}
-                onClick={() => run('Reading your text', () => api.parseText(text), { goal_role: '', sampleId: null })}>Find my skills</button>
+                onClick={() => run('Reading your text', () => api.parseText(text), { goal_role: '', sampleId: null })}>{t("Find my skills")}</button>
             </div>
           )}
           <input ref={fileRef} type="file" accept=".pdf,.docx,.txt,.png,.jpg,.jpeg,.webp,.heic,application/pdf,image/*" className="hidden" onChange={(e) => onFile(e.target.files[0])} />
@@ -86,8 +87,8 @@ export default function CvStep({ s, set, meta, award }) {
             {paste ? 'Upload a file instead' : 'Prefer to paste text instead?'}
           </button>
 
-          <h2 className="mt-10 text-xl font-bold">Or try a sample person</h2>
-          <p className="text-sm text-muted">Made-up people with made-up CVs. Their PDF goes through the same reader as yours.</p>
+          <h2 className="mt-10 text-xl font-bold">{t("Or try a sample person")}</h2>
+          <p className="text-sm text-muted">{t("Made-up people with made-up CVs. Their PDF goes through the same reader as yours.")}</p>
           <div className="mt-4 grid gap-3 sm:grid-cols-3">
             {meta.profiles.map((p) => (
               <div key={p.id} className="flex flex-col rounded-3xl border-2 border-line bg-white p-4">
@@ -98,7 +99,7 @@ export default function CvStep({ s, set, meta, award }) {
                   onClick={() => run(`Reading ${p.name.split(' ')[0]}'s CV`, () => api.uploadSample(p.id), { name: p.name, avatar: p.avatar, goal_role: p.goal_role, sampleId: p.id })}>
                   Use this CV
                 </button>
-                <a className="mt-2 text-center text-sm font-bold text-violet-600 underline" href={api.sampleCvUrl(p.id)} target="_blank" rel="noreferrer">View PDF</a>
+                <a className="mt-2 text-center text-sm font-bold text-violet-600 underline" href={api.sampleCvUrl(p.id)} target="_blank" rel="noreferrer">{t("View PDF")}</a>
               </div>
             ))}
           </div>
@@ -107,12 +108,12 @@ export default function CvStep({ s, set, meta, award }) {
 
       {phase === 'review' && (
         <>
-          <h1 className="text-3xl font-bold">We found {Object.keys(s.profile.skills).length} skills</h1>
-          <p className="mt-2 text-muted">From <b>{s.profile.source || 'your profile'}</b>. Check each level. We guessed it from how you described it.</p>
+          <h1 className="text-3xl font-bold">{t('We found {n} skills', { n: Object.keys(s.profile.skills).length })}</h1>
+          <p className="mt-2 text-muted">From <b>{s.profile.source || 'your profile'}</b>. {t('Check each level. We guessed it from how you described it.')}</p>
           {s.profile.reader && (
             <div className="mt-3 rounded-2xl bg-sprout-50 p-3 text-sm text-sprout-700">
               🔒 {s.profile.reader.removed_personal_data.length
-                ? `Removed before matching: ${s.profile.reader.removed_personal_data.map((x) => ({ name: 'name', email: 'email', phone: 'phone', ic_number: 'IC number', age_dob: 'age / date of birth', gender: 'gender', marital: 'marital status', race_religion: 'race / religion' }[x] || x)).join(', ')}.`
+                ? `${t('Removed before matching:')} ${s.profile.reader.removed_personal_data.map((x) => ({ name: 'name', email: 'email', phone: 'phone', ic_number: 'IC number', age_dob: 'age / date of birth', gender: 'gender', marital: 'marital status', race_religion: 'race / religion' }[x] || x)).join(', ')}.`
                 : 'No personal data found to remove.'}
               {' '}Read with {s.profile.reader.method.startsWith('gemini') ? 'Gemini, and every phrase was checked against your CV' : 'our offline reader'}.
               {s.profile.reader.rejected_phrases > 0 && ` ${s.profile.reader.rejected_phrases} phrase(s) the AI suggested were not in your CV and were dropped.`}
@@ -121,13 +122,13 @@ export default function CvStep({ s, set, meta, award }) {
           )}
           {s.profile.fairness && (
             <div className={`mt-2 rounded-2xl p-3 text-sm ${s.profile.fairness.passed ? 'bg-violet-50 text-violet-700' : 'bg-coral-50 text-coral-600'}`}>
-              ⚖️ <b>Fairness check {s.profile.fairness.passed ? 'passed' : 'failed'}:</b> {s.profile.fairness.note}
+              ⚖️ <b>{s.profile.fairness.passed ? t('Fairness check passed:') : 'Fairness check failed:'}</b> {s.profile.fairness.note}
               {' '}Tested: {s.profile.fairness.attributes.join(', ')}.
             </div>
           )}
 
           <label className="mt-6 block">
-            <span className="text-sm font-bold">What should we call you?</span>
+            <span className="text-sm font-bold">{t("What should we call you?")}</span>
             <input value={s.profile.name} onChange={(e) => set((p) => ({ profile: { ...p.profile, name: e.target.value } }))}
               className="mt-1 w-full rounded-2xl border-2 border-line px-4 py-3 focus:border-violet-500 focus:outline-none" placeholder="Name or nickname" />
           </label>
@@ -140,7 +141,7 @@ export default function CvStep({ s, set, meta, award }) {
                   <div className="flex items-start justify-between gap-3">
                     <div>
                       <div className="font-display text-lg font-semibold">{skillMeta[id]?.name}</div>
-                      {ev ? <q className="text-sm italic text-muted">{ev.evidence}</q> : <span className="text-sm text-muted">Added by you</span>}
+                      {ev ? <q className="text-sm italic text-muted">{ev.evidence}</q> : <span className="text-sm text-muted">{t("Added by you")}</span>}
                     </div>
                     <button onClick={() => remove(id)} aria-label={`Remove ${skillMeta[id]?.name}`} className="text-xl text-muted hover:text-coral-600">×</button>
                   </div>
@@ -157,15 +158,15 @@ export default function CvStep({ s, set, meta, award }) {
 
           <div className="mt-4 flex gap-2">
             <select value={addId} onChange={(e) => setAddId(e.target.value)} className="min-w-0 flex-1 rounded-2xl border-2 border-line bg-white px-3 py-2">
-              <option value="">Missing a skill? Add it…</option>
+              <option value="">{t("Missing a skill? Add it\u2026")}</option>
               {meta.skills.filter((m) => !(m.id in s.profile.skills)).map((m) => <option key={m.id} value={m.id}>{m.name}</option>)}
             </select>
-            <button className="btn-white py-2" disabled={!addId} onClick={() => { setLevel(addId, 0.5); setAddId('') }}>Add</button>
+            <button className="btn-white py-2" disabled={!addId} onClick={() => { setLevel(addId, 0.5); setAddId('') }}>{t("Add")}</button>
           </div>
 
           <div className="mt-8 flex flex-wrap justify-between gap-3">
-            <button className="btn-white" onClick={() => setPhase('choose')}>Use a different CV</button>
-            <button className="btn-green px-8" disabled={!Object.keys(s.profile.skills).length} onClick={() => set({ stage: 'goal' })}>Looks right</button>
+            <button className="btn-white" onClick={() => setPhase('choose')}>{t("Use a different CV")}</button>
+            <button className="btn-green px-8" disabled={!Object.keys(s.profile.skills).length} onClick={() => set({ stage: 'goal' })}>{t("Looks right")}</button>
           </div>
         </>
       )}

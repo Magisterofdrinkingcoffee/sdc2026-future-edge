@@ -1,3 +1,4 @@
+import { t as tr } from '../../i18n'
 import { useState } from 'react'
 import { Area, AreaChart, ResponsiveContainer, Tooltip, YAxis } from 'recharts'
 import { TYPE, XP } from '../../game'
@@ -10,7 +11,7 @@ export default function QuestMap(ctx) {
   const { s, meta, plan, goal, toggleQuest } = ctx
   const [open, setOpen] = useState(null)
 
-  if (!plan || !goal) return <p className="text-muted">Drawing your quest map…</p>
+  if (!plan || !goal) return <p className="text-muted">{tr("Drawing your quest map\u2026")}</p>
   const steps = plan.steps
   const doneIdx = steps.map((q) => s.completed.includes(q.id))
   const current = doneIdx.findIndex((d) => !d)
@@ -22,7 +23,7 @@ export default function QuestMap(ctx) {
     <div className="grid gap-6 lg:grid-cols-[1fr_340px]">
       <section>
         <div className="panel">
-          <h1 className="text-2xl font-bold">Your quests to {plan.role_title}</h1>
+          <h1 className="text-2xl font-bold">{tr('Your quests to {role}', { role: plan.role_title })}</h1>
           <p className="mt-1 text-sm text-muted">Courses teach you, projects prove it, experiences build what AI can't copy. Each quest raises your {year3} Edge Score.</p>
           <div className="mt-4 flex items-center gap-3">
             <Bar value={steps.length ? doneCount / steps.length : 0} color="bg-sprout-500" h="h-4" />
@@ -38,7 +39,7 @@ export default function QuestMap(ctx) {
             return (
               <li key={q.id} className="flex flex-col items-center" style={{ transform: `translateX(${OFFSETS[i % OFFSETS.length]}px)` }}>
                 {i === 0 && <span className="mb-2 chip bg-violet-500 text-white">🎯 One Move</span>}
-                {st === 'current' && <span className="animate-bob mb-2 rounded-xl border-2 border-line bg-white px-3 py-1 font-display font-semibold text-violet-700">Start here</span>}
+                {st === 'current' && <span className="animate-bob mb-2 rounded-xl border-2 border-line bg-white px-3 py-1 font-display font-semibold text-violet-700">{tr("Start here")}</span>}
                 <button onClick={() => setOpen(q)} aria-label={`${t.label}: ${q.title} (${st})`}
                   className={`grid h-20 w-20 place-items-center rounded-full border-b-[6px] text-3xl transition-transform active:translate-y-1 ${
                     st === 'done' ? 'border-sprout-700 bg-sprout-500 text-white'
@@ -102,9 +103,9 @@ export default function QuestMap(ctx) {
                 {!open.verified && <span className="text-sun-600"> (link not checked by our team yet)</span>}</p>
               <div className="mt-3 flex flex-wrap gap-1">{open.sdgs.map((g) => <SdgChip key={g} target={g} sdgs={meta.sdgs} />)}</div>
               <div className="mt-6 flex flex-wrap gap-3">
-                {st === 'done' && <button className="btn-white" onClick={() => { toggleQuest(open); setOpen(null) }}>Mark as not done</button>}
-                {st === 'current' && <button className="btn-green flex-1" onClick={() => { toggleQuest(open); setOpen(null) }}>I finished this quest</button>}
-                {st === 'locked' && <p className="text-sm font-bold text-muted">🔒 Finish the quest before this one to unlock it.</p>}
+                {st === 'done' && <button className="btn-white" onClick={() => { toggleQuest(open); setOpen(null) }}>{tr("Mark as not done")}</button>}
+                {st === 'current' && <button className="btn-green flex-1" onClick={() => { toggleQuest(open); setOpen(null) }}>{tr("I finished this quest")}</button>}
+                {st === 'locked' && <p className="text-sm font-bold text-muted">{tr("\ud83d\udd12 Finish the quest before this one to unlock it.")}</p>}
                 {open.url && st !== 'done' && <a className="btn-white" href={open.url} target="_blank" rel="noreferrer">Open {t.label.toLowerCase()}</a>}
               </div>
             </>

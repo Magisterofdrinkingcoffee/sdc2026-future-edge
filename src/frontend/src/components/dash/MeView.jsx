@@ -1,3 +1,4 @@
+import { t } from '../../i18n'
 import { BADGES, levelInfo, LEVELS, streak } from '../../game'
 import { Bar } from '../ui'
 import CharacterCard from './CharacterCard'
@@ -11,9 +12,9 @@ export default function MeView(ctx) {
       <div className="space-y-6">
         <CharacterCard {...ctx} />
         <div className="panel space-y-3">
-          <button className="btn-white w-full" onClick={() => set({ stage: 'cv' })}>Update my CV</button>
-          <button className="btn-white w-full" onClick={() => set({ stage: 'quiz' })}>Play Catch the AI again</button>
-          <button className="w-full text-sm font-bold text-coral-600 underline" onClick={() => window.confirm('Delete your progress on this device and start again?') && reset()}>Start over</button>
+          <button className="btn-white w-full" onClick={() => set({ stage: 'cv' })}>{t("Update my CV")}</button>
+          <button className="btn-white w-full" onClick={() => set({ stage: 'quiz' })}>{t("Play Catch the AI again")}</button>
+          <button className="w-full text-sm font-bold text-coral-600 underline" onClick={() => window.confirm('Delete your progress on this device and start again?') && reset()}>{t("Start over")}</button>
         </div>
       </div>
       <div className="space-y-6">
@@ -29,7 +30,7 @@ export default function MeView(ctx) {
             </div>
             <div className="text-center">
               <div className="font-display text-4xl font-bold text-sun-600">🔥 {days}</div>
-              <div className="text-sm text-muted">day streak</div>
+              <div className="text-sm text-muted">{t("day streak")}</div>
             </div>
           </div>
           <ol className="mt-5 flex flex-wrap gap-2" aria-label="Levels">
@@ -54,7 +55,7 @@ export default function MeView(ctx) {
         </section>
 
         <section className="panel">
-          <h2 className="text-xl font-bold">XP history</h2>
+          <h2 className="text-xl font-bold">{t("XP history")}</h2>
           <ul className="mt-3 divide-y-2 divide-line">
             {Object.entries(s.xpLog).reverse().map(([k, e]) => (
               <li key={k} className="flex justify-between py-2 text-sm"><span>{e.reason}</span><b className="text-sun-600">+{e.amount}</b></li>

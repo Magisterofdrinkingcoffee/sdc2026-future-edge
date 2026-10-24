@@ -1,3 +1,4 @@
+import { t } from '../../i18n'
 import { useEffect, useState } from 'react'
 import { api } from '../../api'
 import { XP } from '../../game'
@@ -41,21 +42,21 @@ export default function QuizStep({ s, set, meta, award }) {
   }[stage]
 
   if (err) return <WizardFrame step={3} total={4} onBack={() => set({ stage: 'goal' })}><p className="text-coral-600">{err}</p></WizardFrame>
-  if (!pack) return <WizardFrame step={3} total={4}><p className="text-muted">Loading…</p></WizardFrame>
+  if (!pack) return <WizardFrame step={3} total={4}><p className="text-muted">{t("Loading\u2026")}</p></WizardFrame>
 
   return (
     <WizardFrame step={3} total={4} onBack={back}>
       {stage === 'intro' && (
         <div className="py-8 text-center">
           <div className="text-6xl" aria-hidden>🕵️</div>
-          <h1 className="mt-4 text-3xl font-bold">Catch the AI</h1>
+          <h1 className="mt-4 text-3xl font-bold">{t("Catch the AI")}</h1>
           <p className="mx-auto mt-3 max-w-md text-muted">
             In the AI era, your edge is <b>judgment</b>: spotting when AI is wrong, and owning what happens next.
             An AI assistant wrote something for you. Some lines are wrong. Find them.
           </p>
-          <p className="mx-auto mt-2 max-w-md text-sm text-muted">About 2 minutes. This is an estimate to guide you, never a hiring decision.</p>
-          <button className="btn-violet mt-8 px-10" onClick={() => setStage('review')}>Start</button>
-          <div><button className="mt-4 text-sm font-bold text-muted underline" onClick={() => set({ stage: 'reveal' })}>Skip for now</button></div>
+          <p className="mx-auto mt-2 max-w-md text-sm text-muted">{t("About 2 minutes. This is an estimate to guide you, never a hiring decision.")}</p>
+          <button className="btn-violet mt-8 px-10" onClick={() => setStage('review')}>{t("Start")}</button>
+          <div><button className="mt-4 text-sm font-bold text-muted underline" onClick={() => set({ stage: 'reveal' })}>{t("Skip for now")}</button></div>
         </div>
       )}
 
@@ -63,7 +64,7 @@ export default function QuizStep({ s, set, meta, award }) {
         <>
           <div className="text-sm font-bold text-violet-600">🤖 AI draft: {pack.title}</div>
           <p className="mt-1 text-muted">{pack.context}</p>
-          <h1 className="mt-4 text-2xl font-bold">Tap every line you wouldn't send as it is.</h1>
+          <h1 className="mt-4 text-2xl font-bold">{t("Tap every line you wouldn't send as it is.")}</h1>
           <ol className="mt-5 space-y-2">
             {pack.lines.map((line, i) => {
               const on = flagged.includes(i)
@@ -80,20 +81,20 @@ export default function QuizStep({ s, set, meta, award }) {
           </ol>
           <div className="mt-6 flex items-center justify-between gap-3">
             <span className="text-sm text-muted">{flagged.length} line(s) flagged</span>
-            <button className="btn-green px-8" onClick={() => setStage('confidence')}>Done checking</button>
+            <button className="btn-green px-8" onClick={() => setStage('confidence')}>{t("Done checking")}</button>
           </div>
         </>
       )}
 
       {stage === 'confidence' && (
         <div className="py-6">
-          <h1 className="text-2xl font-bold">How sure are you that you found every mistake?</h1>
-          <p className="mt-2 text-muted">Good judgment includes knowing what you might have missed.</p>
+          <h1 className="text-2xl font-bold">{t("How sure are you that you found every mistake?")}</h1>
+          <p className="mt-2 text-muted">{t("Good judgment includes knowing what you might have missed.")}</p>
           <div className="mt-10 text-center font-display text-5xl font-bold text-violet-600">{confidence}%</div>
           <input type="range" min="0" max="100" step="5" value={confidence} onChange={(e) => setConfidence(+e.target.value)}
             className="mt-4 w-full accent-violet-500" aria-label="Confidence" />
-          <div className="flex justify-between text-xs text-muted"><span>Just guessing</span><span>Completely sure</span></div>
-          <div className="mt-8 flex justify-end"><button className="btn-green px-10" onClick={() => setStage('action')}>Next</button></div>
+          <div className="flex justify-between text-xs text-muted"><span>{t("Just guessing")}</span><span>{t("Completely sure")}</span></div>
+          <div className="mt-8 flex justify-end"><button className="btn-green px-10" onClick={() => setStage('action')}>{t("Next")}</button></div>
         </div>
       )}
 
@@ -106,13 +107,13 @@ export default function QuizStep({ s, set, meta, award }) {
                 className={`option ${action === o.id ? 'option-on' : ''}`}>{o.text}</button>
             ))}
           </div>
-          <div className="mt-8 flex justify-end"><button className="btn-green px-10" disabled={!action} onClick={() => setStage('situations')}>Next</button></div>
+          <div className="mt-8 flex justify-end"><button className="btn-green px-10" disabled={!action} onClick={() => setStage('situations')}>{t("Next")}</button></div>
         </>
       )}
 
       {stage === 'situations' && (
         <>
-          <h1 className="text-2xl font-bold">Two quick situations</h1>
+          <h1 className="text-2xl font-bold">{t("Two quick situations")}</h1>
           {pack.situations.map((q) => (
             <div key={q.id} className="mt-6">
               <div className="font-semibold">{q.text}</div>
@@ -125,7 +126,7 @@ export default function QuizStep({ s, set, meta, award }) {
             </div>
           ))}
           <div className="mt-8 flex justify-end">
-            <button className="btn-green px-10" disabled={pack.situations.some((q) => answers[q.id] === undefined)} onClick={submit}>See my result</button>
+            <button className="btn-green px-10" disabled={pack.situations.some((q) => answers[q.id] === undefined)} onClick={submit}>{t("See my result")}</button>
           </div>
         </>
       )}
@@ -143,7 +144,7 @@ export default function QuizStep({ s, set, meta, award }) {
             <ul className="space-y-1 text-sm text-muted">{result.explain.map((e, i) => <li key={i}>{e}</li>)}</ul>
             <p className="text-xs text-muted">{result.note}</p>
           </div>
-          <h2 className="mt-8 text-xl font-bold">What the AI got wrong</h2>
+          <h2 className="mt-8 text-xl font-bold">{t("What the AI got wrong")}</h2>
           <ul className="mt-3 space-y-3">
             {result.feedback.mistakes.map((m) => (
               <li key={m.line} className={`rounded-2xl border-2 p-3 ${m.found ? 'border-sprout-500 bg-sprout-50' : 'border-coral-500 bg-coral-50'}`}>
@@ -158,7 +159,7 @@ export default function QuizStep({ s, set, meta, award }) {
               </li>
             ))}
           </ul>
-          <div className="mt-8 flex justify-end"><button className="btn-violet px-10" onClick={() => set({ stage: 'reveal' })}>See my forecast</button></div>
+          <div className="mt-8 flex justify-end"><button className="btn-violet px-10" onClick={() => set({ stage: 'reveal' })}>{t("See my forecast")}</button></div>
         </>
       )}
     </WizardFrame>
