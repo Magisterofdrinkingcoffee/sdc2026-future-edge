@@ -37,7 +37,8 @@ How much AI can do a skill (Model 1 + the trend layer):
         E1 = chance an AI chatbot alone can halve the time
         E2 = chance AI can do it once extra tools are built on top
     exposure(t) = E1 + E2 * tools(t)
-    tools(t)    = min(1, TOOLS_NOW + t * TOOLS_SPEED[scenario] * (1 + arXiv research growth))
+    tools(t)    = min(1, TOOLS_NOW + t * TOOLS_SPEED[scenario] * max(0.5, 1 + arXiv research growth))
+                  (x 0.25 speed for human skills: AI supports them but the accountable part stays human)
 i.e. chatbot-level exposure counts today; tool-level exposure arrives over the next years,
 faster in the "fast" scenario and in areas where AI research is growing faster.
 Change the trend data and the forecast changes.
@@ -46,6 +47,7 @@ Change the trend data and the forecast changes.
 W_BASE, W_HUMAN, W_RARITY = 0.60, 0.25, 0.15
 TOOLS_NOW = 0.25           # share of "AI + tools" (E2) exposure already real today
 TOOLS_SPEED = {"moderate": 0.08, "fast": 0.16}   # per year, before the research-growth boost
+HUMAN_TOOLS_FACTOR = 0.25  # human skills: tool-level AI arrives at a quarter of the speed
 PERSONAL_WEIGHT = 0.5      # how much your own CV sentence counts vs. the general skill description
 MIN_KNOWN_WORDS = 3        # the model must recognise at least this many words/word pairs in your sentence
 YEARS = [0, 1, 2, 3]
@@ -77,14 +79,22 @@ def signal_growth(trends, signal_id, key="growth"):
     return value if value is not None else 0.0
 
 
-def tools(year, scenario, growth):
-    return min(1.0, TOOLS_NOW + year * TOOLS_SPEED[scenario] * (1 + max(0.0, growth)))
+def tools(year, scenario, growth, speed_factor=1.0):
+    # Research that is shrinking (negative growth) slows tool arrival; floor at half speed.
+    return min(1.0, TOOLS_NOW + year * TOOLS_SPEED[scenario] * speed_factor * max(0.5, 1 + growth))
 
 
 def exposure(skill, year, scenario, trends, key="growth"):
-    """Share of this skill's work AI can do in `year` (Model 1 output + Model 2 trend)."""
+    """Share of this skill's work AI can do in `year` (Model 1 output + Model 2 trend).
+
+    Human skills (leadership, communication, judgment...) get tool-level AI at a quarter
+    of the speed: AI tools support coordination and writing, but the accountable,
+    face-to-face part stays with people. This is a design assumption (documented in
+    docs/MODELS.md), not a learned value.
+    """
     m = skill["model"]
-    return min(0.98, m["E1"] + m["E2"] * tools(year, scenario, signal_growth(trends, skill["signal"], key)))
+    factor = HUMAN_TOOLS_FACTOR if skill.get("category") == "human" else 1.0
+    return min(0.98, m["E1"] + m["E2"] * tools(year, scenario, signal_growth(trends, skill["signal"], key), factor))
 
 
 def with_personal_exposure(data, evidence):
@@ -299,7 +309,8 @@ def edge_for_role(role, skills, data, scenario, assessed, human_bounds=None):
             "market": _market_text(role, timeline[-1]["market"]),
             "core": (f"Core specialist skills for this role: {', '.join(cat[c]['name'] for c in core)}. Your level there gives x{gate:.2f}."
                      if core else "This role has no single core specialist skill."),
-            "range": f"Range in year 3: {timeline[-1]['low']:.0f}-{timeline[-1]['high']:.0f}. Low end = AI research grows at the top of Model 2's 80% range and your Catch-the-AI score at the bottom of its range; high end = the opposite.",
+            "range": (f"Range in year 3: {timeline[-1]['low']:.0f}-{timeline[-1]['high']:.0f}." if round(timeline[-1]['low']) != round(timeline[-1]['high'])
+                      else f"Range in year 3: about {timeline[-1]['edge']:.0f} (play Catch the AI to see how much your judgment widens or narrows it).") + " Low end = AI research grows at the top of Model 2's 80% range and your Catch-the-AI score at the bottom of its range; high end = the opposite.",
             "formula": "Edge = AI-adjusted fit (Model 1 + Model 2) x uniqueness (Model 3 + rare skill mix) x job market (WEF) x core-skill check.",
         },
     }

@@ -6,7 +6,7 @@ import { Bar, CriticalChip, ForecastStrip, GrowthChip, SdgChip } from '../ui'
 const GROUPS = [
   { id: 'rising', icon: '🌱', title: 'Growing in value', text: 'Hard for AI and in demand. Lean into these.', bar: 'bg-sprout-500' },
   { id: 'holding', icon: '⚖️', title: 'Holding steady', text: 'AI helps here, but still needs you.', bar: 'bg-sun-500' },
-  { id: 'fading', icon: '🍂', title: 'At risk from AI', text: 'AI is quickly getting good at these.', bar: 'bg-coral-500' },
+  { id: 'fading', icon: '🍂', title: 'At risk from AI', text: 'AI will be able to do much more of this work by year 3.', bar: 'bg-coral-500' },
 ]
 
 export default function ForecastView(ctx) {

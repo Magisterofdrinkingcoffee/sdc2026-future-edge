@@ -123,3 +123,19 @@ def test_soft_skills_alone_do_not_qualify_for_specialist_roles():
     sk = {"communication": 0.9, "ownership": 0.9, "critical_thinking": 0.9}
     r = {x["role_id"]: x for x in scoring.forecast(sk, DATA)["roles"]}
     assert r["medical_specialist"]["core_gate"] == 0.5
+
+
+def test_human_skills_gain_ai_exposure_slower_than_technical_skills():
+    """Tool-level AI reaches human skills at a quarter of the speed (scoring.HUMAN_TOOLS_FACTOR)."""
+    trends = DATA["trends"]
+    for sk in DATA["skills"].values():
+        if sk["category"] != "human":
+            continue
+        rise = scoring.exposure(sk, 3, "fast", trends) - scoring.exposure(sk, 0, "fast", trends)
+        as_technical = scoring.exposure({**sk, "category": "technical"}, 3, "fast", trends) - scoring.exposure(sk, 0, "fast", trends)
+        assert rise <= as_technical * scoring.HUMAN_TOOLS_FACTOR + 1e-9
+
+
+def test_shrinking_research_slows_tools_but_never_below_half_speed():
+    assert scoring.tools(3, "fast", -0.2) < scoring.tools(3, "fast", 0.0)
+    assert scoring.tools(3, "fast", -0.9) == scoring.tools(3, "fast", -0.5)
