@@ -8,6 +8,7 @@ import GoalStep from './components/wizard/GoalStep'
 import QuizStep from './components/wizard/QuizStep'
 import Reveal from './components/wizard/Reveal'
 import Dashboard from './components/dash/Dashboard'
+import TeamView from './components/team/TeamView'
 
 const STORE_KEY = 'future-edge-v2'
 const FRESH = {
@@ -158,6 +159,7 @@ export default function App() {
           {s.stage === 'quiz' && <QuizStep {...ctx} />}
           {s.stage === 'reveal' && <Reveal {...ctx} />}
           {s.stage === 'app' && <Dashboard {...ctx} />}
+          {s.stage === 'team' && <TeamView {...ctx} />}
         </>
       )}
       <Toasts toasts={toasts} />

@@ -527,3 +527,59 @@ def apply_completed(skills, completed, catalog):
         for s in item["skills"]:
             skills[s] = min(1.0, skills.get(s, 0) + STEP_BOOST)
     return skills
+
+
+# ---------------------------------------------------------------- team view (employer / HR)
+def team_report(members, role_id, data, scenario="moderate", sdg_focus=()):
+    """Workforce view for an HR / L&D manager: a skills heatmap of the team against one target role,
+    the team's shared gaps, one reskilling plan for the whole team, and the team's SDG contribution.
+    members: [{"name": str, "skills": {skill_id: level}}]. Nothing is stored."""
+    role = data["roles"][role_id]
+    cols = sorted(role["skills"], key=lambda s: -role["skills"][s])
+    rows = []
+    for m in members:
+        sk = {k: v for k, v in (m.get("skills") or {}).items() if k in data["skills"]}
+        f = forecast(sk, data, scenario, sdg_focus=sdg_focus)
+        target = next(r for r in f["roles"] if r["role_id"] == role_id)
+        safe = [r for r in f["roles"] if not r["at_risk"]] or f["roles"]   # never suggest a role AI is taking over
+        best = max(safe, key=lambda r: r["rank_score"])
+        rows.append({
+            "name": m.get("name") or "Team member",
+            "levels": {s: round(sk.get(s, 0), 2) for s in cols},
+            "edge_y3": target["edge_y3"], "edge_now": target["edge_now"], "match": target["match"],
+            "best_role": {"role_id": best["role_id"], "title": best["title"], "edge_y3": best["edge_y3"]},
+            "at_risk_skills": [k["name"] for k in f["skills"] if k["status"] == "fading"][:4],
+        })
+    n = max(1, len(rows))
+    gaps = []
+    for s in cols:
+        need = [r["name"] for r in rows if r["levels"][s] < HAVE_THRESHOLD]
+        avg = sum(r["levels"][s] for r in rows) / n
+        if need:
+            opts = sorted([i for i in data["catalog"] if s in i["skills"]], key=lambda i: (i["type"] != "course", i["hours"]))
+            course = opts[0] if opts else None
+            gaps.append({"skill": s, "name": data["skills"][s]["name"], "weight": role["skills"][s], "team_avg": round(avg, 2),
+                         "people": need, "course": {k: course[k] for k in ("id", "title", "provider", "url", "hours", "cost")} if course else None,
+                         "team_hours": (course["hours"] * len(need)) if course else 0,
+                         "sdgs": data["skills"][s]["sdgs"]})
+    gaps.sort(key=lambda g: (-g["weight"], -len(g["people"])))
+    sdg = {}
+    for r in rows:
+        for t in data["roles"][r["best_role"]["role_id"]]["sdgs"]:
+            sdg[t] = sdg.get(t, 0) + 1
+    for t in role["sdgs"]:
+        sdg[t] = sdg.get(t, 0) + len(rows)
+    targets = data["sdgs"]["targets"]
+    return {
+        "role_id": role_id, "role_title": role["title"], "scenario": scenario,
+        "columns": [{"skill": s, "name": data["skills"][s]["name"], "weight": role["skills"][s]} for s in cols],
+        "members": rows,
+        "team_edge_y3": round(sum(r["edge_y3"] for r in rows) / n, 1),
+        "ready": sum(1 for r in rows if r["match"] >= 0.6),
+        "gaps": gaps,
+        "plan_hours": sum(g["team_hours"] for g in gaps),
+        "sdg_contribution": sorted([{"target": t, "text": targets.get(t, ""), "count": c} for t, c in sdg.items() if t in targets],
+                                   key=lambda e: -e["count"]),
+        "note": "For planning team training only – never for hiring, firing or ranking people. Estimates.",
+        "is_estimate": True,
+    }

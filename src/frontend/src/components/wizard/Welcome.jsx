@@ -19,6 +19,7 @@ export default function Welcome({ set, s, meta }) {
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <button className="btn-violet px-8 text-lg" onClick={() => set({ stage: 'cv' })}>{started ? 'Start over with a new CV' : 'Get my forecast'}</button>
+            <button className="btn-white px-6 text-lg" onClick={() => set({ stage: 'team' })}>🏢 For HR &amp; L&amp;D teams</button>
           </div>
           <p className="mt-4 text-sm text-muted">Takes about 3 minutes. Your CV is read once and not stored.</p>
         </div>

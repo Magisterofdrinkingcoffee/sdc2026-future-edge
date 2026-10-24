@@ -183,3 +183,14 @@ def test_upload_returns_fairness_report():
     c = TestClient(app)
     r = c.post("/api/profile/upload", files={"file": ("ravi.pdf", _pdf, "application/pdf")}).json()
     assert r["fairness"]["passed"] is True
+
+
+def test_team_report_heatmap_gaps_and_plan():
+    c = TestClient(app)
+    members = [{"name": "A", "skills": RAVI["skills"]}, {"name": "B", "skills": {"excel_reporting": 0.8, "data_entry": 0.8}}]
+    r = c.post("/api/team", json={"members": members, "role_id": "data_analyst"}).json()
+    assert [m["name"] for m in r["members"]] == ["A", "B"]
+    assert set(r["members"][0]["levels"]) == {c_["skill"] for c_ in r["columns"]}
+    assert r["gaps"] and all(g["people"] for g in r["gaps"]) and r["plan_hours"] > 0
+    assert "B" in r["gaps"][0]["people"] and r["sdg_contribution"]
+    assert c.post("/api/team", json={"members": members, "role_id": "nope"}).status_code == 404

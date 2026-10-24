@@ -50,6 +50,18 @@ class PathwayIn(ProfileIn):
     hours_per_week: float = 6
 
 
+class TeamMember(BaseModel):
+    name: str = "Team member"
+    skills: Dict[str, float] = Field(default_factory=dict)
+
+
+class TeamIn(BaseModel):
+    members: List[TeamMember]
+    role_id: str
+    scenario: str = "moderate"
+    sdg_focus: List[str] = Field(default_factory=list)
+
+
 class ParseIn(BaseModel):
     text: str
 
@@ -230,6 +242,19 @@ def pathway(body: PathwayIn):
     return scoring.one_move_and_pathway(body.skills, body.role_id, d, body.scenario,
                                         body.assessment.model_dump() if body.assessment else None,
                                         body.completed, body.hours_per_week, evidence=body.evidence)
+
+
+@app.post("/api/team")
+def team(body: TeamIn):
+    """Employer / HR view: team skills heatmap, shared gaps and one team reskilling plan."""
+    d = load()
+    if body.role_id not in d["roles"]:
+        raise HTTPException(404, "unknown role")
+    if body.scenario not in scoring.SCENARIOS:
+        raise HTTPException(400, "unknown scenario")
+    if not body.members or len(body.members) > 50:
+        raise HTTPException(400, "add between 1 and 50 team members")
+    return scoring.team_report([m.model_dump() for m in body.members], body.role_id, d, body.scenario, body.sdg_focus)
 
 
 # ------------------------------------------------------------------ trends

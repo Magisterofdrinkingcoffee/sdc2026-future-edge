@@ -42,4 +42,5 @@ export const api = {
   catchPack: (params) => call(`/catch?${new URLSearchParams(params)}`),
   scoreCatch: (body) => call('/catch', body),
   refreshTrends: () => call('/trends/refresh', {}),
+  team: (body) => call('/team', body),
 }
