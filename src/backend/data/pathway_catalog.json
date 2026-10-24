@@ -17,8 +17,8 @@
       "skills": [
         "python"
       ],
-      "verified": false,
-      "checked_on": null
+      "verified": true,
+      "checked_on": "2026-10-24"
     },
     {
       "id": "c_fcc_python",
@@ -32,8 +32,8 @@
         "python",
         "basic_coding"
       ],
-      "verified": false,
-      "checked_on": null
+      "verified": true,
+      "checked_on": "2026-10-24"
     },
     {
       "id": "c_kaggle_pandas",
@@ -47,8 +47,8 @@
         "python",
         "data_analysis"
       ],
-      "verified": false,
-      "checked_on": null
+      "verified": true,
+      "checked_on": "2026-10-24"
     },
     {
       "id": "c_kaggle_sql",
@@ -61,8 +61,8 @@
       "skills": [
         "sql"
       ],
-      "verified": false,
-      "checked_on": null
+      "verified": true,
+      "checked_on": "2026-10-24"
     },
     {
       "id": "c_fcc_relational_db",
@@ -75,8 +75,8 @@
       "skills": [
         "sql"
       ],
-      "verified": false,
-      "checked_on": null
+      "verified": true,
+      "checked_on": "2026-10-24"
     },
     {
       "id": "c_kaggle_dataviz",
@@ -89,8 +89,8 @@
       "skills": [
         "data_viz"
       ],
-      "verified": false,
-      "checked_on": null
+      "verified": true,
+      "checked_on": "2026-10-24"
     },
     {
       "id": "c_kaggle_intro_ml",
@@ -103,8 +103,8 @@
       "skills": [
         "ml"
       ],
-      "verified": false,
-      "checked_on": null
+      "verified": true,
+      "checked_on": "2026-10-24"
     },
     {
       "id": "c_coursera_ml_spec",
@@ -118,8 +118,8 @@
         "ml",
         "statistics"
       ],
-      "verified": false,
-      "checked_on": null
+      "verified": true,
+      "checked_on": "2026-10-24"
     },
     {
       "id": "c_fastai",
@@ -133,8 +133,8 @@
         "deep_learning",
         "python"
       ],
-      "verified": false,
-      "checked_on": null
+      "verified": true,
+      "checked_on": "2026-10-24"
     },
     {
       "id": "c_dlai_prompt_eng",
@@ -147,8 +147,8 @@
       "skills": [
         "llm_apps"
       ],
-      "verified": false,
-      "checked_on": null
+      "verified": true,
+      "checked_on": "2026-10-24"
     },
     {
       "id": "c_genai_everyone",
@@ -162,8 +162,8 @@
         "llm_apps",
         "ai_ethics"
       ],
-      "verified": false,
-      "checked_on": null
+      "verified": true,
+      "checked_on": "2026-10-24"
     },
     {
       "id": "c_ai_for_everyone",
@@ -177,8 +177,8 @@
         "ai_ethics",
         "problem_framing"
       ],
-      "verified": false,
-      "checked_on": null
+      "verified": true,
+      "checked_on": "2026-10-24"
     },
     {
       "id": "c_elements_ai",
@@ -192,8 +192,8 @@
         "ai_ethics",
         "ml"
       ],
-      "verified": false,
-      "checked_on": null
+      "verified": true,
+      "checked_on": "2026-10-24"
     },
     {
       "id": "c_ml_production",
@@ -206,8 +206,8 @@
       "skills": [
         "mlops"
       ],
-      "verified": false,
-      "checked_on": null
+      "verified": true,
+      "checked_on": "2026-10-24"
     },
     {
       "id": "c_docker_start",
@@ -221,8 +221,8 @@
         "mlops",
         "cloud"
       ],
-      "verified": false,
-      "checked_on": null
+      "verified": true,
+      "checked_on": "2026-10-24"
     },
     {
       "id": "c_pro_git",
@@ -235,8 +235,8 @@
       "skills": [
         "git"
       ],
-      "verified": false,
-      "checked_on": null
+      "verified": true,
+      "checked_on": "2026-10-24"
     },
     {
       "id": "c_fcc_web",
@@ -250,8 +250,8 @@
         "web_dev",
         "basic_coding"
       ],
-      "verified": false,
-      "checked_on": null
+      "verified": true,
+      "checked_on": "2026-10-24"
     },
     {
       "id": "c_google_cyber",
@@ -264,8 +264,8 @@
       "skills": [
         "cybersecurity"
       ],
-      "verified": false,
-      "checked_on": null
+      "verified": true,
+      "checked_on": "2026-10-24"
     },
     {
       "id": "c_mit_power",
@@ -278,8 +278,8 @@
       "skills": [
         "power_systems"
       ],
-      "verified": false,
-      "checked_on": null
+      "verified": true,
+      "checked_on": "2026-10-24"
     },
     {
       "id": "c_coursera_iot",
@@ -293,8 +293,8 @@
         "iot",
         "embedded"
       ],
-      "verified": false,
-      "checked_on": null
+      "verified": true,
+      "checked_on": "2026-10-24"
     },
     {
       "id": "c_mindware",
@@ -307,8 +307,8 @@
       "skills": [
         "critical_thinking"
       ],
-      "verified": false,
-      "checked_on": null
+      "verified": true,
+      "checked_on": "2026-10-24"
     },
     {
       "id": "c_wharton_comm",
@@ -321,8 +321,8 @@
       "skills": [
         "communication"
       ],
-      "verified": false,
-      "checked_on": null
+      "verified": true,
+      "checked_on": "2026-10-24"
     },
     {
       "id": "c_digital_pm",
@@ -335,8 +335,8 @@
       "skills": [
         "product_management"
       ],
-      "verified": false,
-      "checked_on": null
+      "verified": true,
+      "checked_on": "2026-10-24"
     },
     {
       "id": "p_ai_assistant_field",
@@ -367,8 +367,8 @@
         "data_analysis",
         "sql"
       ],
-      "verified": false,
-      "checked_on": null
+      "verified": true,
+      "checked_on": "2026-10-24"
     },
     {
       "id": "p_load_forecast",
@@ -568,8 +568,8 @@
       "skills": [
         "project_management"
       ],
-      "verified": false,
-      "checked_on": null
+      "verified": true,
+      "checked_on": "2026-10-24"
     },
     {
       "id": "c_google_it_support",
@@ -583,8 +583,8 @@
         "networking",
         "cybersecurity"
       ],
-      "verified": false,
-      "checked_on": null
+      "verified": true,
+      "checked_on": "2026-10-24"
     },
     {
       "id": "c_netacad_networking",
@@ -597,8 +597,8 @@
       "skills": [
         "networking"
       ],
-      "verified": false,
-      "checked_on": null
+      "verified": true,
+      "checked_on": "2026-10-24"
     },
     {
       "id": "c_ibm_data_eng",
@@ -612,8 +612,8 @@
         "data_engineering",
         "sql"
       ],
-      "verified": false,
-      "checked_on": null
+      "verified": true,
+      "checked_on": "2026-10-24"
     },
     {
       "id": "c_sustainability",
@@ -626,8 +626,8 @@
       "skills": [
         "sustainability_esg"
       ],
-      "verified": false,
-      "checked_on": null
+      "verified": true,
+      "checked_on": "2026-10-24"
     },
     {
       "id": "c_supply_chain",
@@ -640,8 +640,8 @@
       "skills": [
         "supply_chain"
       ],
-      "verified": false,
-      "checked_on": null
+      "verified": true,
+      "checked_on": "2026-10-24"
     },
     {
       "id": "c_financial_markets",
@@ -654,8 +654,8 @@
       "skills": [
         "financial_analysis"
       ],
-      "verified": false,
-      "checked_on": null
+      "verified": true,
+      "checked_on": "2026-10-24"
     },
     {
       "id": "c_hrd_corp",
@@ -673,8 +673,8 @@
         "regulatory_compliance",
         "operations_mgmt"
       ],
-      "verified": false,
-      "checked_on": null
+      "verified": true,
+      "checked_on": "2026-10-24"
     },
     {
       "id": "p_project_plan",
