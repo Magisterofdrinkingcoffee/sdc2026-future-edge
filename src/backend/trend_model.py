@@ -13,7 +13,7 @@ backtest. PHI is chosen by select_phi() using only the training months (no peeki
 Validation (backtest): fit on the first 24 months, predict the total of the last 12 months, and
 compare with the naive guess "next year = last year". See backtest().
 
-Plain Python, no numpy, so it runs inside the app (Replit / Vercel) and in tools/build_trends.py.
+Plain Python, no numpy, so it runs inside the app (on Replit) and in tools/build_trends.py.
 """
 import math
 

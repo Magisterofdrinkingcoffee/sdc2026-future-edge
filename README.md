@@ -28,6 +28,7 @@
 | Demo Video        | *YouTube link added by the team before the deadline* |
 | Proposal (PRD)    | [`submission/SDC2026_BEBZA_Preliminary.pdf`](submission/SDC2026_BEBZA_Preliminary.pdf) |
 | Tech Declaration  | [`submission/SDC2026_BEBZA_TechDeclaration.pdf`](submission/SDC2026_BEBZA_TechDeclaration.pdf) |
+| Replit proof of use | [`submission/SDC2026_BEBZA_Replit_POU.pdf`](submission/SDC2026_BEBZA_Replit_POU.pdf) |
 | Model cards       | [`docs/MODELS.md`](docs/MODELS.md) |
 
 ---
@@ -95,7 +96,7 @@ Future Edge turns a CV into a **3-year career forecast**. It doesn't ask "which 
 │   ├── backend/            # FastAPI app, scoring, models, CV reader, data catalogs
 │   ├── database/           # raw public datasets (O*NET tasks, arXiv counts, WEF, DOSM, MyCOL)
 │   └── frontend/           # React app (wizard, forecast, quest map)
-├── submission/             # PRD, Tech Declaration, pitch deck
+├── submission/             # PRD, Tech Declaration, Replit proof of use, pitch deck (+ editable sources)
 ├── tests/                  # 49 tests + link checker
 ├── tools/                  # data collection, training and build scripts
 ├── .replit, build.sh, start.sh
@@ -147,7 +148,7 @@ python -m tests.check_links  # checks every course link (needs internet)
 - **Hosting:** the live demo is a Replit autoscale deployment, configured in `.replit` (`build.sh` then `start.sh`): https://sdc-2026-future-edge.replit.app
 - **Secrets:** the optional `GEMINI_API_KEY` is kept in Replit Secrets, never in the code.
 
-Proof of use is in the Technical & Tools Declaration ([`submission/SDC2026_BEBZA_TechDeclaration.pdf`](submission/SDC2026_BEBZA_TechDeclaration.pdf)).
+Proof of use: [`submission/SDC2026_BEBZA_Replit_POU.pdf`](submission/SDC2026_BEBZA_Replit_POU.pdf) (also included in the Technical & Tools Declaration).
 
 ## How We Use RunPod
 
@@ -193,7 +194,7 @@ Not used. All our models train and run on a normal CPU in seconds (Model 1 train
 
 - [x] Team name, domain and SDG track filled in
 - [x] Live demo on Replit
-- [x] Replit used, with proof in the Tech Declaration
+- [x] Replit used, with proof in `submission/SDC2026_BEBZA_Replit_POU.pdf`
 - [x] RunPod: not needed (no GPU work)
 - [x] PRD and Tech Declaration in `submission/`
 - [x] Pitch deck in `submission/`

@@ -49,7 +49,7 @@ def available():
     return bool(os.getenv("GEMINI_API_KEY"))
 
 
-def ask_json(parts, prompt, schema, timeout=25):  # under Vercel's 30 s function limit
+def ask_json(parts, prompt, schema, timeout=25):  # keep requests short so the app stays responsive
     """Generic call: send parts + instruction, get back a dict that follows `schema`.
 
     parts: list of {"type": "document"|"image", "data": bytes, "mime_type": ...} or {"type": "text", "text": ...}

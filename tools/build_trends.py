@@ -5,7 +5,7 @@
 src/database/arxiv_monthly.json holds new-paper counts per month for each signal in
 src/backend/data/signals.json, collected from the arXiv API (export.arxiv.org/api/query,
 one request per signal per month, 3+ s apart). This lets the app ship real trend data even on
-hosts that can't call arXiv (e.g. Vercel). On Replit the "Refresh trend data" button
+hosts that can not call arXiv. On Replit the "Refresh trend data" button
 re-collects it live.
 """
 import json
