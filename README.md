@@ -41,7 +41,7 @@ In Malaysia, 56% of professionals already use AI tools at work but only 26% have
 
 ### Who it is for
 
-The moment we design for: **a person deciding what to learn next**, before AI makes the decision for them. Our three sample users (made-up people, made-up CVs) are a final-year engineering student, an admin executive with 6 years' experience whose data-entry work is shrinking, and a fresh CS graduate.
+The moment we design for: **a person deciding what to learn next**, before AI makes the decision for them. Our five sample users (made-up people, made-up CVs) are a final-year engineering student, an admin executive with 6 years' experience whose data-entry work is shrinking, a fresh CS graduate, a customer-service team lead whose calls are moving to chatbots, and a junior accountant whose bookkeeping is being automated. HR and L&D managers planning a team's reskilling are served by the team view.
 
 ### Solution
 
@@ -61,10 +61,19 @@ Future Edge turns a CV into a **3-year career forecast**. It doesn't ask "which 
 | 2. AI-trend signal layer | **Model 2**: monthly arXiv paper counts for 10 AI-capability areas (Oct 2023 – Sep 2026), forecast with a damped trend and 80% range. Source and collection date are shown on every screen. A "Refresh trend data" button re-downloads from the arXiv API, and the forecast changes with it. Job demand comes from WEF Future of Jobs 2025 (Malaysia profile), DOSM wages and TalentCorp MyCOL. |
 | 3. Future-role matching | 34 roles ranked by Edge Score = AI-adjusted fit × human skills × job market × core-skill check, with a plain-English "why" for every number. |
 | 4. Personalised reskilling pathway | Ordered steps (courses + projects) with hours and weeks at the user's hours per week. All 53 resources are real, free or low-cost, link-checked on 24 Oct 2026, and include HRD Corp-claimable training. |
-| 5. SDG mapping | Every one of the 52 skills, 34 roles and every pathway step is tagged with at least one SDG target (e.g. 7.2, 8.2, 4.4), shown on the role and quest cards. |
+| 5. SDG mapping | Every one of the 52 skills, 34 roles and every pathway step is tagged with at least one SDG target. Each role has a plain line on *how* the work serves its SDG, the forecast shows **which SDG targets your whole path contributes to and why** (role, your skills, each quest), and the user can pick what they want their work to help with (climate & energy, health & food, digital inclusion, fair work & skills) – roles that serve it are surfaced and lifted in the ranking, so the SDG link changes the user's choices. The Edge Score itself is never changed by SDG preferences. |
 | 6. Handling uncertainty | Two scenarios (moderate vs fast AI disruption) shown side by side, plus a low–high range from Model 2's 80% interval and Model 3's measurement range. Every result says it is an estimate and never a hiring decision. |
 
-**Good-to-have features included:** progress tracking with XP, levels, streaks and badges; mobile-friendly layout; fairness by design (age, gender and name are removed before matching).
+**Good-to-have features included:**
+
+| Good-to-have (Domain 1 brief) | In Future Edge |
+|---|---|
+| Employer / HR view | **Team view** (🏢 on the home page): skills heatmap of a whole team against a target role, shared gaps, one team reskilling plan with total hours, each person's best future role, and the team's SDG contribution. For training plans only, never hiring. |
+| Automatic re-planning when trend data changes | Forecast, role ranking and quest plan are recomputed whenever the arXiv trend data is refreshed or a "what if AI moves faster here" slider is moved. |
+| Inclusive design | Interface in **English, Bahasa Malaysia and Chinese** (language switcher on every screen); mobile-friendly layout; free and low-cost courses only. |
+| Learner motivation | Quest map, XP, levels, streaks, badges and an Edge Score history. |
+| Fairness checks | Name, email, phone, IC number, age, gender, race, religion and marital status are removed before matching, and **every CV is re-read as 12 invented people** with different names, genders, ages, races, religions and marital status – the app shows that the result is identical (also covered by automated tests). |
+| SDG contribution for a person / company | Personal "your path contributes to" panel and the team SDG contribution in the HR view. |
 
 ### Rules we followed
 
@@ -97,7 +106,7 @@ Future Edge turns a CV into a **3-year career forecast**. It doesn't ask "which 
 │   ├── database/           # raw public datasets (O*NET tasks, arXiv counts, WEF, DOSM, MyCOL)
 │   └── frontend/           # React app (wizard, forecast, quest map)
 ├── submission/             # PRD, Tech Declaration, Replit proof of use, pitch deck (+ editable sources)
-├── tests/                  # 49 tests + link checker
+├── tests/                  # 55 tests + link checker
 ├── tools/                  # data collection, training and build scripts
 ├── .replit, build.sh, start.sh
 └── LICENSE                 # Apache 2.0
@@ -136,7 +145,7 @@ bash start.sh        # http://localhost:8000
 ### Run Tests
 
 ```bash
-python -m pytest -q          # 49 tests
+python -m pytest -q          # 55 tests
 python -m tests.check_links  # checks every course link (needs internet)
 ```
 
@@ -173,8 +182,8 @@ Not used. All our models train and run on a normal CPU in seconds (Model 1 train
 
 ## Future Improvements
 
-- [ ] Employer / HR view: team-level skills-gap heatmap
-- [ ] Bahasa Malaysia and Chinese interface
+- [ ] Translate course descriptions and role details (the interface is already in BM and Chinese)
+- [ ] Company / region SDG dashboards built on the team view
 - [ ] Job-posting data (e.g. MYFutureJobs) as a second trend signal
 - [ ] More Catch-the-AI packs per field
 
