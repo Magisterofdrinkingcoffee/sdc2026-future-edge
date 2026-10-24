@@ -22,7 +22,7 @@
 <h2>2. Architecture &amp; Technology Stack</h2>
 <h3>2.1 System Architecture Overview <span class="limit">[max 200 words]</span></h3>
 <p data-count="2.1">The user works in a React single-page app (built with Vite). It calls a Python FastAPI backend over HTTPS; both are served from one Replit autoscale deployment. A CV upload is read on the server with pypdf or a built-in Word reader; personal data (name, email, phone, IC number, age, gender) is removed before any matching. Only for photos or complex layouts, and only when a key is configured, the redacted content is sent to the Google Gemini API, which returns phrases in a fixed JSON schema; every phrase is checked against the CV's own text. Matched skills go to three models that run inside the backend: Model 1 (AI-exposure classifier trained on O*NET tasks, stored as JSON), Model 2 (damped trend forecast on monthly arXiv paper counts, refreshable from the arXiv API) and Model 3 (exact scoring of the Catch the AI exercise). The scoring engine combines them with WEF, DOSM and MyCOL job-market figures into an Edge Score with a low–high range for two scenarios, then builds an ordered pathway from a catalog of 53 checked learning resources. Catalogs are JSON files in the repository; no database and no user data are stored.</p>
-<div class="diagram">Browser (React) ──► FastAPI (Replit deployment) ──► Model 1 · Model 2 · Model 3 ──► Edge Score + pathway
+<div class="diagram" style="font-size:7pt">Browser (React) ──► FastAPI (Replit deployment) ──► Model 1 · Model 2 · Model 3 ──► Edge Score + pathway
                          │                                   ▲
                          ├─(optional, redacted)─► Gemini API  └── arXiv API (trend refresh)
                          └─ JSON catalogs in repo: skills, roles, SDGs, courses, WEF / DOSM / MyCOL figures</div>
@@ -105,8 +105,8 @@
 
 <h3>Replit proof of use</h3>
 <p>Team account <b>riotbek07</b>, project <b>sdc2026-future-edge</b>: https://replit.com/@riotbek07/sdc2026-future-edge · live deployment: https://sdc-2026-future-edge.replit.app</p>
-<img class="shot" src="images/replit_deployment.png" alt="Replit deployment page for sdc2026-future-edge">
-<img class="shot" src="images/replit_live_app.png" alt="Live app running at sdc-2026-future-edge.replit.app">
+<img class="shot" src="images/replit_deployment.jpg" alt="Replit deployment page for sdc2026-future-edge">
+<img class="shot" src="images/replit_live_app.jpg" alt="Live app running at sdc-2026-future-edge.replit.app">
 
 <h2>6. Security, Privacy &amp; Responsible Use</h2>
 <h3>6.1 Data Handling &amp; Privacy <span class="limit">[max 150 words]</span></h3>
